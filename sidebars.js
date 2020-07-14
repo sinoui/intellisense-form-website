@@ -1,6 +1,5 @@
 module.exports = {
   someSidebar: {
-    Docusaurus: ['doc1', 'doc2', 'doc3'],
-    Features: ['mdx'],
+    '样式定制': ['custom-css-pc', 'custom-css-mobile','custom-css-editor'],
   },
 };
