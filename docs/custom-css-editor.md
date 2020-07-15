@@ -17,7 +17,7 @@ title: 开发人员编写自定义样式
 
 ![image-20200713091302540](../static/img/custom-css/editor1.png)
 
-![image-20200713091655711](D:\projects\sino-intellisense-form\docs\images\custom-css\editor-mobile.png)
+![image-20200713091655711](../static/img/custom-css/editor-mobile.png)
 
 ## 自定义样式编辑器功能
 
