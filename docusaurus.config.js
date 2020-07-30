@@ -1,11 +1,11 @@
 module.exports = {
   title: 'intellisense-form',
   tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://sinoui.github.io',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'sinoui', // Usually your GitHub org/user name.
+  projectName: 'intellisense-form-website', // Usually your repo name.
   themeConfig: {
     navbar: {
       title: 'intellisense-form',
