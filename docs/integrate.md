@@ -1,16 +1,9 @@
 ---
-id: deploy
-title: 集成部署
+id: integrate
+title: 业务系统集成
 ---
 
-## 前端部署
-
-智能表单的前端分成两个子应用，分别是：
-
-- `/intellisense-form` - 对应 form-apply-app 模块
-- `/intellisense-form-manager` - 对应 form-manager 模块
-
-### 在业务系统各种使用 jquery.load 集成智能表单应用
+## 在业务系统各种使用 jquery.load 集成智能表单应用
 
 在使用 jquery 开发的业务系统中，点击资源菜单， 仍然使用\$('#contaienrId').load()加载智能表单应用资源。只是在集成的业务系统中，我们需要将原有 load 方法做完善，支持通过匹配路由来加载对应的 React 组件。具体操作如下：
 
@@ -99,7 +92,7 @@ var qs = {
 };
 ```
 
-### 在业务系统中的统一待办模块打开待办详情
+## 在业务系统中的统一待办模块打开待办详情
 
 点击统一待办数据时,需要先判断数据中的待办 url 是否以"/intellisense-form/"开始,若是,则再该 url 之后拼接 id 和 workItemId 参数。具体代码如下：
 
@@ -127,7 +120,7 @@ window.addEventListener(
 );
 ```
 
-### 在业务系统中集成智能表单管理
+## 在业务系统中集成智能表单管理
 
 第一步：在统一授权管理系统的统一资源管理中新增资源内容为"/intellisense-form-manager/",资源名称为"智能表单管理"的资源。
 第二步：在业务系统中点击菜单，加载对应菜单资源的代码中。需要判断该菜单资源内容是否为"/intellisense-form-manager/"。若是,则以浏览器新页签的形式打开智能表单管理应用。具体代码如下：
@@ -141,67 +134,4 @@ if (data[i].url.indexOf('/intellisense-form-manager/') === 0) {
 }
 ```
 
-## 后端部署
 
-TODO
-
-## 在 Nginx 中部署的示例
-
-分别将两个模块的打包文件部署在 nginx 的 html 中，如下所示：
-
-```
-NGINX_HOME
-|__ html
-  |__ intellisense-form
-  |__ intellisense-form-manager
-```
-
-相对应的 Nginx 配置如下：
-
-```nginx
-upstream mainapp {
-  # 填写主应用的服务器地址
-  server 1.1.1.1:8888;
-}
-
-upstream intellisenseform {
-  # 填写智能表单服务器地址
-  server 10.10.10.10:8888;
-}
-
-server {
-  location ^~ /intellisense-form {
-    index index.html index.htm;
-    try_files $uri $uri/ /intellisense-form/index.html;
-    add_header Cache-Control no-store;
-  }
-
-  location ^~ /intellisense-form-manager {
-    index index.html index.htm;
-    try_files $uri $uri/ /intellisense-form-manager/index.html;
-    add_header Cache-Control no-store;
-  }
-
-  location ^~ /apis/intellisense-form {
-    proxy_pass http://intellisenseform;
-    add_header Cache-Control no-store;
-  }
-
-  location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf)$ {
-    expires 365d;
-  }
-
-  location / {
-    proxy_pass http://mainapp;
-  }
-}
-```
-
-```javascript
-if (data[i].url.indexOf('/intellisense-form-manager/') === 0) {
-  var menuHref =
-    window.location.protocol + '//' + window.location.host + data[i].url;
-  var menuHtml =
-    '<a href="' + menuHref + '" target="_blank">' + data[i].name + '</a>';
-}
-```
