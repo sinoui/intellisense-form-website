@@ -9,15 +9,15 @@ title: 开发人员编写自定义样式
 
 在表单应用页面，按住`ctrl`键的同时，连续单击页面5次（每次点击的间隔不能大于0.5s）显示自定义样式入口。点击表单应用页面中的`自定义样式`超链接，会打开一个浏览器的新标签页显示自定义样式编辑器页面。
 
-![image-20200713091302540](../static/img/custom-css/editor1.png)
+![image-20200713091302540](/intellisense-form-website/img/custom-css/editor1.png)
 
 ## 移动端
 
 在移动端`我的表单`首页，按住`ctrl`键的同时，连续单击页面5次（每次点击的间隔不能大于0.5s），顶部应用栏右侧会显示自定义样式入口。点击表单应用页面中的`自定义样式`超链接，会打开一个浏览器的新标签页显示自定义样式编辑器页面。
 
-![image-20200713091302540](../static/img/custom-css/editor1.png)
+![image-20200713091302540](/intellisense-form-website/img/custom-css/editor1.png)
 
-![image-20200713091655711](../static/img/custom-css/editor-mobile.png)
+![image-20200713091655711](/intellisense-form-website/img/custom-css/editor-mobile.png)
 
 ## 自定义样式编辑器功能
 

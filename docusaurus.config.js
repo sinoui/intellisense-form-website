@@ -2,7 +2,7 @@ module.exports = {
   title: 'intellisense-form',
   tagline: 'The tagline of my site',
   url: 'https://sinoui.github.io',
-  baseUrl: '/',
+  baseUrl: '/intellisense-form-website',
   favicon: 'img/favicon.ico',
   organizationName: 'sinoui', // Usually your GitHub org/user name.
   projectName: 'intellisense-form-website', // Usually your repo name.
