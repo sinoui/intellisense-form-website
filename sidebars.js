@@ -4,7 +4,9 @@ module.exports = {
 
 	'部署': ['deployment-independent','integrate','sinomatrix-docker-intellisenseform'],
 	
-	'扩展': ['extend-interface']
+	'扩展': ['extend-interface'],
+	
+	'序号组件': ['sinomatrix-sequence-table','sinomatrix-sequence-interface']
 
   },
 };
