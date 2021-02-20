@@ -5,7 +5,7 @@ module.exports = {
   baseUrl: "/intellisense-form-website",
   favicon: "img/favicon.ico",
   organizationName: "sinoui", // Usually your GitHub org/user name.
-  projectName: "intellisense-form-website", // Usually your repo name.
+  projectName: "intellisense-form-website/", // Usually your repo name.
   themeConfig: {
     navbar: {
       title: "intellisense-form",
