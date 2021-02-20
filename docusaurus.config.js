@@ -2,10 +2,10 @@ module.exports = {
   title: "intellisense-form",
   tagline: "The tagline of my site",
   url: " http://sinoui.gitee.io",
-  baseUrl: "/intellisense-form-website",
+  baseUrl: "/intellisense-form-website/",
   favicon: "img/favicon.ico",
   organizationName: "sinoui", // Usually your GitHub org/user name.
-  projectName: "intellisense-form-website/", // Usually your repo name.
+  projectName: "intellisense-form-website", // Usually your repo name.
   themeConfig: {
     navbar: {
       title: "intellisense-form",
