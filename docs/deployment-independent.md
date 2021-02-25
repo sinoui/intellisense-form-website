@@ -147,7 +147,7 @@ bin/mongod -f mongodb.conf
   ```nginx
         location /intellisense-form-mobile/ {
               index index.html index.htm;
-              try_files $uri $uri/ /intellisense-form-		mobile/index.html;
+              try_files $uri $uri/ /intellisense-form-mobile/index.html;
               add_header Cache-Control no-store;
               }
   ```
@@ -166,18 +166,23 @@ bin/mongod -f mongodb.conf
         location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf)$ {
                 expires 365d;
         }
-      
+          
        ```
 
-## 前端项目部署
+## 管理端前端部署
 
-1. 找到 intellisense-form 和 intellisense-form-manger 文件夹
-2. 将这 2 个前端文件夹部署到 nginx 配置文件中 server 下 root 指定的目录中
+1. 找到 intellisense-form-manager 文件夹
+2. 将上述前端文件夹部署到 nginx 配置文件中 server 下 root 指定的目录中
+
+## pc前端项目部署
+
+1. 找到 intellisense-form 文件夹
+2. 将上述前端文件夹部署到 nginx 配置文件中 server 下 root 指定的目录中
 
 ## 移动端项目部署
 
 1. 找到 intellisense-mobile 文件夹
-2. 将这 2 个前端文件夹部署到 nginx 配置文件中 server 下 root 指定的目录中
+2. 将上述前端文件夹部署到 nginx 配置文件中 server 下 root 指定的目录中
 
 ## 后端项目部署
 
