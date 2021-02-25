@@ -6,6 +6,7 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "sinoui", // Usually your GitHub org/user name.
   projectName: "intellisense-form-website", // Usually your repo name.
+  githubHost: "gitee.com",
   themeConfig: {
     navbar: {
       title: "intellisense-form",
