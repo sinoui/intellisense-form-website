@@ -388,7 +388,7 @@ JSON 数据如下：
 
   }
 ```
-  
+
 
 * 重要属性说明
 
@@ -440,3 +440,99 @@ JSON 数据如下：
 
 
 
+## 新增资源列表[/resource/saveResource]
+
+### 请求
+
+* 请求方法：post请求
+* 请求参数：?para=<JSON数据>，其中JSON数据为utf-8编码后的数据。URLEncoder.encode(JSON数据, "utf-8")
+* 参数说明：
+  * name - 资源名称
+  * superId - 父资源的id
+  * subId - 业务系统id
+  * resourceId - 相对资源的id
+  * order - 相对资源的位置，值[child|before|after]，分别为子代，前置，后置
+  * author - 操作人的id
+  * url - 资源的点击链接
+  * ext - 额外属性
+
+### 响应
+
+* 响应数据
+
+  ~~~
+  {
+  	"status": "1",
+  	"resourceId":"3ui2lk3j522"
+  	"msg":"成功"
+  }
+  ~~~
+
+* 参数说明
+
+  * status - 1=正常；0=系统资源不存在 -1=调用接口异常
+  * resourceId - 资源ID
+  * msg - 异常信息
+
+
+
+## 修改资源接口[/resource/updateResource]
+
+### 请求
+
+* 请求方法：post请求
+* 请求参数：?para=<JSON数据>，其中JSON数据为utf-8编码后的数据。URLEncoder.encode(JSON数据, "utf-8")
+* 参数说明：
+  * resourceName - 资源名称
+  * content - 资源内容
+  * fromUrl - 表单url
+  * resourceId - 资源ID
+  * ext - 表单扩展
+
+### 响应
+
+* 响应数据
+
+  ~~~
+  {
+  	"status": "1",
+  	"resourceId":"3ui2lk3j522"
+  	"msg":"成功"
+  }
+  ~~~
+
+*  参数说明
+
+  * status - 1=正常；0=系统资源不存在 -1=调用接口异常
+  * resourceId - 资源ID
+  * msg - 异常信息
+
+## 排序资源接口[/resource/sortResource]
+
+### 请求
+
+* 请求方法：post请求
+* 请求参数：?para=<JSON数据>，其中JSON数据为utf-8编码后的数据。URLEncoder.encode(JSON数据, "utf-8")
+* 参数说明：
+  * resourcId - 参考资源的id
+  * order - 相对资源的位置，值[child|before|after]，分别为子代，前置，后置
+  * author - 操作人员id
+  * id - 排序资源的ID
+
+### 响应
+
+* 响应数据
+
+  ~~~
+  {
+  	"status": "1",
+  	"resourceId":"3ui2lk3j522"
+  	"msg":"成功"
+  }
+  ~~~
+
+*  参数说明
+
+  * status - 1=正常；0=系统资源不存在 -1=调用接口异常
+  * resourceId - 资源ID
+  * msg - 异常信息
