@@ -72,6 +72,8 @@
 .banner-title-bg > p {
   color: #fff;
   font-size: 18px;
+  padding-left: 4px;
+  box-sizing: border-box;
 }
 
 /**
@@ -83,11 +85,17 @@
   padding-bottom: 90px;
 }
 
+.feat-img-wrapper {
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
 .feat-title {
   font-size: 30px;
   color: #333;
   margin-top: 46px;
-  margin-bottom: 34px;
+  margin-bottom: 22px;
   line-height: 1;
   border-left: 4px solid #18adef;
   padding-left: 10px;
@@ -405,7 +413,6 @@
 .case-title {
   font-size: 30px;
   color: #333;
-  margin-top: 46px;
   margin-bottom: 60px;
   line-height: 1;
   border-left: 4px solid #18adef;

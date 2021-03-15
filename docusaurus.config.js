@@ -1,7 +1,7 @@
 module.exports = {
   title: "intellisense-form",
   tagline: "The tagline of my site",
-  url: " http://sinoui.gitee.io",
+  url: "http://sinoui.gitee.io",
   baseUrl: "/intellisense-form-website/",
   favicon: "img/favicon.ico",
   organizationName: "sinoui", // Usually your GitHub org/user name.
