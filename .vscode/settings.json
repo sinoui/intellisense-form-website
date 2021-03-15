@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "jest.pathToJest": "npm test --",
+  "typescript.format.enable": false,
+  "files.eol": "\n",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "typescript.tsdk": "node_modules\\typescript\\lib"
+}
