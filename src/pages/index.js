@@ -13,6 +13,7 @@ function Home() {
       <Banner />
       <Feat />
       <Case />
+      <footer className="copyright">Copyright©2019 Sinosoft.com.cn</footer>
     </div>
   );
 }

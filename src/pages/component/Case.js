@@ -30,9 +30,7 @@ export default function Case() {
         >
           <div className="case-card-title">客户关系管理</div>
         </div>
-      </div>
 
-      <div className="case-row">
         <div
           className="case-card"
           style={{
@@ -58,6 +56,7 @@ export default function Case() {
           <div className="case-card-title">设备管理</div>
         </div>
       </div>
+      
     </div>
   );
 }
