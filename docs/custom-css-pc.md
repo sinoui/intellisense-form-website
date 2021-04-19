@@ -11,23 +11,23 @@ body 标签的 className
 
 ![image-20200707154920948](/img/custom-css/1_body.png)
 
-### sinoform-app-wrapper
+### sinoform-app
 
-草稿、待办、已办、查询列表和单表单页面组件的根元素的 className
+草稿、待办、已办、查询列表、单表单页面和单应用页面组件的根元素的 className
 
 ![image-20200713113851891](/img/custom-css/2_app.png)
 
-## 单表单页面
+## 单表单页面或单应用
 
 ### sinoform-single-page-header
 
-单表单页面头部应用栏的 className
+单表单或单应用页面头部应用栏的 className
 
 ![image-20200707155822718](/img/custom-css/3_single-page_header.png)
 
 ### sinoform-single-page-content
 
-单表单页面中间内容区域的 className
+单表单或单应用页面中间内容区域的 className
 
 ![image-20200707160117672](/img/custom-css/4_single-page-content.png)
 
@@ -39,13 +39,7 @@ body 标签的 className
 
 ![image-20200707160908479](/img/custom-css/5_draft-page.png)
 
-### sinform-draft-page__header
-
-草稿列表页面标题的 className
-
-![image-20200707161824434](/img/custom-css/6_draft-page__header.png)
-
-### sinform-draft-page__card
+### sinform-draft-page\_\_card
 
 草稿列表每一个草稿项的 className
 
@@ -59,7 +53,7 @@ body 标签的 className
 
 ![image-20200707162359913](/img/custom-css/8_todo-page.png)
 
-### sinoform-list__searchform
+### sinoform-list\_\_searchform
 
 待办列表、已办列表上方查询区域的 className
 
@@ -67,19 +61,19 @@ body 标签的 className
 
 ### sinoform-table
 
-待办列表、已办列表、查询列表表格的 className
+待办列表、已办列表、查询列表、无流程列表表格的 className
 
 ![image-20200707162706139](/img/custom-css/10_table.png)
 
-### sinoform-table__th
+### sinoform-table-head-cell
 
-待办列表、已办列表、查询列表表格中表头单元格的 className
+表格中表头单元格的 className
 
 ![image-20200707163235042](/img/custom-css/11_table__th.png)
 
-### sinoform-table__td
+### sinoform-table-cell
 
-待办列表、已办列表、查询列表表格中数据单元格的 className
+表格中数据单元格的 className
 
 ![image-20200707163500503](/img/custom-css/12_table__td.png)
 
@@ -99,13 +93,13 @@ body 标签的 className
 
 ![image-20200707170115874](/img/custom-css/14_search-page.png)
 
-### sinoform-search-page__buttons-row
+### sinoform-search-page\_\_buttons-row
 
 查询列表页面，`高级搜索`和`自定义列`按钮所在容器组件的 className
 
 ![image-20200707170358974](/img/custom-css/15_search-page__buttons-row.png)
 
-### sinoform-search-page__search-panel
+### sinoform-search-page\_\_search-panel
 
 查询列表页面，高级搜索展开后容器组件的 className
 
@@ -117,19 +111,19 @@ body 标签的 className
 
 ![image-20200707170748041](/img/custom-css/17_search-page-common-search.png)
 
-### sinoform-search-page-common-search__title
+### sinoform-search-page-common-search\_\_title
 
 高级搜索常用搜索标题组件的 className
 
 ![ image-20200707171201661](/img/custom-css/18_search-page-common-search__title.png)
 
-### sinoform-search-page-common-search__items
+### sinoform-search-page-common-search\_\_items
 
 高级搜索常用搜索项容器组件的 className
 
 ![image-20200707171313142](/img/custom-css/19_search-page-common-search__items.png)
 
-### sinoform-search-page-common-search__tip
+### sinoform-search-page-common-search\_\_tip
 
 没有常用搜索项的提示语组件的 className
 
@@ -141,12 +135,6 @@ body 标签的 className
 
 ![image-20200707172341720](/img/custom-css/21_search-page-common-search-item.png)
 
-### sinoform-search-page__list-wrapper
-
-查询列表页面，查询列表容器组件的 className
-
-![image-20200707172742615](/img/custom-css/22_search-page__list-wrapper.png)
-
 ## 分页
 
 ### sinoform-table-pagination
@@ -155,47 +143,47 @@ body 标签的 className
 
 ![image-20200707173000961](/img/custom-css/23_table-pagination.png)
 
-### sinoform-table-pagination__total
+### sinoform-table-pagination\_\_total
 
 分页总条数组件的的 className
 
 ![image-20200707173108306](/img/custom-css/24_table-pagination__total.png)
 
-### sinoform-table-pagination__number
+### sinoform-table-pagination\_\_number
 
 分页切换和跳页组件容器的 className
 
 ![image-20200707173330334](/img/custom-css/25_table-pagination__number.png)
 
-## 草稿、待办、已办、查询列表页面容器
+## 草稿、待办、已办、查询列表和无流程表单列表表格容器
 
-### sinoform-list-page
+### sinoform-data-table-layout
 
-待办、已办、草稿和查询列表的容器组件都有该 className，和`sinoform-todo-page`、`sinoform-done-page`、`sinoform-draft-page`、`sinoform-search-page`同级
+待办、已办、草稿、查询列表和无流程表单列表的容器组件都有该 className。
 
 ![image-20200707173852061](/img/custom-css/26_list-page.png)
 
-## 详情页面
+## 起草和详情页面
 
-### sinoform-detail-page__title
+### sinoform-detail-page\_\_title
 
 详情页面标题组件的 className
 
 ![image-20200707174116663](/img/custom-css/26_detail-page__title.png)
 
-### sinoform-detail-page__title-text
+### sinoform-detail-page\_\_title-text
 
 详情页面标题文本的 className
 
 ![image-20200707174228752](/img/custom-css/28_detail-page__title-text.png)
 
-### sinoform-detail-page__body
+### sinoform-detail-page\_\_body
 
 详情页面表单区域和右侧操作区域的容器组件的 className
 
 ![image-20200707174515248](/img/custom-css/29_detail-page__body.png)
 
-### sinoform-detail-page__body-main
+### sinoform-detail-page\_\_body-main
 
 详情页面表单和按钮区域的 className
 
@@ -235,13 +223,13 @@ body 标签的 className
 
 ![image-20200708090109836](/img/custom-css/34_detail-page-body-aside.png)
 
-### sinoform-flow-idea__item
+### sinoform-flow-idea\_\_item
 
 详情页面侧边栏审批意见项的 className
 
 ![image-20200708090422508](/img/custom-css/35_flow-idea__item.png)
 
-### sinoform-flow-record__item
+### sinoform-flow-record\_\_item
 
 详情页面侧边栏流程日志项的 className
 

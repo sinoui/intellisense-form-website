@@ -13,6 +13,11 @@ module.exports = {
 
     序号组件: ["sinomatrix-sequence-table", "sinomatrix-sequence-interface"],
 
-    插件开发: ["plugin-field", "plugin-css", "plugin-detail-page-extend"],
+    插件开发: [
+      "plugin-field",
+      "plugin-button",
+      "plugin-detail-page-extend",
+      "plugin-css",
+    ],
   },
 };
