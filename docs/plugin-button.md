@@ -3,9 +3,7 @@ id: plugin-button
 title: 新增流程按钮
 ---
 
-## 新增流程按钮
-
-### 流程按钮配置
+## 流程按钮配置
 
 | 配置项  | 类型            | 含义                                         | 是否必须配置 |
 | ------- | --------------- | -------------------------------------------- | ------------ |
@@ -16,7 +14,7 @@ title: 新增流程按钮
 | hidden  | boolean         | 流程节点属性设置的节点操作中是否显示该按钮   | 是           |
 | icon    | React.ReactNode | 流程按钮组件的图标                           | 是           |
 
-### 注册流程按钮
+## 注册流程按钮
 
 ```tsx
 import appsetting from "@sinoform/app-setting";
@@ -32,7 +30,9 @@ flowConfig.addButton({
 });
 ```
 
-### 流程按钮开发（React 方式）
+## 流程按钮开发
+
+### react 方式
 
 流程按钮组件接收以下属性：
 
@@ -62,21 +62,21 @@ flowConfig.addButton({
 办结按钮示例：
 
 ```tsx
-import React from 'react';
-import pcMessage from '@sinoui/message';
-import appMessage from '@sinoform/comp-message';
-import { useApp, useDetailPage } from '@sinoform/app-core';
-import type { ButtonConfig } from '@sinoform/types';
-import CompOperationButton from '@sinoform/comp-operation-button';
-import toFlowSuccess from '@sinoform/helper-toFlow-success';
-import { workflowFinish } from './apis';
+import React from "react";
+import pcMessage from "@sinoui/message";
+import appMessage from "@sinoform/comp-message";
+import { useApp, useDetailPage } from "@sinoform/app-core";
+import type { ButtonConfig } from "@sinoform/types";
+import CompOperationButton from "@sinoform/comp-operation-button";
+import toFlowSuccess from "@sinoform/helper-toFlow-success";
+import { workflowFinish } from "./apis";
 
 interface Props {
   setting: ButtonConfig;
   loadingBtnId: string;
   setButtonLoading: (btnId: string) => void;
   cancelButtonLoading: () => void;
-  variant?: 'pc' | 'mobile' | 'more';
+  variant?: "pc" | "mobile" | "more";
   onBeginClick: () => void;
 }
 
@@ -88,10 +88,10 @@ const EndButton: React.FunctionComponent<Props> = ({
   loadingBtnId,
   setButtonLoading,
   cancelButtonLoading,
-  variant = 'pc',
+  variant = "pc",
   onBeginClick,
 }) => {
-  const message = variant === 'pc' ? pcMessage : appMessage;
+  const message = variant === "pc" ? pcMessage : appMessage;
   const btnId = setting.id;
   const { currentUser, dispatchEvent } = useApp();
   const {
@@ -111,34 +111,34 @@ const EndButton: React.FunctionComponent<Props> = ({
     if (onBeginClick) {
       onBeginClick();
     }
-    if (flowIdea?.idea === 'required' && !flowIdea?.content) {
-      message.error('请先填写意见');
+    if (flowIdea?.idea === "required" && !flowIdea?.content) {
+      message.error("请先填写意见");
       return;
     }
     // 保存表单数据
-    const hide = message.loading('正在提交...', {
-      key: 'finishWorkFlow',
+    const hide = message.loading("正在提交...", {
+      key: "finishWorkFlow",
       duration: 0,
     });
     setButtonLoading(btnId);
     try {
       await formState.submit();
       await workflowFinish({
-        workItemId: workItemId ?? '',
-        approvalStatus: '1', //  审核通过传1  审核不通过传0
+        workItemId: workItemId ?? "",
+        approvalStatus: "1", //  审核通过传1  审核不通过传0
         userId: currentUser.userId,
         userName: currentUser.userName,
         formDesignId,
       });
       hide();
       // 调用流程操作成功的处理函数
-      toFlowSuccess(dispatchEvent, 'endSuccess');
-      message.success('办结成功', { key: 'finishWorkFlow' });
+      toFlowSuccess(dispatchEvent, "endSuccess");
+      message.success("办结成功", { key: "finishWorkFlow" });
     } catch (e) {
-      if (e && e.message === '表单校验失败') {
-        message.error('表单项未填写或数据格式有误', { key: 'finishWorkFlow' });
+      if (e && e.message === "表单校验失败") {
+        message.error("表单项未填写或数据格式有误", { key: "finishWorkFlow" });
       } else {
-        message.error('办结失败', { key: 'finishWorkFlow' });
+        message.error("办结失败", { key: "finishWorkFlow" });
       }
     } finally {
       cancelButtonLoading();
@@ -147,8 +147,8 @@ const EndButton: React.FunctionComponent<Props> = ({
 
   // 确认提示框显示之前 触发
   const beforeConfirmClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (flowIdea?.idea === 'required' && !flowIdea?.content) {
-      message.error('请先填写意见');
+    if (flowIdea?.idea === "required" && !flowIdea?.content) {
+      message.error("请先填写意见");
       event.preventDefault();
     }
   };
