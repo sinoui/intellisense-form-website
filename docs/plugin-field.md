@@ -36,14 +36,60 @@ title: 新增表单字段
 
 ## 注册表单字段
 
+### react 方式
+
 ```tsx
 import AppSetting from '@sinoform/app-setting';
 
 AppSetting.formConfig.addField({
-type:'xxx',
-render:React.lazy(()=>import('./plugins/field-xxx/xxxRenderer'))
-...
+  type:'xxx',
+  render:React.lazy(()=>import('./plugins/field-xxx/xxxRenderer')),
+  preview: XxxPreview,
+  configPanel: XxxConfigPanel,
+  ...
 });
+
+```
+
+### vue 方式
+
+```tsx
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.formConfig.addField({
+  type: "vueInput",
+  title: "vue单行文本",
+  group: "normal",
+  icon: EventNote,
+  render: React.lazy(() => import("./plugins/field-xxx/xxxRenderer")),
+  preview: XxxPreview,
+  configPanel: XxxConfigPanel,
+});
+```
+
+### jQuery 方式
+
+```tsx
+
+```
+
+#### 字段属性设置组件
+
+`XxxConfigPanel`组件是使用 React 定义的属性设置组件，不是 vue 组件。
+
+#### 字段预览和渲染组件
+
+`XxxPreview` 和 `xxxRenderer`组件是使用`@sinoform/plugin-sinoform-helpers`中的`vueComponentWrapper`方法将 vue 组件转换为 react 形式的组件。
+
+使用方法：
+
+```tsx
+import { vueComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import InputRenderer from "./InputRenderer.vue";
+import InputPreview from "./InputPreview.vue";
+
+const InputRendererReact = vueComponentWrapper(InputRenderer);
+const InputPreviewReact = vueComponentWrapper(InputPreview);
 ```
 
 ## 属性面板
@@ -206,360 +252,79 @@ function FieldSerialNumberRenderer(props: FormFieldRenderProps) {
 }
 ```
 
-## 新增字段示例
-
-### react 方式
-
-FieldInputRender.tsx
+### vue 方式
 
 ```tsx
-import React from "react";
-import TextInput from "@sinoui/core/TextInput";
-import type { FormFieldRenderProps } from "@sinoform/types";
-import InputAdornment from "@sinoui/core/InputAdornment";
-import { RelyRule, useFieldValue } from "@sinoui/rx-form-state";
-import { relyFn } from "@sinoform/comp-expression-config";
+<template>
+  <div>
+    <input v-model="inputValue" @change="onChangeValue" />
+  </div>
+</template>
 
-function FieldInputRenderer(props: FormFieldRenderProps) {
-  const {
-    config: { expressionConfig, startAdornment, endAdornment },
-    name,
-    readOnly,
-    ...rest
-  } = props;
-
-  const value: string = useFieldValue(name);
-  return (
-    <>
-      <TextInput
-        {...rest}
-        name={name}
-        inputProps={{ "data-testid": "field-input" }}
-        title={(readOnly ? value : "") as string}
-        readOnly={readOnly}
-        value={value ?? ""}
-        startAdornment={
-          startAdornment ? (
-            <InputAdornment position="start">{startAdornment}</InputAdornment>
-          ) : undefined
-        }
-        endAdornment={
-          endAdornment ? (
-            <InputAdornment position="end">{endAdornment}</InputAdornment>
-          ) : undefined
-        }
-      />
-      {expressionConfig && expressionConfig.relyFields?.length > 0 && (
-        <RelyRule
-          relyFields={expressionConfig.relyFields}
-          relyFn={(draft) => relyFn(draft, name, expressionConfig)}
-        />
-      )}
-    </>
-  );
-}
-
-export default React.memo(FieldInputRenderer);
-```
-
-FieldPreview.tsx
-
-```tsx
-import styled from "styled-components";
-
-const FieldInputPreview = styled.div`
-  height: 32px;
-  width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
-  background-color: rgb(255, 255, 255);
-`;
-
-export default FieldInputPreview;
-```
-
-FieldInputConfigPanel.tsx
-
-```tsx
-import React from "react";
-import { Field, FormValueMonitor, RelyRule } from "@sinoui/rx-form-state";
-import TextInput from "@sinoui/core/TextInput";
-import InputAdornment from "@sinoui/core/InputAdornment";
-import Select from "@sinoui/core/Select";
-import Checkbox from "@sinoui/core/Checkbox";
-import styled from "styled-components";
-import ConfigItem from "@sinoform/comp-config-item";
-import LayoutConfigItem from "@sinoform/comp-layout-config-item";
-import SelectForTodoTitle from "@sinoform/comp-select-for-todo-title";
-import convertInputConfig from "@sinoform/helper-convert-input-config";
-import { useFormManager } from "@sinoform/form-manager-context";
-import RelyFieldConfigPanel from "@sinoform/comp-rely-field-config";
-import { FormItem } from "@sinoform/types";
-import ExpressionConfigPanel from "@sinoform/comp-expression-config";
-
-const InlineNumberInput = styled(TextInput)`
-  display: inline-flex !important;
-  width: 50px;
-  margin-left: 8px;
-
-  input {
-    padding-right: 2px;
-  }
-
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-  input[type="number"] {
-    -moz-appearance: textfield;
-  }
-`;
-
-function resetDefaultConfig(draft: FormItem) {
-  if (draft.defaultValue?.type !== "rely") {
-    if (draft.relyConfig) {
-      delete draft.relyConfig;
-    }
-  }
-}
-
-function FieldInputConfigPanel({ inSubform }: { inSubform?: boolean }) {
-  const {
-    formDataRef: { current },
-  } = useFormManager();
-  return (
-    <>
-      <ConfigItem label="标题" name="title" required>
-        <TextInput />
-      </ConfigItem>
-      <ConfigItem label="标识" name="fieldName" required>
-        <TextInput />
-      </ConfigItem>
-      {!inSubform && (
-        <ConfigItem label="字段描述" name="helperText">
-          <TextInput multiline />
-        </ConfigItem>
-      )}
-      <RelyRule relyFields={["type"]} relyFn={convertInputConfig} />
-      <ConfigItem label="字段类型" name="type">
-        <Select allowClear={false}>
-          <option value="input">单行文本</option>
-          <option value="textarea">多行文本</option>
-          <option value="numberInput">数字</option>
-        </Select>
-      </ConfigItem>
-      <ConfigItem label="数据格式" name="format">
-        <Select>
-          <option value="">无</option>
-          <option value="phoneNumber">电话号码</option>
-          <option value="cellPhoneNumber">手机号</option>
-          <option value="email">邮箱地址</option>
-          <option value="idCard">身份证号</option>
-          <option value="postCode">邮政编码</option>
-        </Select>
-      </ConfigItem>
-      <RelyRule
-        relyFields={["defaultValue.type"]}
-        relyFn={resetDefaultConfig}
-      />
-      <ConfigItem label="默认值">
-        <Field as={Select} name="defaultValue.type">
-          <option value="">无</option>
-          <option value="custom">自定义</option>
-          <option value="expression">公式</option>
-          <option value="creator">创建人</option>
-          <option value="creatorDept">创建人部门</option>
-          {current?.applicationId ? (
-            <option value="rely">数据联动</option>
-          ) : null}
-        </Field>
-        <FormValueMonitor path="defaultValue.type">
-          {(type) =>
-            type === "custom" ? (
-              <Field as={TextInput} name="defaultValue.customValue" autoFocus />
-            ) : null
-          }
-        </FormValueMonitor>
-        <FormValueMonitor path="defaultValue.type">
-          {(type) => (type === "expression" ? <ExpressionConfigPanel /> : null)}
-        </FormValueMonitor>
-        <FormValueMonitor path="defaultValue.type">
-          {(type) => (type === "rely" ? <RelyFieldConfigPanel /> : null)}
-        </FormValueMonitor>
-      </ConfigItem>
-      <ConfigItem label="前缀" name="startAdornment">
-        <TextInput />
-      </ConfigItem>
-      <ConfigItem label="后缀" name="endAdornment">
-        <TextInput />
-      </ConfigItem>
-      <ConfigItem label="校验规则">
-        <Field
-          as={Checkbox}
-          name="validateRules.required.enabled"
-          valuePropName="checked"
-        >
-          必填
-        </Field>
-        <FormValueMonitor path="format">
-          {(format) =>
-            !format ? (
-              <>
-                <Field
-                  as={Checkbox}
-                  name="validateRules.minLength.enabled"
-                  valuePropName="checked"
-                >
-                  最小长度
-                  <FormValueMonitor path="validateRules.minLength.enabled">
-                    {(enabled) =>
-                      enabled ? (
-                        <Field
-                          as={InlineNumberInput}
-                          name="validateRules.minLength.value"
-                          autoFocus
-                          type="number"
-                          endAdornment={
-                            <InputAdornment position="end">字</InputAdornment>
-                          }
-                        />
-                      ) : null
-                    }
-                  </FormValueMonitor>
-                </Field>
-                <Field
-                  as={Checkbox}
-                  name="validateRules.maxLength.enabled"
-                  valuePropName="checked"
-                >
-                  最大长度
-                  <FormValueMonitor path="validateRules.maxLength.enabled">
-                    {(enabled) =>
-                      enabled ? (
-                        <Field
-                          as={InlineNumberInput}
-                          name="validateRules.maxLength.value"
-                          autoFocus
-                          type="number"
-                          endAdornment={
-                            <InputAdornment position="end">字</InputAdornment>
-                          }
-                        />
-                      ) : null
-                    }
-                  </FormValueMonitor>
-                </Field>
-              </>
-            ) : null
-          }
-        </FormValueMonitor>
-      </ConfigItem>
-
-      <LayoutConfigItem inSubform={inSubform} />
-      {!inSubform && (
-        <ConfigItem label="是否作为待办标题">
-          <SelectForTodoTitle />
-        </ConfigItem>
-      )}
-    </>
-  );
-}
-
-export default React.memo(FieldInputConfigPanel);
-```
-
-resolveDefaultValue.ts
-
-```tsx
-import type { FormItem, AppInfo } from "@sinoform/types";
-
-export default function resolveDefaultValue(
-  formItem: FormItem,
-  appInfo: AppInfo
-) {
-  if (formItem.defaultValue?.type === "custom") {
-    return formItem.defaultValue.customValue;
-  }
-  if (formItem.defaultValue?.type === "creator") {
-    return appInfo.currentUser.userName;
-  }
-  if (formItem.defaultValue?.type === "creatorDept") {
-    return appInfo.currentUser.deptName;
-  }
-
-  return undefined;
-}
-```
-
-validateFn.ts
-
-```tsx
-import validateTel from "./utils/validateTel";
-import validatePhoneNumber from "./utils/validatePhoneNumber";
-import validateIdCard from "./utils/validateIdCard";
-import validateEmail from "./utils/validateEmail";
-import ValidatePostCode from "./utils/validatePostCode";
-
-const validateFn = (value: any, context: { props: any }) => {
-  const {
-    props: { format },
-  } = context;
-  if (value && format) {
-    if (format === "phoneNumber") {
-      return validateTel(value);
-    }
-
-    if (format === "cellPhoneNumber") {
-      return validatePhoneNumber(value);
-    }
-    if (format === "email") {
-      return validateEmail(value);
-    }
-    if (format === "idCard") {
-      return validateIdCard(value);
-    }
-    if (format === "postCode") {
-      return ValidatePostCode(value);
-    }
-  }
-  return "";
+<script>
+export default {
+  props: ["value", "onChange"],
+  data: function () {
+    return {
+      inputValue: this.value,
+    };
+  },
+  methods: {
+    onChangeValue: function (e) {
+      this.onChange(e.target.value);
+    },
+  },
 };
-
-export default validateFn;
+</script>
+<style scoped></style>
 ```
 
-注册字段
+### jQuery 方式
 
-```tsx
-/** =========单行文本字段========= */
-import setting from "@sinoform/app-setting";
-const { formConfig } = setting;
+使用 `jQuery` 和 `Web Component` 开发字段插件。
 
-import EventNote from "@sinoui/icons/EventNote";
-import FieldInputPreview from "./fields/field-input/FieldInputPreview";
-import resolveDefaultValue from "./fields/field-input/resolveDefaultValue";
-import validateFn from "./fields/field-input/validateFn";
+```javascript
+import { $ } from "jquery";
 
-formConfig.addField({
-  type: "input",
-  title: "单行文本",
-  group: FormFieldGroup.normal,
-  preview: FieldInputPreview,
-  icon: EventNote,
-  render: React.lazy(() => import("./fields/field-input/FieldInputRenderer")),
-  configPanel: React.lazy(
-    () => import("./fields/field-input/FieldInputConfigPanel")
-  ),
-  defaultValueGetter: resolveDefaultValue,
-  controlConditions: [
-    "eq",
-    "ne",
-    "contains",
-    "notcontains",
-    "isnull",
-    "isnotnull",
-  ],
-  defaultValidate: validateFn,
-  enableFloating: true,
-});
+export default class InputRenderer extends HTMLElement {
+  constructor() {
+    super();
+    this.root = this.attachShadow({ mode: "open" });
+    this.root.innerHTML = this.render();
+    this.input = $("#field-input-renderer", this.root);
+    this._value = this.getAttribute("value");
+    this.onChange = this.getAttribute("onChange");
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  connectedCallback() {
+    this.input.on("change", this.handleChange);
+    this.input.val(this.value);
+  }
+
+  disconnectedCallback() {
+    this.input.off("click", this.handleClick);
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(newVal) {
+    this._value = newVal;
+    this.input.val(newVal);
+  }
+
+  handleChange(e) {
+    this.value = e.target.value;
+
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
+  }
+
+  render() {
+    return `<input id="field-input-renderer"/>`;
+  }
+}
 ```

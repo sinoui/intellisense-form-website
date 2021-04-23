@@ -16,6 +16,8 @@ title: 新增流程按钮
 
 ## 注册流程按钮
 
+### react 方式
+
 ```tsx
 import appsetting from "@sinoform/app-setting";
 const { flowConfig } = appsetting;
@@ -28,6 +30,35 @@ flowConfig.addButton({
   hidden: false | true,
   icon: "xxxx",
 });
+```
+
+### vue 方式
+
+```tsx
+import appsetting from "@sinoform/app-setting";
+const { flowConfig } = appsetting;
+
+flowConfig.addButton({
+  id: "xxx",
+  name: "xxx",
+  render: React.lazy(() => import("./xxx/vue-field-input")),
+  enabled: false | true,
+  hidden: false | true,
+  icon: "xxxx",
+});
+```
+
+`import("./xxx/vue-field-input")`导入的是将 Vue 组件转换为 React 后的组件。
+
+`/xxx/vue-field-input`目录下`index.ts`代码：
+
+```tsx
+import { vueComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import HelloBtn from "./HelloBtn.vue";
+
+const HelloBtnReact = vueComponentWrapper(HelloBtn);
+
+export default HelloBtnReact;
 ```
 
 ## 流程按钮开发
@@ -167,4 +198,63 @@ const EndButton: React.FunctionComponent<Props> = ({
 };
 
 export default EndButton;
+```
+
+### vue 方式
+
+```tsx
+<template>
+  <button @click="sayHellow()">hello</button>
+</template>
+
+<script>
+export default {
+  name: 'hello-btn',
+  props: ['appInfo'],
+  methods: {
+    sayHellow: function () {
+      alert(`Hello world! ${this.appInfo.currentUser.userName}`);
+    },
+  },
+};
+</script>
+```
+
+### jQuery 方式
+
+使用 `jQuery` 和 `Web Component` 开发按钮插件。
+
+```javascript
+import { $ } from "jquery";
+
+export default class HelloBtn extends HTMLElement {
+  constructor() {
+    super();
+    this.root = this.attachShadow({ mode: "open" });
+    this.root.innerHTML = this.render();
+    this.btn = $("#btn", this.root);
+    this.setting = this.getAttribute("setting");
+    this.handleClick = this.handleClick.bind(this);
+    this.text = $("span", this.root);
+  }
+
+  connectedCallback() {
+    this.btn.on("click", this.handleClick);
+    if (typeof JSON.parse(this.setting) === "object") {
+      this.btn.text(JSON.parse(this.setting).name);
+    }
+  }
+
+  disconnectedCallback() {
+    this.btn.off("click", this.handleClick);
+  }
+
+  handleClick() {
+    alert("Hello in js~");
+  }
+
+  render() {
+    return `<button id="btn">hello btn</button>`;
+  }
+}
 ```
