@@ -14,6 +14,7 @@ module.exports = {
     序号组件: ["sinomatrix-sequence-table", "sinomatrix-sequence-interface"],
 
     插件开发: [
+      "plugin-index",
       "plugin-field",
       "plugin-button",
       "plugin-detail-page-extend",
