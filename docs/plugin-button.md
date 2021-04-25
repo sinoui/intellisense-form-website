@@ -3,6 +3,19 @@ id: plugin-button
 title: 新增流程按钮
 ---
 
+## 流程按钮目录结构
+
+在 plugins 目录下新增以`flow-button-xxx`命名的文件夹，比如审核通过按钮：`flow-button-approve`。
+
+```tsx
+xxx-plugins
+|__ src
+    |__ index.tsx
+    |__ plugins
+        |__ flow-button-xxx
+            |__xxxButton.tsx
+```
+
 ## 流程按钮配置
 
 | 配置项  | 类型            | 含义                                         | 是否必须配置 |

@@ -3,6 +3,24 @@ id: plugin-field
 title: 新增表单字段
 ---
 
+## 表单字段目录结构
+
+在 plugins 目录下新增以`field-xxx`命名的文件夹，比如图片上传字段：`field-image-upload`。
+
+```tsx
+xxx-plugins
+|__ src
+    |__ index.tsx
+    |__ plugins
+        |__ field-xxx
+            |__ xxxPreview.tsx //预览组件
+            |__ xxxRenderer.tsx  //在表单中的渲染组件
+            |__ xxxSubformRenderer.tsx //在子表单中的渲染组件
+            |__ xxxConfigPanel.tsx  // 字段属性配置面板
+            |__ xxxReadonlyRenderer.tsx // 只读渲染组件
+            |__ index.ts // 组件的导出配置
+```
+
 ## 字段配置
 
 支持的配置：
