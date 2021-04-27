@@ -85,21 +85,13 @@ AppSetting.formConfig.addField({
 });
 ```
 
-### jQuery 方式
-
-```tsx
-
-```
-
-#### 字段属性设置组件
-
 `XxxConfigPanel`组件是使用 React 定义的属性设置组件，不是 vue 组件。
 
 #### 字段预览和渲染组件
 
 `XxxPreview` 和 `xxxRenderer`组件是使用`@sinoform/plugin-sinoform-helpers`中的`vueComponentWrapper`方法将 vue 组件转换为 react 形式的组件。
 
-使用方法：
+`/xxx/field-xxx目录下`index.ts`代码：
 
 ```tsx
 import { vueComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
@@ -109,6 +101,49 @@ import InputPreview from "./InputPreview.vue";
 const InputRendererReact = vueComponentWrapper(InputRenderer);
 const InputPreviewReact = vueComponentWrapper(InputPreview);
 ```
+
+### jQuery 方式
+
+```tsx
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.formConfig.addField({
+  type: "jsInput",
+  title: "js单行文本",
+  group: "normal",
+  icon: EventNote,
+  render: React.lazy(() => import("./plugins/field-xxx/xxxRenderer")),
+  preview: XxxPreview,
+  configPanel: XxxConfigPanel,
+});
+```
+
+`XxxConfigPanel`组件是使用 React 定义的属性设置组件，不是Web component 组件。
+
+#### 字段预览和渲染组件
+
+`XxxPreview` 和 `xxxRenderer`组件是使用`@sinoform/plugin-sinoform-helpers`中的`webComponentWrapper`方法将 Web component 组件转换为 react 形式的组件。
+
+`/xxx/field-xxx目录下`index.ts`代码：
+
+```TSX
+import InputRenderer from './InputRenderer';
+import InputConfigPanel from './InputConfigPanel';
+import { webComponentWrapper } from '@sinoform/plugin-sinoform-helpers';
+
+customElements.define('field-input-preview', InputPreview);
+const JsInputPreviewReact = webComponentWrapper('field-input-preview');
+
+customElements.define('field-input-renderer', InputRenderer);
+const JsInputRendererReact = webComponentWrapper('field-input-renderer');
+
+export { JsInputPreviewReact, InputConfigPanel };
+
+export default JsInputRendererReact;
+
+```
+
+
 
 ## 属性面板
 
@@ -301,48 +336,96 @@ export default {
 
 使用 `jQuery` 和 `Web Component` 开发字段插件。
 
-```javascript
-import { $ } from "jquery";
+在`react`中使用`Web Component`组件时传入的每一个属性，在`Web Component`组件中都需要设置对应属性名称的set函数。
 
+```javascript
+
+import $ from 'jquery';
 export default class InputRenderer extends HTMLElement {
+  public _value: string = '';
+
+  root: ShadowRoot;
+  public _appInfo: any;
+  private _userName?: string;
+  input: any;
+  private _onChange: any;
+
   constructor() {
     super();
-    this.root = this.attachShadow({ mode: "open" });
+    this.root = this.attachShadow({ mode: 'open' });
     this.root.innerHTML = this.render();
-    this.input = $("#field-input-renderer", this.root);
-    this._value = this.getAttribute("value");
-    this.onChange = this.getAttribute("onChange");
-    this.handleChange = this.handleChange.bind(this);
+    this.input = $('#field-input-renderer', this.root);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   connectedCallback() {
-    this.input.on("change", this.handleChange);
-    this.input.val(this.value);
+    this.input.on('change', this.handleInputChange);
   }
 
-  disconnectedCallback() {
-    this.input.off("click", this.handleClick);
+  disConnectedCallback() {
+    this.input.off('change', this.handleInputChange);
+  }
+
+  static get observedAttributes() {
+    return ['value'];
+  }
+
+  attributeChangedCallback(attr: string, _oldVal: any, newVal: any) {
+    switch (attr) {
+      case 'value':
+        this.value = newVal;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  set onChange(fn: any) {
+    this._onChange = fn;
+  }
+
+  get onChange() {
+    return this._onChange;
+  }
+
+  handleInputChange(e: any) {
+    this.onChange(e.target.value);
+  }
+
+  set appInfo(value: any) {
+    this._appInfo = value;
+    if (value && value.currentUser && value.currentUser.userName) {
+      this.userName = value.currentUser.userName;
+    }
+  }
+
+  set value(val: string) {
+    this._value = val;
+    this.input.val(val);
   }
 
   get value() {
     return this._value;
   }
 
-  set value(newVal) {
-    this._value = newVal;
-    this.input.val(newVal);
-  }
-
-  handleChange(e) {
-    this.value = e.target.value;
-
-    if (this.onChange) {
-      this.onChange(this.value);
+  set userName(val: string) {
+    this._userName = val;
+    const name = this.root.querySelector('#name');
+    if (name) {
+      name.innerHTML = this.userName;
     }
   }
 
+  get userName() {
+    return this._userName ?? '';
+  }
+
   render() {
-    return `<input id="field-input-renderer"/>`;
+    return `<input id="field-input-renderer" value='${this.value}'/> 
+    <div id='name'>${this.userName}</div>`;
   }
 }
+
+
 ```

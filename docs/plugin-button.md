@@ -74,6 +74,39 @@ const HelloBtnReact = vueComponentWrapper(HelloBtn);
 export default HelloBtnReact;
 ```
 
+### jQuery 方式
+
+```tsx
+import appsetting from "@sinoform/app-setting";
+const { flowConfig } = appsetting;
+
+flowConfig.addButton({
+  id: "xxx",
+  name: "xxx",
+  render: React.lazy(() => import("./xxx/js-flow-button-hello")),
+  enabled: false | true,
+  hidden: false | true,
+  icon: "xxxx",
+});
+```
+
+`import("./xxx/js-flow-button-hello")`导入的是将 Web component 组件转换为 React 后的组件。
+
+`/xxx/js-flow-button-hello目录下`index.ts`代码：
+
+```tsx
+import HelloBtn from './HelloBtn';
+import { webComponentWrapper } from '@sinoform/plugin-sinoform-helpers';
+
+customElements.define('flow-button-hello', HelloBtn);
+const HelloBtnReact = webComponentWrapper('flow-button-hello');
+
+export default HelloBtnReact;
+
+```
+
+
+
 ## 流程按钮开发
 
 ### react 方式
@@ -238,36 +271,81 @@ export default {
 使用 `jQuery` 和 `Web Component` 开发按钮插件。
 
 ```javascript
-import { $ } from "jquery";
+import $ from 'jquery';
 
 export default class HelloBtn extends HTMLElement {
+  public _setting: any = { name: '' };
+  public _loadingBtnId: string = '';
+  root: ShadowRoot;
+  button: any;
+  public _setButtonLoading: (id: string) => void = () => {};
+  public _cancelButtonLoading: () => void = () => {};
+
   constructor() {
     super();
-    this.root = this.attachShadow({ mode: "open" });
+    this.root = this.attachShadow({ mode: 'open' });
     this.root.innerHTML = this.render();
-    this.btn = $("#btn", this.root);
-    this.setting = this.getAttribute("setting");
+    this.button = $('#btn', this.root);
     this.handleClick = this.handleClick.bind(this);
-    this.text = $("span", this.root);
   }
 
   connectedCallback() {
-    this.btn.on("click", this.handleClick);
-    if (typeof JSON.parse(this.setting) === "object") {
-      this.btn.text(JSON.parse(this.setting).name);
-    }
+    this.button.on('click', this.handleClick);
   }
 
-  disconnectedCallback() {
-    this.btn.off("click", this.handleClick);
+  disConnectedCallback() {
+    this.button.off('click', this.handleClick);
   }
 
   handleClick() {
-    alert("Hello in js~");
+    this.setButtonLoading(this.setting.id);
+    this.loadingBtnId = this.setting.id;
+    setTimeout(() => {
+      this.cancelButtonLoading();
+      this.button.removeAttr('disabled');
+    }, 1000);
+  }
+
+  set setting(value: any) {
+    this._setting = value;
+    this.button.text(value.name);
+  }
+
+  get setting() {
+    return this._setting;
+  }
+
+  set loadingBtnId(value: any) {
+    this._loadingBtnId = value;
+    if ((value = this.setting.id)) {
+      this.button.attr('disabled', true);
+    }
+  }
+
+  get loadingBtnId() {
+    return this._loadingBtnId;
+  }
+
+  set setButtonLoading(func: any) {
+    this._setButtonLoading = func;
+  }
+
+  get setButtonLoading() {
+    return this._setButtonLoading;
+  }
+
+  set cancelButtonLoading(func: any) {
+    this._cancelButtonLoading = func;
+  }
+
+  get cancelButtonLoading() {
+    return this._cancelButtonLoading;
   }
 
   render() {
-    return `<button id="btn">hello btn</button>`;
+    return `<button id="btn" >${this.setting.name}</button>`;
   }
 }
+
+
 ```
