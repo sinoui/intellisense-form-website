@@ -118,7 +118,7 @@ AppSetting.formConfig.addField({
 });
 ```
 
-`XxxConfigPanel`组件是使用 React 定义的属性设置组件，不是Web component 组件。
+`XxxConfigPanel`组件是使用 React 定义的属性设置组件，不是 Web component 组件。
 
 #### 字段预览和渲染组件
 
@@ -142,8 +142,6 @@ export { JsInputPreviewReact, InputConfigPanel };
 export default JsInputRendererReact;
 
 ```
-
-
 
 ## 属性面板
 
@@ -307,6 +305,14 @@ function FieldSerialNumberRenderer(props: FormFieldRenderProps) {
 
 ### vue 方式
 
+vue 方式的自定义表单字段组件除接收 react 方式支持的属性外，还接受以下属性：
+
+| 属性名称   | 含义               |
+| ---------- | ------------------ |
+| appInfo    | 表单应用上下文信息 |
+| formState  | 表单状态管理对象   |
+| detailPage | 表单详情上下文信息 |
+
 ```tsx
 <template>
   <div>
@@ -334,9 +340,17 @@ export default {
 
 ### jQuery 方式
 
+jQuery 方式的自定义表单字段组件除接收 react 方式支持的属性外，还接受以下属性：
+
+| 属性名称   | 含义               |
+| ---------- | ------------------ |
+| appInfo    | 表单应用上下文信息 |
+| formState  | 表单状态管理对象   |
+| detailPage | 表单详情上下文信息 |
+
 使用 `jQuery` 和 `Web Component` 开发字段插件。
 
-在`react`中使用`Web Component`组件时传入的每一个属性，在`Web Component`组件中都需要设置对应属性名称的set函数。
+在`react`中使用`Web Component`组件时传入的每一个属性，在`Web Component`组件中都需要设置对应属性名称的 set 函数。
 
 ```javascript
 
@@ -422,7 +436,7 @@ export default class InputRenderer extends HTMLElement {
   }
 
   render() {
-    return `<input id="field-input-renderer" value='${this.value}'/> 
+    return `<input id="field-input-renderer" value='${this.value}'/>
     <div id='name'>${this.userName}</div>`;
   }
 }

@@ -95,17 +95,14 @@ flowConfig.addButton({
 `/xxx/js-flow-button-hello目录下`index.ts`代码：
 
 ```tsx
-import HelloBtn from './HelloBtn';
-import { webComponentWrapper } from '@sinoform/plugin-sinoform-helpers';
+import HelloBtn from "./HelloBtn";
+import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
 
-customElements.define('flow-button-hello', HelloBtn);
-const HelloBtnReact = webComponentWrapper('flow-button-hello');
+customElements.define("flow-button-hello", HelloBtn);
+const HelloBtnReact = webComponentWrapper("flow-button-hello");
 
 export default HelloBtnReact;
-
 ```
-
-
 
 ## 流程按钮开发
 
@@ -248,15 +245,23 @@ export default EndButton;
 
 ### vue 方式
 
-```tsx
+vue 方式的自定义流程按钮组件除接收 react 方式支持的属性外，还接受以下属性：
+
+| 属性名称   | 含义               |
+| ---------- | ------------------ |
+| appInfo    | 表单应用上下文信息 |
+| formState  | 表单状态管理对象   |
+| detailPage | 表单详情上下文信息 |
+
+```vue
 <template>
   <button @click="sayHellow()">hello</button>
 </template>
 
 <script>
 export default {
-  name: 'hello-btn',
-  props: ['appInfo'],
+  name: "hello-btn",
+  props: ["appInfo"],
   methods: {
     sayHellow: function () {
       alert(`Hello world! ${this.appInfo.currentUser.userName}`);
@@ -267,6 +272,14 @@ export default {
 ```
 
 ### jQuery 方式
+
+jQuery 方式的自定义流程按钮组件除传入 react 方式支持的属性外，还接受以下属性：
+
+| 属性名称   | 含义               |
+| ---------- | ------------------ |
+| appInfo    | 表单应用上下文信息 |
+| formState  | 表单状态管理对象   |
+| detailPage | 表单详情上下文信息 |
 
 使用 `jQuery` 和 `Web Component` 开发按钮插件。
 
