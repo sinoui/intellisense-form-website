@@ -15,6 +15,7 @@ module.exports = {
 
     插件开发: [
       "plugin-index",
+      "use-app-setting",
       "plugin-field",
       "plugin-button",
       "plugin-detail-page-extend",

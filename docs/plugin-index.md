@@ -46,3 +46,32 @@ xxx-plugins
 - [新增流程按钮](plugin-button)
 - [新增详情页业务逻辑](plugin-detail-page-extend)
 - [自定义样式](plugin-css)
+
+插件开发完成之后，我们可以在`index.ts`文件中进行注册，具体方式如下：
+
+```jsx
+// 表单字段注册
+AppSetting.formConfig.addField({
+  type: "customInput",
+  title: "react单行文本",
+  group: "normal",
+  icon: EventNote,
+  render: React.lazy(() =>
+    import("./plugins/react-field-input/CustomInputRender")
+  ),
+  preview: CustomInputPreview,
+  configPanel: CustomInputConfigPanel,
+});
+
+// 注册按钮
+AppSetting.flowConfig.addButton({
+  id: "customBtn",
+  name: "问候",
+  render: React.lazy(() => import("./plugins/react-hello-button/HelloButton")),
+  enabled: false,
+  hidden: false,
+  icon: AssignmentReturn,
+});
+```
+
+更多关于`AppSetting`的使用详见[appSetting 的使用](use-app-setting)。
