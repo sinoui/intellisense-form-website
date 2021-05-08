@@ -20,6 +20,8 @@ module.exports = {
       "plugin-button",
       "plugin-detail-page-extend",
       "plugin-css",
+      "plugin-module-federation",
+      "plugin-test",
     ],
   },
 };
