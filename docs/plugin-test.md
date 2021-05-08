@@ -26,7 +26,7 @@ localStorage.setItem("sinoform-preview-plugins", JSON.stringify(items));
 
 智能表单主界面右上角有插件维护功能模块，在此界面新增或修改插件配置后可以刷新界面进行验证。
 
-![插件维护](/static/img/plugin-operation.png)
+![插件维护](/intellisense-form-website/img/plugin-operation.png)
 
 1. 插件名称。具有唯一性，建议使用 ModuleFederationPlugin 中的 name。
 

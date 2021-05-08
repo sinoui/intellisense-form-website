@@ -9,15 +9,15 @@ title: 开发人员编写自定义样式
 
 在表单应用页面，按住`ctrl`键的同时，连续单击页面 5 次（每次点击的间隔不能大于 0.5s）显示自定义样式入口。点击表单应用页面中的`自定义样式`超链接，会打开一个浏览器的新标签页显示自定义样式编辑器页面。
 
-![image-20200713091302540](/img/custom-css/editor1.png)
+![image-20200713091302540](/intellisense-form-website/img/custom-css/editor1.png)
 
 ## 移动端
 
 在移动端`我的表单`首页，按住`ctrl`键的同时，连续单击页面 5 次（每次点击的间隔不能大于 0.5s），顶部应用栏右侧会显示自定义样式入口。点击表单应用页面中的`自定义样式`超链接，会打开一个浏览器的新标签页显示自定义样式编辑器页面。
 
-![image-20200713091302540](/img/custom-css/editor1.png)
+![image-20200713091302540](/intellisense-form-website/img/custom-css/editor1.png)
 
-![image-20200713091655711](/img/custom-css/editor-mobile.png)
+![image-20200713091655711](/intellisense-form-website/img/custom-css/editor-mobile.png)
 
 ## 自定义样式编辑器功能
 
@@ -27,7 +27,7 @@ title: 开发人员编写自定义样式
 
 ### 页面显示
 
-![editor2](../static/img/custom-css/editor2.png)
+![editor2](/intellisense-form-website/img/custom-css/editor2.png)
 
 ### 预览
 
@@ -51,7 +51,7 @@ title: 开发人员编写自定义样式
 
 表单起草页面的默认样式如下图：
 
-![image-20200708104210030](../static/img/custom-css/editor3.png)
+![image-20200708104210030](/intellisense-form-website/img/custom-css/editor3.png)
 
 若想将表单起草页的表单标题背景显示为灰色，表单标题和图标为蓝色；详情页面底部操作按钮显示为右对齐。按照支持自定义样式元素的 className 命名，应该编写如下样式代码：
 
@@ -75,7 +75,7 @@ title: 开发人员编写自定义样式
 
 预览后效果如下：
 
-![image-20200708104246261](../static/img/custom-css/editor4.png)
+![image-20200708104246261](/intellisense-form-website/img/custom-css/editor4.png)
 
 ### 样式优先级
 
