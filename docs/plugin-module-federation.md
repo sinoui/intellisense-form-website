@@ -25,7 +25,7 @@ new ModuleFederationPlugin({
 
 2. library.name 是 extend.js 做为远程容器解析时用到的名称，是插件配置中的插件标识，要保证其唯一性。 默认为当前项目名称的转小驼峰之后的值。
 
-3. filename 默认 extend.js。 项目打包后会生成 extend.js 文件。插件配置时的 url 就是此文件的地址，形式：`<域名或ip>[端口]/extend.js`，例如：`http://localhost:8090/extend.js`。
+3. filename 默认 extend.js。 项目打包后会生成 extend.js 文件。插件配置时的 url 就是此文件的请求地址，形式：`<域名或ip>[端口]/extend.js`，例如：`http://localhost:8090/extend.js`。
 
 4. shared 需要共享的第三方依赖.
 
