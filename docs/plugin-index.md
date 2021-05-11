@@ -16,9 +16,9 @@ sidebar_label: 开篇
 可以通过命令行快速创建插件项目，具体如下：
 
 ```json
-npx sinoform-pulgin-cli create xxx-plugins  //默认创建react项目
+npx sinoform-plugin-cli create xxx-plugins  //默认创建react项目
 或
-npx sinoform-pulgin-cli create xxx-plugins -t vue //创建vue项目
+npx sinoform-plugin-cli create xxx-plugins -t vue //创建vue项目
 ```
 
 执行成功后会生成如下项目结构：
