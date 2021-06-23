@@ -47,7 +47,7 @@ export const FEAT_DATA = [
     imgUrl: "/img/home/feat-cloud.png",
     title: "云支持",
     content:
-      "智能表单发布的应用支持PC、Pad和手机三端使用。一次设计，三端使用。",
+      "智能表单采用的是云原生微服务架构研发的，即可裸机部署，又可以在Kubernetes云上部署。",
   },
   {
     imgUrl: "/img/home/feat-gch.png",
