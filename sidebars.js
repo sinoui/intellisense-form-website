@@ -23,5 +23,7 @@ module.exports = {
       "plugin-module-federation",
       "plugin-test",
     ],
+
+    应用程序配置: ["config-custom", "config-disable-modules"],
   },
 };
