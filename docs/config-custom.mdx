@@ -1,0 +1,50 @@
+---
+id: config-custom
+title: 项目组自定义配置
+---
+
+项目组可以在启动智能表单后端应用时自行指定自定义的配置文件（即 `application.yml` 文件）。
+
+## mongodb 配置密码
+
+有两种形式配置 mongodb 密码。在 `application.yml` 或者扩展的 `application.yml` 文件中，采用下面两种方式中的一种就可以：
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+<Tabs
+  defaultValue="1"
+  values={[
+    { label: "方式一", value: "1" },
+    { label: "方式二", value: "2" },
+  ]}
+>
+  <TabItem value="1">
+
+```yaml {8,10}
+spring:
+  data:
+    mongodb:
+      host: 192.168.90.142
+      port: 27017
+      database: form
+      # 用户名
+      username: admin
+      # 密码
+      password: 123456
+```
+
+  </TabItem>
+  <TabItem value={2}>
+
+```yaml {4}
+spring:
+  data:
+    mongodb:
+      uri: mongodb://admin:123456@192.168.90.142:27017/form
+```
+
+  </TabItem>
+</Tabs>
+
+**特别注意**，方式一中不能出现 `uri` 配置，否则会按照 `uri` 连接 mongodb 数据库。
