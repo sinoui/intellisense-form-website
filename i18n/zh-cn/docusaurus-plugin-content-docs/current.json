@@ -1,0 +1,30 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.someSidebar.category.样式定制": {
+    "message": "样式定制",
+    "description": "The label for category 样式定制 in sidebar someSidebar"
+  },
+  "sidebar.someSidebar.category.部署": {
+    "message": "部署",
+    "description": "The label for category 部署 in sidebar someSidebar"
+  },
+  "sidebar.someSidebar.category.扩展": {
+    "message": "扩展",
+    "description": "The label for category 扩展 in sidebar someSidebar"
+  },
+  "sidebar.someSidebar.category.序号组件": {
+    "message": "序号组件",
+    "description": "The label for category 序号组件 in sidebar someSidebar"
+  },
+  "sidebar.someSidebar.category.插件开发": {
+    "message": "插件开发",
+    "description": "The label for category 插件开发 in sidebar someSidebar"
+  },
+  "sidebar.someSidebar.category.应用程序配置": {
+    "message": "应用程序配置",
+    "description": "The label for category 应用程序配置 in sidebar someSidebar"
+  }
+}

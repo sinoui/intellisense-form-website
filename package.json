@@ -6,14 +6,22 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "cross-env USE_SSH=true docusaurus deploy"
+    "deploy": "cross-env USE_SSH=true docusaurus deploy",
+    "write-translations": "docusaurus write-translations"
   },
   "dependencies": {
     "@docusaurus/preset-classic": "^2.0.0-alpha.72",
+    "@sinoui/core": "^1.0.0-beta.74",
+    "@sinoui/message": "^2.0.1",
+    "@sinoui/theme": "^1.0.0-beta.8",
+    "@sinouiincubator/tab-group": "^2.0.2",
     "clsx": "^1.1.1",
     "cross-env": "^7.0.3",
+    "node-rsa": "^1.1.1",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "styled-components": "^5.3.0",
+    "worker-loader": "^3.0.8"
   },
   "browserslist": {
     "production": [

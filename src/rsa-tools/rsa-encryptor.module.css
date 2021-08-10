@@ -1,0 +1,29 @@
+.input {
+  width: 100%;
+}
+
+.input ~ .input {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.publicKeyInput {
+  composes: input;
+}
+
+.publicKeyInput > :global(.sinoui-base-input) {
+  font-size: 12px;
+}
+
+.columnLeft {
+  padding-right: 8px !important;
+}
+
+.columnRight {
+  padding-left: 8px !important;
+  border-left: 1px dashed rgb(197, 195, 195);
+}
+
+.label {
+  margin-left: 8px;
+}

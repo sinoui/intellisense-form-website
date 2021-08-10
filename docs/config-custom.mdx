@@ -11,6 +11,9 @@ title: 项目组自定义配置
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import CodeBlock from "@theme/CodeBlock";
+import GenRSAKeyPair from "../src/rsa-tools/GenRSAKeyPair";
+import RSAEncryptor from "../src/rsa-tools/RSAEncryptor";
 
 <Tabs
   defaultValue="1"
@@ -48,3 +51,85 @@ spring:
 </Tabs>
 
 **特别注意**，方式一中不能出现 `uri` 配置，否则会按照 `uri` 连接 mongodb 数据库。
+
+## 加密配置中的密码
+
+为了安全起见，建议生产部署时，在配置文件中采用加密的密码。智能表单采用了 [jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) 来支持加密的密码（在这里感谢天津局项目组的李利广同学提供的方案），下面的示例演示使用加密的 mongodb 密码：
+
+```yaml {10}
+spring:
+  data:
+    mongodb:
+      host: 192.168.90.142
+      port: 27017
+      database: form
+      # 用户名
+      username: admin
+      # 密码
+      password: ENC(Jx99cRIksSSFoT4c20hZ2YSsJMzr2meaJLgtrmfDIBKt9SZIrfLuI0mYBANeh/pXBDweiG91IqXRbZ9OMXswZEqDy0t+vqoENakogT1jUGjxo/VAaJvHIjzWOQZOGrmkBZTSXV3Ez2O/GbeF5WHD2OsdsZ3RrJGD9TFBSm9c//L/w5GmSgOQr0xmx+5+B6arN4n2xNHrrktcG36BtlPHNHoYttNg1fALZh2EyxPdERWU1yTXG+Udq26/IVpeICY0H5lQFDlQCqEel2KMQ5Xk+5lU0l8gX6eMTOOOZG6UHC6zspN8oJd79khQyhGOcoaB7V9vSlFZBregBL5SudysrA==)
+```
+
+在配置文件中采用 `ENC(加密密文)` 的形式包装加密后的密码文本，并代替之前的密码文本。
+
+下面的章节会介绍加密使用的密钥对、生成随机的安全的密钥对的工具以及用来加密密码的工具。
+
+### 加密使用的私钥和公钥
+
+智能表单采用 `RSA_PKCS1_PADDING` 非对称加密算法加密密码。加密算法是 `RSA`，填充方式是 `PKCS1_PADDING`，填充位数是 `256`。
+
+对于非对称算法，需要使用公钥加密、私钥解密。智能表单中内置了可用于验证的私钥和公钥，但强烈建议各项目组重新生成公私钥（`pem_pkcs8`格式，见[后面章节介绍的生成密钥对工具](#生成公私钥)）。生成公私钥之后，将私钥配置在 `application.yml` 中，如下所示：
+
+```yml
+jasypt:
+  encryptor:
+    private-key-format: PEM
+    private-key-string: |-
+      -----BEGIN PRIVATE KEY-----
+      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDOB29b269iirOU
+      BekzuCwHEJpEau3WH18jBZh9lQM72oQj5LmH2OY+F+CWdfQ7yzTmnWlZTVhsOoJH
+      iQiIDK/lEp7Ucl3cHEnWSn5j+ygGM1ipe+KCSf3ROBAT0inW34tHmREyBFvBK+8W
+      pebRoh3vjryDwvHJq+MdF8nLu66JVULDyoKHscF2wif+nehLvKLripuihFz5VC/7
+      80sUt4vSLMQ1eCnMIkQr/hjLa22s/os4Oo/d8aZuPLZ41w5XYmRYaKj8CRyvQrX4
+      my9bjA4YOf0C2vWHMyCj2WmOOIGRF/PGtg1gyIos74ApbpYCnNCZa6hIAQQ+z3Kr
+      jK5rlRj3AgMBAAECggEAKIqN/yVbfaiNbbM8EFFNWJaLxKrF4jyKG/od55hK6pw1
+      JFr9px2nMNDCANl1Fc8Gudp/wHLX03Qv7qOoah0U/56KYoOetJFcdi5ycHobhhzU
+      dYVLLRgiOekuQLg6Q235mj0khRMWewyKH4rFwLqF6X3M2qChs21/Y1oq+0wTLDKg
+      Yf9cPnmutDbi+qsiRv7IqNsw8DjkQtpSyaSBZ1L0JHa4DjR1CDgkSaCG+OJ0PUxo
+      2tOd142dIRnN3KJG6WSwDSB1+6oZEky1Ucm3ORjtDRqGlOT0Wf2N9TLdSizpz7yu
+      fOsDVOdeggz2qPCX72gHErT9bFdSyZMLFuw95W7KAQKBgQDtUvUKAHZIHgKadowe
+      FxWQmMFgvdEVG8ztDrMsrgNal8xAME/UFqXqYhF+ekGr+Swcpshy+/iPl7zp4AOC
+      hfE+lOddl8mfSPLXVxiKRp6Uen1nN6P3E60qyXFH+zS/S5i8WP0Z5atL0OrA4zNj
+      oPDThHIZRWzOYti3zFdw0dNQvwKBgQDePgUl/ZYNFKrD0DTJ2IW6glov3icfS3PG
+      V4H2yCBFudgCVZWH9WIOy7v+0KiLE7rOWFg2tKTT2JW8RUpDzgkZVy/sLuL4Elic
+      mKLc7TjyMPYANRH3fA+mE4/IszWLtStmkCd6Jwz6M8VeSKDRMMJpLTEjoPndiyxQ
+      lvaTAa8NyQKBgGGaUY6oe/zS4s013hBt+/9442bvCfM9eL0x43yHoHd8oJLxi5M1
+      MU1AweMbUrDwjDTIXv3zJNmhVR92ctsWTQ4o3TJ/v3sT3FO1zTDpNETqT3LIzlVK
+      MVi8eitZY+scoxcrHgStkRJgPHvRtQvPX9wNx4MfK02CF5EXqAqNMPQvAoGBAMbh
+      iYnt3RHnpMmG0TawZTv62uprS2deBkVAmjVV8ktzfDLak+4PUakb+SiXYbzT8yAl
+      Pwv1rGtILvdEqqjzAIGE3IXnj4WgJVw928EJKSTTW9HjrChlBTwB1XItrYVQo34t
+      Eqblu19MZRtyszeBAvlMT+UqcXAo04drEU2M/DLBAoGBAIgCMkp9INWWLbeVYHpk
+      I0G2IkBg+tiBARZ966Jnp1X4tJcdFQoJdP1n1POn+xz/AfP990TTy4KO4yRi43RU
+      umVBylS8e+EDHGCEzh+xkk70zryNi13Tm+LZeEnwSTbozcmu55/5aDB/dBbQwl/J
+      FMrbdBB4KdCPelKWpdpQrFCz
+      -----END PRIVATE KEY-----
+```
+
+:::info v1.11.0 版本之前
+
+v1.11.0 版本之前，智能表单没有内置任何密钥对，需要项目组在 `application.yml` 中必须指定按照上面的形式指定密钥对才能启用加密配置。
+
+:::
+
+### 生成公私钥
+
+通过下面的工具即可生成公私钥：
+
+<GenRSAKeyPair />
+
+请将私钥拷贝到 `application.yml` 配置文件中。
+
+### 加密密码
+
+需要使用公钥加密密码，可以使用下面的工具加密密码：
+
+<RSAEncryptor />
