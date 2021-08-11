@@ -23,6 +23,8 @@ sinoform:
   disable-application: true
   # 禁用流程表单
   disable-flow-form: true
+  # 禁用登录拦截功能
+  enable-auth-interceptor: false
 ```
 
 ## disable-mobile
@@ -58,3 +60,13 @@ sinoform:
 ![disable-flow-form](/img/config-disable-modules/disable-flow-form3.png)
 
 ![disable-flow-form](/img/config-disable-modules/disable-flow-form4.png)
+
+## enable-auth-interceptor
+
+默认禁用登录拦截功能，即访问的接口不添加登录验证。可以设置为 `true`，来启用此功能：
+
+```yaml
+sinoform:
+  # 启用登录拦截功能
+  enable-auth-interceptor: true
+```

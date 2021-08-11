@@ -5,6 +5,174 @@ title: 项目组自定义配置
 
 项目组可以在启动智能表单后端应用时自行指定自定义的配置文件（即 `application.yml` 文件）。
 
+## 项目组使用自定义配置
+
+项目组需要使用自定义配置，来指定智能表单如何运行。智能表单推荐采用外置 `application.yml` 文件的方式来自定义应用程序配置。例如将智能表单 jar 包放在 `/apps/intellisense-form/intellisense-form-1.11.0.jar` 中，那么可以在同级目录中按照下面的方式添加配置：
+
+```
+/apps/intellisense-form
+|__ intellisense-form-1.11.0.jar
+|__ config                            // 项目组添加自定义配置的文件夹
+  |__ application.yml                 // 通用配置
+  |__ application-dev.yml             // 开发环境配置
+  |__ application-test.yml            // 测试环境配置
+  |__ application-prod.yml            // 生产环境配置
+```
+
+需要在 `/apps/intellisense-form` 目录下启动项目，并通过 `-Dspring.profile.active=dev` 这样的方式指定采用哪个环境的配置文件。如下所示的命令行，是在测试环境启动智能表单项目：
+
+```bash
+# 进入到 /apps/intellisense-form 目录中
+$ cd /apps/intellisense-form
+# 在测试环境以后台的方式启动项目
+$ nohup java -Dspring.profile.active=test -jar intellisense-form-1.11.0.jar > intellisense-form.log &
+```
+
+### `config/application.yml`
+
+可以在 `config/application.yml` 文件中添加通用配置，如：
+
+- 特性启用、禁用
+- 功能启用、禁用
+- 数据库类型
+- 扩展接口配置
+- 加密秘钥配置
+- 项目使用的端口号
+
+推荐的配置如下：
+
+```yaml title="config/application.yml"
+# 自定义项目使用的端口号
+server:
+  port: 8080
+
+# 禁用功能模块
+sinoform:
+  # 禁用移动端功能（屏蔽掉移动端预览功能）
+  disable-mobile: true
+  # 禁用仪表盘功能
+  disable-dashboard: true
+  # 禁用表单应用
+  disable-application: false
+  # 禁用流程表单
+  disable-flow-form: false
+  # 禁用登录拦截功能
+  enable-auth-interceptor: false
+
+# 启用特性：审计日志
+audit:
+  log: false
+
+# 启用特性：
+
+# 设置密码加密秘钥
+jasypt:
+  encryptor:
+    private-key-format: PEM
+    private-key-string: |-
+      -----BEGIN PRIVATE KEY-----
+      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDOB29b269iirOU
+      BekzuCwHEJpEau3WH18jBZh9lQM72oQj5LmH2OY+F+CWdfQ7yzTmnWlZTVhsOoJH
+      iQiIDK/lEp7Ucl3cHEnWSn5j+ygGM1ipe+KCSf3ROBAT0inW34tHmREyBFvBK+8W
+      pebRoh3vjryDwvHJq+MdF8nLu66JVULDyoKHscF2wif+nehLvKLripuihFz5VC/7
+      80sUt4vSLMQ1eCnMIkQr/hjLa22s/os4Oo/d8aZuPLZ41w5XYmRYaKj8CRyvQrX4
+      my9bjA4YOf0C2vWHMyCj2WmOOIGRF/PGtg1gyIos74ApbpYCnNCZa6hIAQQ+z3Kr
+      jK5rlRj3AgMBAAECggEAKIqN/yVbfaiNbbM8EFFNWJaLxKrF4jyKG/od55hK6pw1
+      JFr9px2nMNDCANl1Fc8Gudp/wHLX03Qv7qOoah0U/56KYoOetJFcdi5ycHobhhzU
+      dYVLLRgiOekuQLg6Q235mj0khRMWewyKH4rFwLqF6X3M2qChs21/Y1oq+0wTLDKg
+      Yf9cPnmutDbi+qsiRv7IqNsw8DjkQtpSyaSBZ1L0JHa4DjR1CDgkSaCG+OJ0PUxo
+      2tOd142dIRnN3KJG6WSwDSB1+6oZEky1Ucm3ORjtDRqGlOT0Wf2N9TLdSizpz7yu
+      fOsDVOdeggz2qPCX72gHErT9bFdSyZMLFuw95W7KAQKBgQDtUvUKAHZIHgKadowe
+      FxWQmMFgvdEVG8ztDrMsrgNal8xAME/UFqXqYhF+ekGr+Swcpshy+/iPl7zp4AOC
+      hfE+lOddl8mfSPLXVxiKRp6Uen1nN6P3E60qyXFH+zS/S5i8WP0Z5atL0OrA4zNj
+      oPDThHIZRWzOYti3zFdw0dNQvwKBgQDePgUl/ZYNFKrD0DTJ2IW6glov3icfS3PG
+      V4H2yCBFudgCVZWH9WIOy7v+0KiLE7rOWFg2tKTT2JW8RUpDzgkZVy/sLuL4Elic
+      mKLc7TjyMPYANRH3fA+mE4/IszWLtStmkCd6Jwz6M8VeSKDRMMJpLTEjoPndiyxQ
+      lvaTAa8NyQKBgGGaUY6oe/zS4s013hBt+/9442bvCfM9eL0x43yHoHd8oJLxi5M1
+      MU1AweMbUrDwjDTIXv3zJNmhVR92ctsWTQ4o3TJ/v3sT3FO1zTDpNETqT3LIzlVK
+      MVi8eitZY+scoxcrHgStkRJgPHvRtQvPX9wNx4MfK02CF5EXqAqNMPQvAoGBAMbh
+      iYnt3RHnpMmG0TawZTv62uprS2deBkVAmjVV8ktzfDLak+4PUakb+SiXYbzT8yAl
+      Pwv1rGtILvdEqqjzAIGE3IXnj4WgJVw928EJKSTTW9HjrChlBTwB1XItrYVQo34t
+      Eqblu19MZRtyszeBAvlMT+UqcXAo04drEU2M/DLBAoGBAIgCMkp9INWWLbeVYHpk
+      I0G2IkBg+tiBARZ966Jnp1X4tJcdFQoJdP1n1POn+xz/AfP990TTy4KO4yRi43RU
+      umVBylS8e+EDHGCEzh+xkk70zryNi13Tm+LZeEnwSTbozcmu55/5aDB/dBbQwl/J
+      FMrbdBB4KdCPelKWpdpQrFCz
+      -----END PRIVATE KEY-----
+```
+
+### 其他配置文件
+
+`config` 目录下的其他配置文件是不同环境的自定义配置文件。在这些配置文件中指定与环境相关的配置，如：
+
+- 数据库
+- 数据库连接池
+- MongoDB 连接
+- 扩展接口的地址
+
+推荐一份配置：
+
+```yaml title="application-test.yml"
+spring:
+  data:
+    mongodb:
+      uri: mongodb://192.168.80.142/form
+  datasource:
+    url: jdbc:mysql://192.168.80.114:3306/form?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: form
+    password: form
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    #连接池的设置
+    #初始化时建立物理连接的个数
+    druid:
+      initial-size: 5
+      #最小连接池数量
+      #spring.datasource.druid
+      min-idle: 5
+      #最大连接池数量 maxIdle已经不再使用
+      max-active: 20
+      #获取连接时最大等待时间，单位毫秒
+      max-wait: 60000
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      #既作为检测的间隔时间又作为testWhileIdel执行的依据
+      time-between-eviction-runs-millis: 60000
+      #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      min-evictable-idle-time-millis: 30000
+      #用来检测连接是否有效的sql 必须是一个查询语句
+      #mysql中为 select 'x'
+      #oracle中为 select 1 from dual
+      validation-query: select 1 from dual
+      #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-borrow: false
+      #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false
+      #当数据库抛出不可恢复的异常时,抛弃该连接
+      #exception-sorter: true
+      #是否缓存preparedStatement,mysql5.5+建议开启
+      #spring.datasource.druid.pool-prepared-statements=true
+      #当值大于0时poolPreparedStatements会自动修改为true
+      max-pool-prepared-statement-per-connection-size: 20
+      #配置扩展插件
+      #filters: stat,wall
+      #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+      #合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+
+sso:
+  ssoService: http://121.30.232.162:18880/sso
+  cookieName: SSOID
+
+#依赖的系统服务
+url:
+  workflowDesignUrl: http://192.168.80.142:8080/workflowDesign #工作流设计器路径
+  workflowUrl: http://192.168.80.142:18003/workflow #工作流引擎路径
+  uiasUrl: http://192.168.80.142:18001/uias #统一授权管理系统路径
+  resourceUrl: http://192.168.80.142:18001/uias #资源路径
+  syncWorkflowItemsUrl: http://192.168.80.142:18001/uias #同步工作流待办已办接口
+```
+
 ## 数据库配置
 
 智能表单需要添加使用关系型数据库存储填报的表单数据。需要在 `application.yml` 中添加数据库配置。
