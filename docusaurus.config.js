@@ -8,11 +8,10 @@ module.exports = {
   projectName: "intellisense-form-website", // Usually your repo name.
   githubHost: "gitee.com",
   themeConfig: {},
-  plugins: ["./src/plugins/web-worker-plugin.js"],
-  i18n: {
-    defaultLocale: "zh-cn",
-    locales: ["zh-cn"],
-  },
+  plugins: [
+    "./src/plugins/node-polyfills-plugin.js",
+    "./src/plugins/web-worker-plugin.js",
+  ],
   presets: [
     [
       "@docusaurus/preset-classic",

@@ -1,3 +1,4 @@
+import "./setupGlobalBuffer";
 import NodeRSA from "node-rsa";
 import genKeyPair from "./gen-key-pair";
 
@@ -15,7 +16,7 @@ onmessage = (event) => {
   const type = data?.type;
   const id = data?.id;
   const handler = Handlers[type];
-  console.log(handler);
+
   if (handler) {
     try {
       const response = handler(data.request);
