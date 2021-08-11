@@ -86,9 +86,6 @@ const RSAEncryptor = () => {
               加密
             </Button>
           </p>
-          <blockquote>
-            <p>* 表示必填</p>
-          </blockquote>
         </Column>
         <Column className={styles.columnRight} lg={14} md={24}>
           <p>
@@ -106,6 +103,11 @@ const RSAEncryptor = () => {
             required
           ></TextInput>
           <p></p>
+
+          <blockquote>
+            <p>* 表示必填</p>
+          </blockquote>
+
           <blockquote>
             <ul>
               <li>默认的公钥是指智能表单项目中内置的公钥。</li>
