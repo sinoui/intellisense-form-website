@@ -5,6 +5,107 @@ title: 项目组自定义配置
 
 项目组可以在启动智能表单后端应用时自行指定自定义的配置文件（即 `application.yml` 文件）。
 
+## 数据库配置
+
+智能表单需要添加使用关系型数据库存储填报的表单数据。需要在 `application.yml` 中添加数据库配置。
+
+已经内置以下数据库：
+
+- MySQL (8.0)
+- Oracle
+- 达梦
+- 人大金仓
+
+有需要支持其他数据库的，请联系智能表单小组成员。
+
+示例配置如下：
+
+<Tabs defaultValue="mysql"
+  values={[
+    { label: "MySQL", value: "mysql" },
+    { label: "Oracle", value: "oracle" },
+    { label: "达梦", value: "DM"},
+    { label: "人大金仓", value: "kingbase"}
+  ]}>
+<TabItem value="mysql">
+
+```yaml title="application.yml"
+## 指定数据库类型
+database:
+  type: mysql
+
+## 指定数据库连接信息
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.80.114:3306/form?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: form
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+```
+
+</TabItem>
+<TabItem value="oracle">
+
+```yaml title="application.yml"
+## 指定数据库类型
+database:
+  type: oracle
+
+## 指定数据库连接信息
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@192.168.80.142/sinoepuias
+    username: demo
+    password: demo
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+```
+
+</TabItem>
+<TabItem value="DM">
+
+```yaml title="application.yml"
+## 指定数据库类型（达梦数据库的SQL语法基本兼容 Oracle，所以在这里配制成 Oracle 即可）
+database:
+  type: oracle
+
+## 指定数据库连接信息
+spring:
+  datasource:
+    username: FORM
+    password: 1234567890
+    url: jdbc:dm://127.0.0.1:5236
+    driver-class-name: dm.jdbc.driver.DmDriver
+```
+
+</TabItem>
+<TabItem value="kingbase">
+
+```yaml title="application.yml"
+## 指定数据库类型（人大金仓数据库的SQL语法基本兼容 Oracle，所以在这里配制成 Oracle 即可）
+database:
+  type: oracle
+
+## 指定数据库连接信息
+spring:
+  datasource:
+    username: FORM
+    password: 1234567890
+    url: jdbc:kingbase://127.0.0.1:54323/form
+    driver-class-name: com.kingbase.Driver
+```
+
+</TabItem>
+</Tabs>
+
+目前智能表单内置的数据库 JDBC 驱动如下：
+
+| 数据库   | 数据库 JDBC 驱动版本  |
+| -------- | --------------------- |
+| MySQL    | 8.0.17                |
+| Oracle   | 11.2.0.1.0            |
+| 达梦     | 7.6.0.77 - Production |
+| 人大金仓 | 8.2.0                 |
+
 ## mongodb 配置密码
 
 有两种形式配置 mongodb 密码。在 `application.yml` 或者扩展的 `application.yml` 文件中，采用下面两种方式中的一种就可以：
