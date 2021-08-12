@@ -121,56 +121,23 @@ spring:
     username: form
     password: form
     driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.alibaba.druid.pool.DruidDataSource
-    #连接池的设置
-    #初始化时建立物理连接的个数
     druid:
-      initial-size: 5
-      #最小连接池数量
-      #spring.datasource.druid
-      min-idle: 5
-      #最大连接池数量 maxIdle已经不再使用
-      max-active: 20
-      #获取连接时最大等待时间，单位毫秒
-      max-wait: 60000
-      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
-      test-while-idle: true
-      #既作为检测的间隔时间又作为testWhileIdel执行的依据
-      time-between-eviction-runs-millis: 60000
-      #销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
-      min-evictable-idle-time-millis: 30000
-      #用来检测连接是否有效的sql 必须是一个查询语句
-      #mysql中为 select 'x'
-      #oracle中为 select 1 from dual
-      validation-query: select 1 from dual
-      #申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
-      test-on-borrow: false
-      #归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
-      test-on-return: false
-      #当数据库抛出不可恢复的异常时,抛弃该连接
-      #exception-sorter: true
-      #是否缓存preparedStatement,mysql5.5+建议开启
-      #spring.datasource.druid.pool-prepared-statements=true
-      #当值大于0时poolPreparedStatements会自动修改为true
-      max-pool-prepared-statement-per-connection-size: 20
-      #配置扩展插件
-      #filters: stat,wall
-      #通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-      #合并多个DruidDataSource的监控数据
-      use-global-data-source-stat: true
+      # 指定测试数据库连接的连通性 SQL 语句
+      # MySQL：select 1
+      # Oracle：select 1 from dual
+      validation-query: select 1
 
+# 指定单点登录服务链接
 sso:
   ssoService: http://121.30.232.162:18880/sso
-  cookieName: SSOID
 
-#依赖的系统服务
-url:
-  workflowDesignUrl: http://192.168.80.142:8080/workflowDesign #工作流设计器路径
-  workflowUrl: http://192.168.80.142:18003/workflow #工作流引擎路径
-  uiasUrl: http://192.168.80.142:18001/uias #统一授权管理系统路径
-  resourceUrl: http://192.168.80.142:18001/uias #资源路径
-  syncWorkflowItemsUrl: http://192.168.80.142:18001/uias #同步工作流待办已办接口
+sinoform:
+  # 指定工作流设计器服务链接
+  workflow-design-server-uri: 192.168.80.142:8080
+  # 指定工作流引擎链接
+  workflow-server-uri: 192.168.80.142:18003
+  # 指定统一授权服务链接
+  uias-server-uri: 192.168.80.142:18001
 ```
 
 ## 数据库配置
@@ -209,6 +176,8 @@ spring:
     username: form
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      validation-query: select 1
 ```
 
 </TabItem>
@@ -226,6 +195,8 @@ spring:
     username: demo
     password: demo
     driver-class-name: oracle.jdbc.driver.OracleDriver
+    druid:
+      validation-query: select 1 from dual
 ```
 
 </TabItem>
@@ -243,6 +214,8 @@ spring:
     password: 1234567890
     url: jdbc:dm://127.0.0.1:5236
     driver-class-name: dm.jdbc.driver.DmDriver
+    druid:
+      validation-query: select 1 from dual
 ```
 
 </TabItem>
@@ -260,6 +233,8 @@ spring:
     password: 1234567890
     url: jdbc:kingbase://127.0.0.1:54323/form
     driver-class-name: com.kingbase.Driver
+    druid:
+      validation-query: select 1 from dual
 ```
 
 </TabItem>
