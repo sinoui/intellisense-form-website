@@ -60,7 +60,7 @@ const RSAEncryptor = () => {
   return (
     <>
       <Row>
-        <Column className={styles.columnLeft} lg={10} md={24}>
+        <Column className={styles.columnLeft} lg={10} xs={24}>
           <TextInput
             className={styles.input}
             variant="outlined"
@@ -87,7 +87,7 @@ const RSAEncryptor = () => {
             </Button>
           </p>
         </Column>
-        <Column className={styles.columnRight} lg={14} md={24}>
+        <Column className={styles.columnRight} lg={14} xs={24}>
           <p>
             <Button onClick={setDefaultPublicKey}>使用默认的公钥</Button>
             <Button onClick={setPublicKeyFromTools}>使用生成的RSA公钥</Button>
