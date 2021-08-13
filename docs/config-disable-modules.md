@@ -81,16 +81,16 @@ sinoform:
 
 ## disable-resource-sync
 
-TODO
+有一些项目组不需要将表单页面放入到业务系统的导航中去，则可以通过 `disable-resource-sync` 来禁用资源同步。
 
 ## disable-role
 
-TODO
+有一些业务系统没有业务角色概念，或者不想将表单与业务角色绑定，则可以通过 `disable-role` 来禁用业务角色授权功能。
 
 ## disable-application-role
 
-TODO
+有一些业务系统不需要应用角色，那么可以通过 `disable-application-role` 来禁用应用角色功能。
 
 ## disable-dept
 
-TODO
+有一些业务系统不需要将表单与部门绑定，则可以通过 `disable-dept` 来禁用部门授权功能。
