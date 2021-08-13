@@ -13,7 +13,7 @@ title: 禁用功能模块
 
 在您启动智能表单后端程序前，在您的配置文件中添加以下配置，即可禁用部分功能模块：
 
-```yaml
+```yaml title="application.yml"
 sinoform:
   # 禁用移动端功能（屏蔽掉移动端预览功能）
   disable-mobile: true
@@ -25,6 +25,14 @@ sinoform:
   disable-flow-form: true
   # 禁用登录拦截功能
   enable-auth-interceptor: false
+  # 禁用资源同步（即不启用资源接口，表单发布不同步到系统管理中）
+  disable-resource-sync: true
+  # 禁用业务角色选择（在选择权限范围时，不显示业务角色选项）
+  disable-role: true
+  # 禁用应用级别业务角色功能
+  disable-application-role: true
+  # 禁用部门范围选择（在选择权限范围时，不显示组织机构选项）
+  disable-dept: true
 ```
 
 ## disable-mobile
@@ -70,3 +78,19 @@ sinoform:
   # 启用登录拦截功能
   enable-auth-interceptor: true
 ```
+
+## disable-resource-sync
+
+TODO
+
+## disable-role
+
+TODO
+
+## disable-application-role
+
+TODO
+
+## disable-dept
+
+TODO
