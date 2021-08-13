@@ -59,7 +59,7 @@ sinoform:
   # 禁用登录拦截功能
   enable-auth-interceptor: false
 
-# 启用特性：审计日志
+# 关闭审计日志
 audit:
   log: false
 
@@ -111,7 +111,7 @@ jasypt:
 
 推荐一份配置：
 
-```yaml title="application-test.yml"
+```yaml title="config/application-test.yml"
 spring:
   data:
     mongodb:
@@ -164,7 +164,7 @@ sinoform:
   ]}>
 <TabItem value="mysql">
 
-```yaml title="application.yml"
+```yaml title="config/application.yml"
 ## 指定数据库类型
 database:
   type: mysql
@@ -183,7 +183,7 @@ spring:
 </TabItem>
 <TabItem value="oracle">
 
-```yaml title="application.yml"
+```yaml title="config/application.yml"
 ## 指定数据库类型
 database:
   type: oracle
@@ -202,7 +202,7 @@ spring:
 </TabItem>
 <TabItem value="DM">
 
-```yaml title="application.yml"
+```yaml title="config/application.yml"
 ## 指定数据库类型（达梦数据库的SQL语法基本兼容 Oracle，所以在这里配制成 Oracle 即可）
 database:
   type: oracle
@@ -221,7 +221,7 @@ spring:
 </TabItem>
 <TabItem value="kingbase">
 
-```yaml title="application.yml"
+```yaml title="config/application.yml"
 ## 指定数据库类型（人大金仓数据库的SQL语法基本兼容 Oracle，所以在这里配制成 Oracle 即可）
 database:
   type: oracle

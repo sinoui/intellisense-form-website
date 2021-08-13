@@ -7,7 +7,11 @@ module.exports = {
   organizationName: "sinoui", // Usually your GitHub org/user name.
   projectName: "intellisense-form-website", // Usually your repo name.
   githubHost: "gitee.com",
-  themeConfig: {},
+  themeConfig: {
+    prism: {
+      additionalLanguages: ["java", "http"],
+    },
+  },
   plugins: [
     "./src/plugins/node-polyfills-plugin.js",
     "./src/plugins/web-worker-plugin.js",
