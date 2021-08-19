@@ -132,8 +132,8 @@ bin/mongod -f mongodb.conf
 
       ```nginx
       ## 配置主题入口文件不做缓存
-      location ~ .\*/remote-entry.js\$ {
-      add_header Cache-Control no-store;
+      location ~ .\*/remote-entry.js$ {
+        add_header Cache-Control no-store;
       }
 
       location /intellisense-form/ {
@@ -146,29 +146,29 @@ bin/mongod -f mongodb.conf
     - 智能表单 - 移动端服务
 
       ```nginx
-            location /intellisense-form-mobile/ {
-              index index.html index.htm;
-              try_files $uri $uri/ /intellisense-form-mobile/index.html;
-              add_header Cache-Control no-store;
-            }
+      location /intellisense-form-mobile/ {
+        index index.html index.htm;
+        try_files $uri $uri/ /intellisense-form-mobile/index.html;
+        add_header Cache-Control no-store;
+      }
       ```
 
     - 智能表单 - 管理端服务
 
       ```nginx
-        location /intellisense-form-manager/ {
-          index index.html index.htm;
-          try_files $uri $uri/ /intellisense-form-manager/index.html;
-          add_header Cache-Control no-store;
-        }
+      location /intellisense-form-manager/ {
+        index index.html index.htm;
+        try_files $uri $uri/ /intellisense-form-manager/index.html;
+        add_header Cache-Control no-store;
+      }
       ```
 
     - 智能表单 - 静态资源缓存配置
 
       ```nginx
-        location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf)$ {
-          expires 365d;
-        }
+      location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf)$ {
+        expires 365d;
+      }
       ```
 
 ## 管理端前端部署
