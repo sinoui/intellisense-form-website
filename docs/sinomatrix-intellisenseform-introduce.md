@@ -5,19 +5,23 @@ title: 智能表单的介绍
 
 ## 介绍
 
-​		智能表单是一个集表单设计，工作流设计，资源发布于一身的平台。表单设计是独有模块，工作流设计部分参考现在的工作流设计器，进行增强，整合。资源发布简化了权限配置，菜单配置，达到将多平台操作集中为操作一个平台的便捷式操作。
+​ 智能表单是一个集表单设计，工作流设计，资源发布于一身的平台。表单设计是独有模块，工作流设计部分参考现在的工作流设计器，进行增强，整合。资源发布简化了权限配置，菜单配置，达到将多平台操作集中为操作一个平台的便捷式操作。
 
-## 依赖平台
+## 依赖 sino-matrix 平台
 
-​		智能表单依赖平台组的其他三个平台。第一个是统一授权服务平台，第二个是工作流设计器平台，第三个是工作流引擎平台。下表为对应的版本号
+​ 智能表单依赖 [sino-matrix 平台](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/home)。下表为对应的版本号：
 
-| 智能表单             | 统一授权系统 |
-| -------------------- | ------------ |
-| 1.8版本之前，不含1.8 | 最低1.6.0    |
-| 1.8版本本身及以后    | 最低1.6.14   |
+| 智能表单     | sino-matrix 平台版本要求 |
+| ------------ | ------------------------ |
+| 1.8 版本之前 | 1.6.0+                   |
+| 1.8+         | 1.6.14+                  |
+| 1.11.0+      | 1.6.30+                  |
 
-## 版本变化
+依赖的 sino-matrix 平台的服务有：
 
-参考链接
-
-https://github.com/sinoui/sino-intellisense-form-java/releases
+- [统一授权](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/uias-mnet)
+- [统一授权接口服务](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/uias)
+- [单点登录](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/sso)
+- [工作流设计器](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/workflow-design)
+- [工作流引擎](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/workflow)
+- [工作流平台适配服务](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/workflow-uias)
