@@ -1,5 +1,5 @@
 module.exports = {
-  title: "intellisense-form",
+  title: "智能表单",
   tagline: "The tagline of my site",
   url: "http://sinoui.gitee.io",
   baseUrl: "/intellisense-form-website/",
@@ -10,6 +10,11 @@ module.exports = {
   themeConfig: {
     prism: {
       additionalLanguages: ["java", "http"],
+    },
+    navbar: {
+      title: "智能表单",
+      logo: { alt: "智能表单", src: "img/home/logo.png" },
+      items: [{ to: "/docs", label: "文档", position: "left" }],
     },
   },
   plugins: [
