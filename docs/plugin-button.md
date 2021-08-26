@@ -16,122 +16,9 @@ xxx-plugins
             |__xxxButton.tsx
 ```
 
-## 流程按钮配置
-
-| 配置项  | 类型            | 含义                                         | 是否必须配置 |
-| ------- | --------------- | -------------------------------------------- | ------------ |
-| id      | string          | 流程按钮标识，必须唯一                       | 是           |
-| name    | string          | 流程按钮名称                                 | 是           |
-| render  | React.ReactType | 流程按钮组件                                 | 是           |
-| enabled | boolean         | 流程节点属性设置的节点操作中按钮默认是否启用 | 是           |
-| hidden  | boolean         | 流程节点属性设置的节点操作中是否显示该按钮   | 是           |
-| icon    | React.ReactNode | 流程按钮组件的图标                           | 是           |
-
-## 注册流程按钮
-
-### react 方式
-
-```tsx
-import appsetting from "@sinoform/app-setting";
-const { flowConfig } = appsetting;
-
-flowConfig.addButton({
-  id: "xxx",
-  name: "xxx",
-  render: React.lazy(() => import("./xxx/xxx")),
-  enabled: false | true,
-  hidden: false | true,
-  icon: "xxxx",
-});
-```
-
-### vue 方式
-
-```tsx
-import appsetting from "@sinoform/app-setting";
-const { flowConfig } = appsetting;
-
-flowConfig.addButton({
-  id: "xxx",
-  name: "xxx",
-  render: React.lazy(() => import("./xxx/vue-field-input")),
-  enabled: false | true,
-  hidden: false | true,
-  icon: "xxxx",
-});
-```
-
-`import("./xxx/vue-field-input")`导入的是将 Vue 组件转换为 React 后的组件。
-
-`/xxx/vue-field-input`目录下`index.ts`代码：
-
-```tsx
-import { vueComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
-import HelloBtn from "./HelloBtn.vue";
-
-const HelloBtnReact = vueComponentWrapper(HelloBtn);
-
-export default HelloBtnReact;
-```
-
-### jQuery 方式
-
-```tsx
-import appsetting from "@sinoform/app-setting";
-const { flowConfig } = appsetting;
-
-flowConfig.addButton({
-  id: "xxx",
-  name: "xxx",
-  render: React.lazy(() => import("./xxx/js-flow-button-hello")),
-  enabled: false | true,
-  hidden: false | true,
-  icon: "xxxx",
-});
-```
-
-`import("./xxx/js-flow-button-hello")`导入的是将 Web component 组件转换为 React 后的组件。
-
-`/xxx/js-flow-button-hello目录下`index.ts`代码：
-
-```tsx
-import HelloBtn from "./HelloBtn";
-import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
-
-customElements.define("flow-button-hello", HelloBtn);
-const HelloBtnReact = webComponentWrapper("flow-button-hello");
-
-export default HelloBtnReact;
-```
-
 ## 流程按钮开发
 
-### react 方式
-
-流程按钮组件接收以下属性：
-
-| 属性名称            | 类型                       | 含义                                                                                                                 | 必传属性 |
-| ------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------- |
-| setting             | ButtonConfig               | 流程按钮的配置对象                                                                                                   | 是       |
-| loadingBtnId        | string                     | 流程按钮配置中的唯一标识                                                                                             | 是       |
-| setButtonLoading    | (btnId: string) => void    | 设置流程按钮为加载中的回调函数                                                                                       | 是       |
-| cancelButtonLoading | (btnId: string) => void    | 取消流程按钮为加载中的回调函数                                                                                       | 是       |
-| variant             | 'pc' \| 'mobile' \| 'more' | 流程按钮在应用中的显示模式。`pc`、`mobile`、`more`分别表示在 pc 端、移动端、移动端更多按钮中的显示模式，默认为`pc`。 | 否       |
-| onBeginClick        | () => void                 | 点击流程按钮前的回调函数                                                                                             | 否       |
-
-使用`@sinoform/comp-operation-button`库的`CompOperationButton`组件完成流程按钮的开发。
-
-`CompOperationButton`组件接收以下属性：
-
-| 属性名称           | 类型                       | 含义                                                                                                                 | 必传属性 |
-| ------------------ | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------- |
-| setting            | ButtonConfig               | 流程按钮的配置对象                                                                                                   | 是       |
-| loadingBtnId       | string                     | 流程按钮配置中的唯一标识                                                                                             | 是       |
-| onClick            | () => void                 | 点击流程按钮的确认执行流程操作的回调函数                                                                             | 是       |
-| confirm            | boolean                    | 流程按钮操作是否需要执行二次确认,默认为否                                                                            | 否       |
-| confirmMsg         | string                     | 二次确认的提示语                                                                                                     | 否       |
-| variant            | 'pc' \| 'mobile' \| 'more' | 流程按钮在应用中的显示模式。`pc`、`mobile`、`more`分别表示在 pc 端、移动端、移动端更多按钮中的显示模式，默认为`pc`。 | 是       |
-| beforeConfirmClick | () => void                 | 二次确认操作之前触发的回调函数                                                                                       | 否       |
+### react 方式开发
 
 办结按钮示例：
 
@@ -243,9 +130,34 @@ const EndButton: React.FunctionComponent<Props> = ({
 export default EndButton;
 ```
 
-### vue 方式
+上述代码使用`@sinoform/comp-operation-button`库的`CompOperationButton`组件完成流程按钮的开发。
 
-vue 方式的自定义流程按钮组件除接收 react 方式支持的属性外，还接受以下属性：
+`CompOperationButton`组件接收以下属性：
+
+| 属性名称           | 类型                       | 含义                                                                                                                 | 必传属性 |
+| ------------------ | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------- |
+| setting            | ButtonConfig               | 流程按钮的配置对象                                                                                                   | 是       |
+| loadingBtnId       | string                     | 流程按钮配置中的唯一标识                                                                                             | 是       |
+| onClick            | () => void                 | 点击流程按钮的确认执行流程操作的回调函数                                                                             | 是       |
+| confirm            | boolean                    | 流程按钮操作是否需要执行二次确认,默认为否                                                                            | 否       |
+| confirmMsg         | string                     | 二次确认的提示语                                                                                                     | 否       |
+| variant            | 'pc' \| 'mobile' \| 'more' | 流程按钮在应用中的显示模式。`pc`、`mobile`、`more`分别表示在 pc 端、移动端、移动端更多按钮中的显示模式，默认为`pc`。 | 是       |
+| beforeConfirmClick | () => void                 | 二次确认操作之前触发的回调函数                                                                                       | 否       |
+
+流程按钮组件自身接收以下属性：
+
+| 属性名称            | 类型                       | 含义                                                                                                                 | 必传属性 |
+| ------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------- |
+| setting             | ButtonConfig               | 流程按钮的配置对象                                                                                                   | 是       |
+| loadingBtnId        | string                     | 流程按钮配置中的唯一标识                                                                                             | 是       |
+| setButtonLoading    | (btnId: string) => void    | 设置流程按钮为加载中的回调函数                                                                                       | 是       |
+| cancelButtonLoading | (btnId: string) => void    | 取消流程按钮为加载中的回调函数                                                                                       | 是       |
+| variant             | 'pc' \| 'mobile' \| 'more' | 流程按钮在应用中的显示模式。`pc`、`mobile`、`more`分别表示在 pc 端、移动端、移动端更多按钮中的显示模式，默认为`pc`。 | 否       |
+| onBeginClick        | () => void                 | 点击流程按钮前的回调函数                                                                                             | 否       |
+
+### vue 方式开发
+
+vue 方式的自定义流程按钮组件除接收 react 方式支持的属性外，还接收以下属性：
 
 | 属性名称   | 含义               |
 | ---------- | ------------------ |
@@ -271,9 +183,9 @@ export default {
 </script>
 ```
 
-### jQuery 方式
+### jQuery 方式开发
 
-jQuery 方式的自定义流程按钮组件除传入 react 方式支持的属性外，还接受以下属性：
+jQuery 方式的自定义流程按钮组件除传入 react 方式支持的属性外，还接收以下属性：
 
 | 属性名称   | 含义               |
 | ---------- | ------------------ |
@@ -359,6 +271,94 @@ export default class HelloBtn extends HTMLElement {
     return `<button id="btn" >${this.setting.name}</button>`;
   }
 }
-
-
 ```
+
+## 注册流程按钮
+
+### react 方式
+
+```tsx
+import appsetting from "@sinoform/app-setting";
+const { flowConfig } = appsetting;
+
+flowConfig.addButton({
+  id: "xxx",
+  name: "xxx",
+  render: React.lazy(() => import("./xxx/xxx")),
+  enabled: false | true,
+  hidden: false | true,
+  icon: "xxxx",
+});
+```
+
+### vue 方式
+
+```tsx
+import appsetting from "@sinoform/app-setting";
+const { flowConfig } = appsetting;
+
+flowConfig.addButton({
+  id: "xxx",
+  name: "xxx",
+  render: React.lazy(() => import("./xxx/vue-field-input")),
+  enabled: false | true,
+  hidden: false | true,
+  icon: "xxxx",
+});
+```
+
+`import("./xxx/vue-field-input")`导入的是将 Vue 组件转换为 React 后的组件。
+
+`/xxx/vue-field-input`目录下`index.ts`代码：
+
+```tsx
+import { vueComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import HelloBtn from "./HelloBtn.vue";
+
+const HelloBtnReact = vueComponentWrapper(HelloBtn);
+
+export default HelloBtnReact;
+```
+
+### jQuery 方式
+
+```tsx
+import appsetting from "@sinoform/app-setting";
+const { flowConfig } = appsetting;
+
+flowConfig.addButton({
+  id: "xxx",
+  name: "xxx",
+  render: React.lazy(() => import("./xxx/js-flow-button-hello")),
+  enabled: false | true,
+  hidden: false | true,
+  icon: "xxxx",
+});
+```
+
+`import("./xxx/js-flow-button-hello")`导入的是将 Web component 组件转换为 React 后的组件。
+
+`/xxx/js-flow-button-hello目录下`index.ts`代码：
+
+```tsx
+import HelloBtn from "./HelloBtn";
+import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+
+customElements.define("flow-button-hello", HelloBtn);
+const HelloBtnReact = webComponentWrapper("flow-button-hello");
+
+export default HelloBtnReact;
+```
+
+## 流程按钮配置
+
+通过以上注册方式不难看出，流程按钮在注册时需要配置以下属性：
+
+| 配置项  | 类型            | 含义                                         | 是否必须配置 |
+| ------- | --------------- | -------------------------------------------- | ------------ |
+| id      | string          | 流程按钮标识，必须唯一                       | 是           |
+| name    | string          | 流程按钮名称                                 | 是           |
+| render  | React.ReactType | 流程按钮组件                                 | 是           |
+| enabled | boolean         | 流程节点属性设置的节点操作中按钮默认是否启用 | 是           |
+| hidden  | boolean         | 流程节点属性设置的节点操作中是否显示该按钮   | 是           |
+| icon    | React.ReactNode | 流程按钮组件的图标                           | 是           |
