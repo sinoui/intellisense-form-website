@@ -7,27 +7,37 @@
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "cross-env USE_SSH=true docusaurus deploy",
-    "write-translations": "docusaurus write-translations"
+    "write-translations": "docusaurus write-translations",
+    "test": "jest"
   },
   "dependencies": {
     "@docusaurus/preset-classic": "^2.0.0-beta.4",
-    "@sinoui/core": "^1.0.0-beta.74",
-    "@sinoui/message": "^2.0.1",
-    "@sinoui/theme": "^1.0.0-beta.8",
-    "@sinouiincubator/tab-group": "^2.0.2",
+    "@sinoui/core": "^1.0.5",
+    "@sinoui/message": "^2.0.2",
+    "@sinoui/rx-core-form": "^1.0.1",
+    "@sinoui/rx-form-state": "^1.0.0",
+    "@sinoui/theme": "^1.0.0",
+    "@sinouiincubator/tab-group": "^2.0.3",
+    "ali-oss": "^6.16.0",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "clsx": "^1.1.1",
     "constants-browserify": "^1.0.0",
     "cross-env": "^7.0.3",
     "crypto-browserify": "^3.12.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.7.1",
     "node-rsa": "^1.1.1",
+    "prettier": "^2.3.2",
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "semver": "^7.3.5",
     "stream-browserify": "^3.0.0",
     "styled-components": "^5.3.0",
-    "worker-loader": "^3.0.8"
+    "worker-loader": "^3.0.8",
+    "yaml": "^1.10.2",
+    "yaml-unist-parser": "^1.3.1"
   },
   "browserslist": {
     "production": [
@@ -40,5 +50,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@types/ali-oss": "^6.0.10",
+    "@types/jest": "^27.0.1",
+    "@types/semver": "^7.3.8",
+    "babel-jest": "^27.1.0",
+    "jest": "^27.1.0"
   }
 }

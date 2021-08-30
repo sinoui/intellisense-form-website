@@ -1,5 +1,5 @@
 module.exports = {
-  title: "intellisense-form",
+  title: "智能表单",
   tagline: "The tagline of my site",
   url: "http://sinoui.gitee.io",
   baseUrl: "/intellisense-form-website/",
@@ -9,7 +9,12 @@ module.exports = {
   githubHost: "gitee.com",
   themeConfig: {
     prism: {
-      additionalLanguages: ["java", "http"],
+      additionalLanguages: ["java", "http", "nginx"],
+    },
+    navbar: {
+      title: "智能表单",
+      logo: { alt: "智能表单", src: "img/home/logo.png" },
+      items: [{ to: "/docs", label: "文档", position: "left" }],
     },
   },
   plugins: [
@@ -22,7 +27,7 @@ module.exports = {
       {
         docs: {
           // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: "custom-css-editor",
+          homePageId: "sinomatrix-intellisenseform-introduce",
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
           editUrl:

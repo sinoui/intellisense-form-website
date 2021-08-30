@@ -66,3 +66,23 @@ export const FEAT_DATA = [
     content: "智能表单包含大量应用模板，您可以快速开始一个相似应用的搭建。",
   },
 ];
+
+/**
+ * 访问智能表单发布包OSS的密钥id
+ */
+export const OSS_ACCESS_KEY_ID = "LTAI5t9P53pvZFxKehSQ6WKA";
+
+/**
+ * 访问智能表单发布包OSS的密钥密码
+ */
+export const OSS_ACCESS_KEY_SECRET = "PvPMsVvMU6qgr6LYh4SqKP0cqn2MUy";
+
+/**
+ * 智能表单发布包所在的 oss 区域
+ */
+export const OSS_REGION = "oss-cn-beijing";
+
+/**
+ * 智能表单发布包的桶名称
+ */
+export const OSS_BUCKET = "sino-intellisense-form";

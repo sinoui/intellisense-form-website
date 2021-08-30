@@ -8,17 +8,19 @@ sidebar_label: 开篇
 
 - 新增表单项控件
 - 新增流程按钮，如盖章
-- 新增详情页业务逻辑
+- 新增详情页业务逻辑（监听表单值变化、按钮前置回调、自定义权限判定等）
 - 自定义样式
 
 ## 创建插件项目
 
-可以通过命令行快速创建插件项目，具体如下：
+插件项目支持多种框架开发，如`react`、`vue`、`jquery`等，我们可以通过不同的命令行创建不同的框架项目，具体如下：
 
 ```json
-npx sinoform-plugin-cli create xxx-plugins  //默认创建react项目
+npx sinoform-plugin-cli create xxx-plugins  //默认创建react项目，其中xxx-plugins为项目名称
 或
-npx sinoform-plugin-cli create xxx-plugins -t vue //创建vue项目
+npx sinoform-plugin-cli create xxx-plugins -t vue //创建vue项目，其中xxx-plugins为项目名称
+或
+npx sinoform-plugin-cli create xxx-plugins -t webcomponent //创建jquery项目，其中xxx-plugins为项目名称
 ```
 
 执行成功后会生成如下项目结构：
