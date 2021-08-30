@@ -2490,10 +2490,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@sinoui/core@^1.0.1", "@sinoui/core@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@sinoui/core/-/core-1.0.5.tgz#f14e8b3e062961aa5b278746624fc571bfcd3423"
-  integrity sha512-t8DcsrTgRqaWgwaBA/OrQTCeQlYAx6Y2g0F06AxCsoaEYp4lPQ8u9beWirGOBsJhHkSRvgX0WAyQF4mb+MIWQw==
+"@sinoui/core@1.0.10", "@sinoui/core@^1.0.1", "@sinoui/core@^1.0.5":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@sinoui/core/-/core-1.0.10.tgz#801b278bec46a2b7241b62596138212af20a5688"
+  integrity sha512-fqKrd8okj2LEbW8Ygk2dGWtt2VOKfP7Ooi9lyogcgw9Q8f4IR5c2hTsXViC3pW6rLkxyHGXuFZFEsu57dsURfQ==
   dependencies:
     "@babel/polyfill" "^7.8.7"
     "@babel/runtime" "^7.9.2"

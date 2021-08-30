@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import getLatestVersion from "./getLatestVersion";
 import memoize from "lodash/memoize";
 
-const memoGetLatestVersion = memoize(getLatestVersion);
+let fn;
+
+const loadGetLatestVersion = async () => {
+  if (!fn) {
+    const { default: getLatestVersionFn } = await import("./getLatestVersion");
+    fn = memoize(getLatestVersionFn);
+  }
+  return fn;
+};
 
 /**
  * 使用最新版本的发布包
@@ -15,7 +22,8 @@ function useLatestPackage(type) {
   useEffect(() => {
     let cancel = false;
     const init = async () => {
-      const result = await memoGetLatestVersion();
+      const getLatestVersion = await loadGetLatestVersion();
+      const result = await getLatestVersion();
       if (cancel) {
         return;
       }

@@ -8,23 +8,23 @@ import useLatestPackage from "./useLastestPackage";
 const DownloadBundleShell = ({ type }) => {
   const result = useLatestPackage(type);
 
-  const shell = (
+  const shell =
     type === "frontend"
       ? `
         # 下载智能表单前端发布包
         wget ${result?.url ?? ""}
         # 解压缩智能表单前端发布包
-        unzip ${result?.name} -d /apps/sino-intellisense-form/frontend
+        unzip ${result?.name ?? ""} -d /apps/sino-intellisense-form/frontend
         `
       : `
         # 下载智能表单后端发布包
         wget ${result?.url ?? ""}
         # 将发布包移入 backend 目录中
-        mv ${result?.name} /apps/sino-intellisense-form/backend
+        mv ${result?.name ?? ""} /apps/sino-intellisense-form/backend
         `
-  )
-    .trim()
-    .replaceAll(/^ +/gm, "");
+          .trim()
+          .replace(/^ +/gm, "");
+
   return <CodeBlock className="language-bash">{shell}</CodeBlock>;
 };
 

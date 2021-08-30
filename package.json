@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@docusaurus/preset-classic": "^2.0.0-beta.4",
-    "@sinoui/core": "^1.0.5",
+    "@sinoui/core": "1.0.10",
     "@sinoui/message": "^2.0.2",
     "@sinoui/rx-core-form": "^1.0.1",
     "@sinoui/rx-form-state": "^1.0.0",

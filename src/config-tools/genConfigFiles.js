@@ -1,7 +1,9 @@
-import prettier from "prettier/standalone";
-import yamlParser from "prettier/parser-yaml";
-import JSZip from "jszip";
-import { saveAs } from "file-saver";
+async function loadPrettier() {
+  const { default: prettier } = await import("prettier/standalone");
+  const { default: yamlParser } = await import("prettier/parser-yaml");
+
+  return { prettier, yamlParser };
+}
 
 const DRIVER_CLASS_NAMES = {
   mysql: "com.mysql.cj.jdbc.Driver",
@@ -18,6 +20,7 @@ const TEST_SQL = {
 };
 
 const genConfigFiles = async (config) => {
+  const { prettier, yamlParser } = await loadPrettier();
   const applicationFile = prettier.format(
     `
   # 自定义项目使用的端口号
@@ -75,6 +78,7 @@ const genConfigFiles = async (config) => {
     }
   );
 
+  const { default: JSZip } = await import("jszip");
   const zip = new JSZip();
 
   zip.file("application.yml", applicationFile);
@@ -83,6 +87,7 @@ const genConfigFiles = async (config) => {
   zip.file("application-prod.yml", devApplicationFile);
 
   const content = await zip.generateAsync({ type: "blob" });
+  const { saveAs } = await import("file-saver");
   saveAs(content, "config.zip");
 };
 

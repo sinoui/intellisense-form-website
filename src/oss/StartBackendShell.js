@@ -12,7 +12,7 @@ const StartBackendShell = () => {
   } > intellisenseform.log &
   `
     .trim()
-    .replaceAll(/^ +/gm, "");
+    .replace(/^ +/gm, "");
 
   return <CodeBlock className="language-bash">{shell}</CodeBlock>;
 };

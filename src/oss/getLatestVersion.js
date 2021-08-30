@@ -8,18 +8,25 @@ import {
 } from "../contants";
 import { compare, valid } from "semver";
 
-const client = new OSS({
-  region: OSS_REGION,
-  accessKeyId: OSS_ACCESS_KEY_ID,
-  accessKeySecret: OSS_ACCESS_KEY_SECRET,
-  bucket: OSS_BUCKET,
-});
+let client;
+const getClient = () => {
+  if (!client) {
+    client = new OSS({
+      region: OSS_REGION,
+      accessKeyId: OSS_ACCESS_KEY_ID,
+      accessKeySecret: OSS_ACCESS_KEY_SECRET,
+      bucket: OSS_BUCKET,
+    });
+  }
+
+  return client;
+};
 
 /**
  * 获取最新的次版本号
  */
 async function getLatestMinorVersion() {
-  const subjects = await client.list({
+  const subjects = await getClient().list({
     delimiter: "/",
   });
   const { prefixes } = subjects;
@@ -99,7 +106,7 @@ function getLatestVersionObject(objects) {
  */
 export default async function getLatestVersion() {
   const latestMinorVersions = await getLatestMinorVersion();
-  const subjects = await client.list({
+  const subjects = await getClient().list({
     prefixes: latestMinorVersions,
   });
 
