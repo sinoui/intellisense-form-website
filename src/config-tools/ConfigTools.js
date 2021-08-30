@@ -89,22 +89,22 @@ const ConfigTools = () => {
 
         <h4>mongodb 数据库配置</h4>
         <Row gutter={8}>
-          <Column md={6}>
+          <Column md={6} sm={12} xs={24}>
             <FormItem name="mongodb.host" label="mongodb 地址">
               <TextInput />
             </FormItem>
           </Column>
-          <Column md={6}>
+          <Column md={6} sm={12} xs={24}>
             <FormItem name="mongodb.port" label="mongodb 端口号">
               <TextInput type="number" />
             </FormItem>
           </Column>
-          <Column md={6}>
+          <Column md={6} sm={12} xs={24}>
             <FormItem name="mongodb.username" label="mongodb 用户名">
               <TextInput placeholder="用户名可以为空" />
             </FormItem>
           </Column>
-          <Column md={6}>
+          <Column md={6} sm={12} xs={24}>
             <FormItem name="mongodb.password" label="mongodb 密码">
               <PasswordInput placeholder="密码可以为空" />
             </FormItem>
@@ -113,12 +113,12 @@ const ConfigTools = () => {
 
         <h4>sinomatrix 集成配置</h4>
         <Row gutter={8}>
-          <Column>
+          <Column md={6} sm={12} xs={24}>
             <FormItem name="sinomatrix.ssoServerUrl" label="单点登录链接">
               <TextInput placeholder={defaultConfig.sinomatrix.ssoServerUrl} />
             </FormItem>
           </Column>
-          <Column>
+          <Column md={6} sm={12} xs={24}>
             <FormItem
               name="sinomatrix.workflowDesignServerUri"
               label="工作流设计器服务"
@@ -128,14 +128,14 @@ const ConfigTools = () => {
               />
             </FormItem>
           </Column>
-          <Column>
+          <Column md={6} sm={12} xs={24}>
             <FormItem name="sinomatrix.workflowServerUri" label="工作流服务">
               <TextInput
                 placeholder={defaultConfig.sinomatrix.workflowServerUri}
               />
             </FormItem>
           </Column>
-          <Column>
+          <Column md={6} sm={12} xs={24}>
             <FormItem
               name="sinomatrix.workflowDesignServerUri"
               label="uias服务"
