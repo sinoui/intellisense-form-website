@@ -16,6 +16,11 @@ module.exports = {
       logo: { alt: "智能表单", src: "img/home/logo.png" },
       items: [{ to: "/docs", label: "文档", position: "left" }],
     },
+    navbar: {
+      title: "智能表单",
+      logo: { alt: "智能表单", src: "img/home/logo.png" },
+      items: [{ to: "/docs", label: "文档", position: "left" }],
+    },
   },
   plugins: [
     "./src/plugins/node-polyfills-plugin.js",
