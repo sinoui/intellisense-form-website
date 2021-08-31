@@ -119,8 +119,9 @@ export default function getCustomPermission(
   const permissionItems: PermissionItem[] = [];
   const { passNodes = [], flowNode } = formData ?? {};
 
+  //已办结的流程，张三登录可以对`用户反馈`字段进行编辑
   if (
-    formValus?.workflowStatus === "已办结" &&
+    formValues?.workflowStatus === "已办结" &&
     currentUser.userName === "张三"
   ) {
     permissionItems.push({

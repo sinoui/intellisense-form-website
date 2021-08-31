@@ -35,14 +35,14 @@ export default function helloExtends(
 
 ## 扩展方法注册
 
-扩展方法开发完成后，我们可以在`/src/plugins/index.ts`文件中进行注册，具体如下：
+扩展方法开发完成后，我们可以在`/src/index.ts`文件中进行注册，具体如下：
 
 ```ts title="src/plugins/index.ts"
 import appSetting from "@sinoform/appSetting";
 
 appSetting.detailPageExtendConfig.addDetailPageExtend(
   "产品采购表单设计id",
-  () => import("./detailpage-extends/helloExtends"),
+  () => import("./plugins/detailpage-extends/helloExtends"),
   false
 );
 ```
