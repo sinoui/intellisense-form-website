@@ -73,13 +73,10 @@ export default function watchFormValuesExtends(
   detailPageConfig.onValueChange((prevValue, nextValue, formState) => {
     // 判断A产品的单价或数量有没有发生变化，如果有，设置A产品总价的值
     if (
-      nextValue["price_A"] !== prevValue["price_A"] ||
-      nextValue["count_A"] !== prevValue["count_A"]
+      nextValue["price"] !== prevValue["price"] ||
+      nextValue["count"] !== prevValue["count"]
     ) {
-      formState.setFieldValue(
-        "total_A",
-        nextValue["price_A"] * nextValue["count_A"]
-      );
+      formState.setFieldValue("total", nextValue["price"] * nextValue["count"]);
     }
   });
 }
