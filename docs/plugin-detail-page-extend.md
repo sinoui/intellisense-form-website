@@ -30,7 +30,7 @@ export default function formExtends(detailPageConfig: DetailPageExtendsConfig) {
   });
 
   // 监听按钮点击事件，添加前置处理，返回true或false决定是否继续执行点击事件
-  const cancel = detailPageConfig.onButtonPrevClick(
+  detailPageConfig.onButtonPrevClick(
     "save",
     (event: DetailPageContextType) => {
       const { formState } = event;
@@ -38,11 +38,9 @@ export default function formExtends(detailPageConfig: DetailPageExtendsConfig) {
         formState.setFieldError("bianhao", "编号不能重复");
         formState.setFieldTouched("bianhao", true);
 
-        cancel();
         return false;
       }
 
-      cancel();
       return true;
     },
     true
@@ -180,7 +178,7 @@ import type { DetailPageExtendsConfig } from "@sinoform/types";
 
 export default function formExtends(detailPageConfig: DetailPageExtendsConfig) {
   // 监听按钮点击事件，添加前置处理，返回true或false决定是否继续执行点击事件
-  const cancel = detailPageConfig.onButtonPrevClick(
+  detailPageConfig.onButtonPrevClick(
     "save",
     (event: DetailPageContextType) => {
       const { formState } = event;
@@ -190,12 +188,10 @@ export default function formExtends(detailPageConfig: DetailPageExtendsConfig) {
         formState.setFieldError("bianhao", "编号不能重复");
         formState.setFieldTouched("bianhao", true);
 
-        cancel();
         // 返回false,表示不执行保存操作
         return false;
       }
 
-      cancel();
       //返回true,表示执行保存操作
       return true;
     },
