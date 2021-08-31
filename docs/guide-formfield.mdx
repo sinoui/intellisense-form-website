@@ -2,3 +2,174 @@
 id: guide-formfield
 title: 开发一个表单项
 ---
+
+一个完整的表单项需要有三个组件来完成
+
+- render。表单项渲染组件
+- preview。表单项预览组件
+- configPanel。表单项的属性配置面板组件，目前属性面板只支持以 react 组件的方式开发
+
+## Web Components 方式开发
+
+以 render 组件为例，在 plugins/form-field-input 下创建`InputRenderer.ts`文件
+
+### 基本的代码结构
+
+```ts
+import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import $ from "jquery";
+
+// 定义InputRenderer组件
+class InputRenderer extends HTMLElement {
+  constructor() {
+    super();
+    this.root = this.attachShadow({ mode: "open" });
+    this.root.innerHTML = this.render();
+
+    this.input = $("#field-input-renderer", this.root);
+  }
+
+  render() {
+    // 生成dom模板字符串
+    return `<input id="field-input-renderer" />`;
+  }
+}
+
+// 注册render组件
+customElements.define("field-input-renderer", InputRenderer);
+
+// 封装成react组件
+export default webComponentWrapper("field-input-renderer");
+```
+
+### 获取传递给组件的 props 值
+
+使用 get/set 的方式，在组件内部维护一个对应的私有变量来同步 props 中的属性值。获取 props 中的 value 值，并将其赋值给 input
+
+```ts
+set value(val: string) {
+    this._value = val;
+    this.input.val(val);
+  }
+
+get value() {
+  return this._value;
+}
+```
+
+如果组件外部触发 value 值变化之后还需要同步到组件内部，所以需要在组件内部添加属性监听，使用 web components 的`observedAttributes`和`attributeChangedCallback`回调函数。
+
+```ts
+// 静态方法，返回值就是需要监听的属性
+static get observedAttributes() {
+    return ['value'];
+  }
+
+// 属性值变化之后的回调函数
+attributeChangedCallback(attr: string, _oldVal: any, newVal: any) {
+  switch (attr) {
+    case 'value':
+      this.value = newVal;
+      break;
+
+    default:
+      break;
+  }
+}
+```
+
+至此，表单项的值在组件内部的回显处理完毕。
+
+### 添加或销毁事件监听
+
+组件内部添加 input 输入框 change 事件监听，在值变化之后需要调用 props 中传入的 onChange 事件将值提供给外层组件
+
+```ts
+connectedCallback() {
+  this.input.on('change', this.handleInputChange);
+}
+
+disConnectedCallback() {
+  this.input.off('change', this.handleInputChange);
+}
+
+handleInputChange(e: any){
+  this.onChange(e.target.value);
+}
+```
+
+完整的示例代码
+
+```ts
+import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import $ from "jquery";
+
+class InputRenderer extends HTMLElement {
+  private _value: string = "";
+  private root: ShadowRoot;
+  private input: JQuery<HTMLElement>;
+  private _onChange: any;
+
+  constructor() {
+    super();
+    this.root = this.attachShadow({ mode: "open" });
+    this.root.innerHTML = this.render();
+    this.input = $("#field-input-renderer", this.root);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  connectedCallback() {
+    this.input.on("change", this.handleInputChange);
+  }
+
+  disConnectedCallback() {
+    this.input.off("change", this.handleInputChange);
+  }
+
+  static get observedAttributes() {
+    return ["value"];
+  }
+
+  attributeChangedCallback(attr: string, _oldVal: any, newVal: any) {
+    switch (attr) {
+      case "value":
+        this.value = newVal;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  set onChange(fn: any) {
+    this._onChange = fn;
+  }
+
+  get onChange() {
+    return this._onChange;
+  }
+
+  handleInputChange(e: any) {
+    this.onChange(e.target.value);
+  }
+
+  set value(val: string) {
+    this._value = val;
+    this.input.val(val);
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  render() {
+    return `<input id="field-input-renderer" />`;
+  }
+}
+
+customElements.define("field-input-renderer", InputRenderer);
+
+export default webComponentWrapper("field-input-renderer");
+```
+
+preview 组件是预览组件，不涉及业务逻辑交互，不需要事件监听处理，属于比较纯粹的 ui 组件

@@ -2,3 +2,154 @@
 id: guide-setup
 title: 环境准备
 ---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+在开发智能表单前端插件前，需要做一些准备工作，包括：
+
+- [开发环境](#开发环境)
+- [初始化一个空的插件项目](#初始化一个空的插件项目)
+- [必备知识](#必备知识)
+
+## 开发环境
+
+需要准备好以下环境：
+
+- [node.js 14+](https://nodejs.org/en/)
+- [yarn](https://yarnpkg.com/)
+- 编辑器：[vscode](https://code.visualstudio.com/)（或者使用您喜欢的编辑器也可以，如 `WebStorm`）
+
+### node.js 14+
+
+前端开发必须要使用到 node.js，从[官网下载安装包](https://nodejs.org/zh-cn/download/)并安装好即可。
+
+安装好后，打开新的 cmd 窗口，运行以下命令，验证是否安装成功：
+
+```bash
+$ node -v
+v14.15.5
+```
+
+如果 cmd 窗口输出类似上面的版本号，说明安装成功。
+
+### yarn
+
+[yarn](https://yarnpkg.com/) 是前端包管理器（与 npm 的作用是一样的）。执行以下命令安装：
+
+```bash
+npm install -g yarn
+```
+
+然后执行以下命令验证是否正确安装 yarn：
+
+```bash
+$ yarn -v
+1.22.10
+```
+
+如果 cmd 窗口输出类似上面的版本号，说明安装成功。
+
+### 编辑器：vscode
+
+一个好用的编辑器能够让编写代码变得轻松愉快。让我们花一点时间准备好我们的开发编辑器。如果您有自己喜爱的开发编辑器，则可以跳过本章节。
+
+从 [vscode 官网](https://code.visualstudio.com/) 下载并安装 vscode。
+
+建议安装以下 vscode 插件：
+
+- [EditConfig for Vs Code](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+- [Git 辅助神器 - GitLens — Git supercharged](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [vscode-icons](https://marketplace.visualstudio.com/items?itemName=robertohuertasm.vscode-icons)
+- [eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
+## 初始化一个空的插件项目
+
+找一个放插件源码项目的路径，如 `D:/workspaces`，打开 cmd 窗口，通过以下命令行初始化一个空的插件项目：
+
+:::info 插件项目命名
+
+在执行命令前，需要为插件项目取名，推荐按照项目组的角度来取名，如在国家气象局 OA 中使用智能表单，则取名为 `qxjoa-plugins`。
+
+:::
+
+<Tabs defaultValue="webcomponent"
+  values={[
+    { label: "Web Component（喜欢jQuery的同学选择这个）", value: "webcomponent" },
+    { label: "Vue", value: "vue" },
+    { label: 'React', value: 'react'}
+  ]}>
+  <TabItem value="webcomponent">
+
+```bash
+$ cd D:/workspaces
+$ npx sinoform-plugin-cli create qxjoa-plugins -t webcomponent
+```
+
+  </TabItem>
+  <TabItem value="vue">
+
+```bash
+$ cd D:/workspaces
+$ npx sinoform-plugin-cli create qxjoa-plugins -t vue
+```
+
+  </TabItem>
+  <TabItem value="react">
+
+```bash
+$ cd D:/workspaces
+$ npx sinoform-plugin-cli create qxjoa-plugins
+```
+
+  </TabItem>
+</Tabs>
+
+成功之后，使用 vscode 打开此项目，看到如下的项目结构：
+
+```
+D:/workspaces/qxjoa-plugins
+|__ src
+  |__ index.ts
+  |__ plugins
+    |__ flow-button-hello
+      |__ index.ts
+      |__ HelloButton.ts
+      |__ HelloButton.css
+|__ package.json
+|__ README.md
+```
+
+注意：忽略一部分入门开发时不重要的文件。
+
+## 必备知识
+
+开发智能表单插件需要您必备以下知识点：
+
+- ES 2015（ES 6）部分语法
+  - 类
+  - 箭头函数
+  - `let`、`const`
+  - 模板字符串
+  - 模块的导入、导出
+  - async
+  - promise
+  - 解构
+  - getter/setter
+- TypeScript：掌握类型声明即可
+  - 接口
+  - 基本类型
+- Web Components（jQuery 同学必学）
+  - Custom Element
+
+可以稍微做一些了解的知识点：
+
+- package.json 文件的作用
+- webpack
+- webpack 模块联邦
+- storybook
+
+## 总结
+
+做好这些准备后，就可以开始第一个插件的开发啦。🌟🌟🌟
