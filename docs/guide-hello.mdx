@@ -71,7 +71,7 @@ export default class HelloButton extends HTMLElement {
 }
 ```
 
-上面的代码创建了一个继承自 `HelloElement` 类的 `HelloButton` 类， `connectedCallback` 函数相当于组件的初始化方法，它调用 `render` 方法，在它的内部生成 HTML，以展现一个按钮。并通过高亮部分的代码给其内部的按钮添加点击事件监听：
+上面的代码创建了一个继承自 `HTMLElement` 类的 `HelloButton` 类， `connectedCallback` 函数相当于组件的初始化方法，它调用 `render` 方法，在它的内部生成 HTML，以展现一个按钮。并通过高亮部分的代码给其内部的按钮添加点击事件监听：
 
 ```typescript
 $("button", this).on("click", this.onButtonClick.bind(this));
@@ -230,7 +230,7 @@ class HelloButton extends HTMLElement {
 
 完整的 `HelloButton.ts` 代码如下所示：
 
-```typescript title="src/plugins/flow-button-hello/HelloButton.css" {2,29}
+```typescript title="src/plugins/flow-button-hello/HelloButton.ts" {2,29}
 import $ from "jquery";
 import "./HelloButton.css";
 
