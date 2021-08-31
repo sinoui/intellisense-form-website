@@ -13,6 +13,9 @@ module.exports = {
       "config-version",
     ],
     插件开发: [
+      {
+        入门教程: ["guide-setup"],
+      },
       "plugin-index",
       "use-app-setting",
       "plugin-field",
