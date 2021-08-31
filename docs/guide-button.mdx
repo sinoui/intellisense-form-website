@@ -2,3 +2,221 @@
 id: guide-button
 title: 开发一个按钮
 ---
+
+## Web Components 方式开发
+
+在 plugins/flow-button-hello 下创建`HelloBtn.ts`文件。
+
+### 基本代码结构
+
+下方示例定义了一个最基本的 button 组件。
+
+```ts
+import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import $ from "jquery";
+
+// 定义HelloBtn组件
+class HelloBtn extends HTMLElement {
+  root: ShadowRoot;
+
+  constructor() {
+    super();
+    // 定义shadowDOM
+    this.root = this.attachShadow({ mode: "open" });
+    this.root.innerHTML = this.render();
+
+    // jquery获取按钮，这个需要在innerHTML渲染之后
+    this.btn = $("#btn", this.root);
+  }
+
+  render() {
+    // 生成DOM节点模板字符串
+    return `<button id="btn">HelloBtn</button>`;
+  }
+}
+
+// 注册自定义组件
+customElements.define("hello-button", HelloBtn);
+
+// 包装成React组件，并对组件注入系统上下文相关的数据
+export default webComponentWrapper("hello-button");
+```
+
+### 添加样式
+
+建议在组件内部维护 style 样式， 同样是以字符串的方式创建。
+
+```ts
+renderStyle(){
+  return `
+    <style>
+      #btn{
+        color: #fff;
+        background-color: #2196f3;
+        font-size: 0.875rem;
+        border: none;
+        height: 36px;
+        margin: 8px;
+      }
+    </style>
+  `;
+}
+
+render(){
+  return `
+    ${this.renderStyle()}
+    <button id="btn">HelloBtn</button>
+  `;
+}
+```
+
+### 获取传递给组件的 props 值
+
+使用 get/set 的方式，在组件内部维护一个对应的私有变量来同步 props 中的属性值。此方式还有另外一个作用，属性值发生变更的时候，我们可以在 set 方法内部来触发相应的 dom 节点变更。比如，组件 props 中含有 setting 属性，该属性定义了组件的部分配置，我们可以使用下面的方式来获取该对象的值。
+
+```ts
+get setting() {
+  return this._setting;
+}
+
+// 获取组件attributes中的值，发生变更时更新dom节点
+set setting(value: any) {
+  this._setting = value;
+  this.button.text(value.name);
+}
+```
+
+### 添加或销毁事件监听
+
+在组件初始化加载完成添加事件监听，组件销毁的时候销毁监听事件。这使用到了 web components 组件生命周期中的`connectedCallback`和`disConnectedCallback`方法。需要注意的是，触发的监听事件需要注意方法内部的`this`指向，可以在组件`constructor`方法中重新指定方法的`this`
+
+```ts
+constructor(){
+  this.handleClick = this.handleClick.bind(this);
+}
+
+connectedCallback() {
+  this.btn.on("click", this.handleClick);
+}
+
+disConnectedCallback() {
+  this.btn.off("click", this.handleClick);
+}
+
+handleClick() {
+  // 业务逻辑处理代码
+}
+```
+
+下面我们完成一个完整的 HelloBtn，点击按钮的时候触发 disabled 禁用模拟 loading 效果，事件处理完成之后回复按钮的状态。
+
+```ts
+import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import $ from "jquery";
+
+// 定义HelloBtn组件
+class HelloBtn extends HTMLElement {
+  public _setting: any = { name: "" };
+  public _loadingBtnId: string = "";
+  root: ShadowRoot;
+  button: JQuery<HTMLElement>;
+  public _setButtonLoading: (id: string) => void = () => {};
+  public _cancelButtonLoading: () => void = () => {};
+
+  constructor() {
+    super();
+    this.root = this.attachShadow({ mode: "open" });
+    this.root.innerHTML = this.render();
+
+    // jquery获取按钮，需要在innerHTML之后
+    this.button = $("#btn", this.root);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  // 组件初始化加载完成，添加按钮事件监听
+  connectedCallback() {
+    this.button.on("click", this.handleClick);
+  }
+
+  // 组件销毁，清除按钮事件监听
+  disConnectedCallback() {
+    this.button.off("click", this.handleClick);
+  }
+
+  handleClick() {
+    this.setButtonLoading(this.setting.id);
+    this.loadingBtnId = this.setting.id;
+    // 模拟后端接口请求完成之后按钮状态恢复
+    setTimeout(() => {
+      this.cancelButtonLoading();
+      this.button.removeAttr("disabled");
+    }, 1000);
+  }
+
+  // 获取组件attributes中的值，发生变更时更新dom节点
+  set setting(value: any) {
+    this._setting = value;
+    this.button.text(value.name);
+  }
+
+  get setting() {
+    return this._setting;
+  }
+
+  set loadingBtnId(value: any) {
+    this._loadingBtnId = value;
+    if ((value = this.setting.id)) {
+      this.button.attr("disabled", "true");
+    }
+  }
+
+  get loadingBtnId() {
+    return this._loadingBtnId;
+  }
+
+  set setButtonLoading(func: any) {
+    this._setButtonLoading = func;
+  }
+
+  get setButtonLoading() {
+    return this._setButtonLoading;
+  }
+
+  set cancelButtonLoading(func: any) {
+    this._cancelButtonLoading = func;
+  }
+
+  get cancelButtonLoading() {
+    return this._cancelButtonLoading;
+  }
+
+  renderStyle() {
+    return `
+      <style>
+        #btn{
+          color: #fff;
+          background-color: #2196f3;
+          font-size: 0.875rem;
+          border: none;
+          height: 36px;
+          margin: 8px;
+        }
+      </style>
+    `;
+  }
+
+  render() {
+    // 生成dom模板字符串
+    return `
+      ${this.renderStyle()}
+      <button id="btn" >${this.setting.name}</button>
+    `;
+  }
+}
+
+// 注册自定义组件
+customElements.define("flow-button-hello", HelloBtn);
+
+// 将web components组件封装成react组件
+export default webComponentWrapper("flow-button-hello");
+```
