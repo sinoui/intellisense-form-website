@@ -13,10 +13,19 @@ module.exports = {
       "config-version",
     ],
     插件开发: [
-      {
-        入门教程: ["guide-setup"],
-      },
       "plugin-index",
+      {
+        入门教程: [
+          "guide-setup",
+          "guide-hello",
+          "guide-button",
+          "guide-formfield",
+          "guide-watch-form-values",
+          "guide-control-button-click",
+          "guide-control-button-formitem",
+          "guide-summary",
+        ],
+      },
       "use-app-setting",
       "plugin-field",
       "plugin-button",
