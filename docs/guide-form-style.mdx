@@ -9,10 +9,15 @@ title: 定制表单样式
 /**
 * 定制列表表头单元格的背景色
 */
-.sinoform-table-head-cell {
+.sinoform-app-inited .sinoform-table .sinoform-table-head-cell {
   background: rgb(46 83 112);
 }
 ```
+
+:::warning
+我们在做样式定制时，一定要注意样式`优先级`的问题。因此在编写样式代码时，建议始终添加`.sinoform-app-inited`。编写完成查看效果时，如果样式没起作用，可以在控制台
+查看与哪些表达式下的样式规则冲突，从而调整我们的 css 表达式。
+:::
 
 ```ts title="src/index.ts"
 /**

@@ -3,6 +3,12 @@ id: guide-watch-form-values
 title: 监听表单值变化
 ---
 
+:::info 示例源码
+
+本章节的示例代码可以在 [sinoform-plugins-web-component-examples/src/plugins/detail-page-extends](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/tree/master/src/plugins/detail-page-extends) 中找到。
+
+:::
+
 我们可以通过扩展详情页业务逻辑的方式添加`监听表单值变化`的方法。一般分成两步：
 
 1. 创建扩展方法
@@ -12,7 +18,7 @@ title: 监听表单值变化
 
 下面的示例中，我们创建一个`helloExtends`方法，在这个方法中监听表单值的变化，然后控制台输出变化前后的值。
 
-```ts title="src/plugins/detailpage-extends/helloExtends.ts"
+```ts title="src/plugins/detail-page-extends/helloExtends.ts"
 import type { DetailPageExtendsConfig } from "@sinoform/types";
 
 /**
@@ -42,7 +48,7 @@ import appSetting from "@sinoform/appSetting";
 
 appSetting.detailPageExtendConfig.addDetailPageExtend(
   "产品采购表单设计id",
-  () => import("./plugins/detailpage-extends/helloExtends"),
+  () => import("./plugins/detail-page-extends/helloExtends"),
   false
 );
 ```
@@ -63,7 +69,7 @@ appSetting.detailPageExtendConfig.addDetailPageExtend(
 
 以一个产品采购表单为例，我们监听产品的`单价`和`数量`，自动计算出产品总价。具体代码如下：
 
-```ts title="src/plugins/detailpage-extends/watchFormValuesExtends.ts"
+```ts title="src/plugins/detail-page-extends/watchFormValuesExtends.ts"
 import type { DetailPageExtendsConfig } from "@sinoform/types";
 
 export default function watchFormValuesExtends(
