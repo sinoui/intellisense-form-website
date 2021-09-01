@@ -15,7 +15,8 @@ const DownloadBundleShell = ({ type }) => {
         wget ${result?.url ?? ""}
         # 解压缩智能表单前端发布包
         unzip ${result?.name ?? ""} -d /apps/sino-intellisense-form/frontend
-        `
+        `.trim()
+        .replace(/^ +/gm, "")
       : `
         # 下载智能表单后端发布包
         wget ${result?.url ?? ""}
