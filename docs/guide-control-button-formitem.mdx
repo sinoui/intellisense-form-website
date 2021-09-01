@@ -3,6 +3,12 @@ id: guide-control-button-formitem
 title: 控制表单页上的按钮和表单项
 ---
 
+:::info 示例源码
+
+本章节的示例代码可以在 [sinoform-plugins-web-component-examples/src/plugins/detail-page-extends](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/tree/master/src/plugins/detail-page-extends) 中找到。
+
+:::
+
 控制表单页上的按钮和表单项一般分为三个步骤：
 
 1. 创建一个权限判定方法
@@ -11,9 +17,9 @@ title: 控制表单页上的按钮和表单项
 
 ## 创建权限判定方法
 
-首先在`src/plugins/detailpage-extends`文件夹下创建`helloPermission`方法。
+首先在`src/plugins/detail-page-extends`文件夹下创建`helloPermission`方法。
 
-```ts title="src/plugins/detailpage-extends/helloPermission.ts"
+```ts title="src/plugins/detail-page-extends/helloPermission.ts"
 import type {
   FormData,
   FormValues,
@@ -46,9 +52,9 @@ export default function helloPermission(
 
 ## 创建业务逻辑扩展方法
 
-在`src/plugins/detailpage-extends`文件夹下，创建`helloExtends`方法，将`helloPermission`方法注册进去。
+在`src/plugins/detail-page-extends`文件夹下，创建`helloExtends`方法，将`helloPermission`方法注册进去。
 
-```ts title="src/plugins/detailpage-extends/helloExtends.ts"
+```ts title="src/plugins/detail-page-extends/helloExtends.ts"
 import type { DetailPageExtendsConfig } from "@sinoform/types";
 import helloPermission from "./helloPermission";
 

@@ -3,6 +3,12 @@ id: guide-control-button-click
 title: 控制按钮的点击行为
 ---
 
+:::info 示例源码
+
+本章节的示例代码可以在 [sinoform-plugins-web-component-examples/src/plugins/detail-page-extends](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/tree/master/src/plugins/detail-page-extends) 中找到。
+
+:::
+
 我们可以通过扩展详情页业务逻辑的方式来添加`控制按钮点击行为`的方法。一般分成两步：
 
 1. 创建扩展方法
@@ -12,7 +18,7 @@ title: 控制按钮的点击行为
 
 首先我们创建一个简单的示例方法，在点击`保存`按钮时，先在控制台输出一下表单内容，然后再执行保存方法。
 
-```ts title="src/plugins/detailpage-extends/helloExtends.ts"
+```ts title="src/plugins/detail-page-extends/helloExtends.ts"
 import type { DetailPageExtendsConfig } from "@sinoform/types";
 
 /**
@@ -45,7 +51,7 @@ export default function helloExtends(
 
 在一个有编号字段的表单中，点击`保存`按钮时，首先校验编号字段的值是否与已有数据重复，如果是，则设置校验失败的提示，并且不再执行保存操作；如果不重复，则直接保存。
 
-```ts title="src/plugins/detailpage-extends/controlButtonClickExtends.ts"
+```ts title="src/plugins/detail-page-extends/controlButtonClickExtends.ts"
 import type { DetailPageExtendsConfig } from "@sinoform/types";
 
 /**
@@ -91,4 +97,3 @@ export default function controlButtonClickExtends(
 | 收回     | takeback      |
 | 撤办     | cancelBack    |
 | 恢复流程 | regainFlow    |
-
