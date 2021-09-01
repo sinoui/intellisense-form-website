@@ -1,0 +1,18 @@
+---
+id: plugin-dynamic-import
+title: 异步加载
+---
+
+异步加载是一种延时加载，只有在组件被使用的时候才会动态加载组件，从而减少了页面首次加载的时间。React 的懒加载使用到的是 ECMAScript 的原生`import()`模块+`React.lazy()`+`React.Suspense`来实现的。
+
+- import()。动态导入模块文件
+- React.lazy。解析动态模块文件，生成 LazyComponent 组件。
+- React.Suspense。动态加载异步组件
+
+对于插件项目来说，只需要提供组件供智能表单使用，不涉及到动态加载部分
+
+语法规则：
+
+```ts
+React.lazy(() => import("xxx")); // xxx为需要导出的组件路径
+```

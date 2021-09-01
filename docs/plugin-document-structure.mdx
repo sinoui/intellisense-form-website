@@ -1,0 +1,28 @@
+---
+id: plugin-document-structure
+title: 插件文档结构
+---
+
+为了使项目中代码得层级结构更加分明，我们需要对插件项目得文件命名做一些约定
+
+- 插件项目命名可以使用当前项目组自身名称命名，比如项目组自身名称 teamA，插件项目名称为`teamA-plugin`
+- 项目源代码放置在`src`，与插件组件或业务逻辑相关得代码放在`src/plugins`下，工具类或其他公用的一些代码可以在 plugins 的同级
+- 每个插件功能的实现都需要在 plugins 下单独创建文件夹，文件夹遵循的命名规则
+  - 自定义表单项：form-field-xxx，xxx 为插件功能实现描述说明，下面的描述同理
+  - 流程按钮：flow-button-xxx
+  - 流程配置：flow-config-xxx
+  - 详情页业务逻辑拓展：detail-page-extends
+
+一个简单的项目文档结构如下
+
+```
+teamA-plugin  // 插件项目名称
+  |__ src     // 项目源码文件夹
+    |__ plugins   // 插件开发文件夹
+      |__ flow-button-hello   // 单个插件功能实现文件夹
+        |__ HelloButton.ts    // 插件实现
+      |__ detail-page-extends
+        |__ index.ts          // 详情页业务逻辑拓展
+    |__ index.ts  // 入口文件
+
+```

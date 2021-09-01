@@ -9,9 +9,15 @@ title: 开发一个表单项
 - preview。表单项预览组件
 - configPanel。表单项的属性配置面板组件，目前属性面板只支持以 react 组件的方式开发
 
+:::info 示例源码
+
+本章节得示例代码可以在[Web Component 插件示例项目](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/tree/master/src/plugins/form-field-custom-textinput)中找到。
+
+:::
+
 ## Web Components 方式开发
 
-以 render 组件为例，在 plugins/form-field-input 下创建`InputRenderer.ts`文件
+以 render 组件为例，在 plugins/form-field-custom-textinput 下创建`InputRenderer.ts`文件
 
 ### 基本的代码结构
 
@@ -21,12 +27,8 @@ import $ from "jquery";
 
 // 定义InputRenderer组件
 class InputRenderer extends HTMLElement {
-  constructor() {
-    super();
-    this.root = this.attachShadow({ mode: "open" });
-    this.root.innerHTML = this.render();
-
-    this.input = $("#field-input-renderer", this.root);
+  connectedCallback() {
+    this.innerHTML = this.render();
   }
 
   render() {
@@ -106,24 +108,23 @@ import $ from "jquery";
 
 class InputRenderer extends HTMLElement {
   private _value: string = "";
-  private root: ShadowRoot;
-  private input: JQuery<HTMLElement>;
+  private input: JQuery<HTMLElement> | null = null;
   private _onChange: any;
 
   constructor() {
     super();
-    this.root = this.attachShadow({ mode: "open" });
-    this.root.innerHTML = this.render();
-    this.input = $("#field-input-renderer", this.root);
+
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   connectedCallback() {
+    this.innerHTML = this.render();
+    this.input = $("#field-input-renderer", this);
     this.input.on("change", this.handleInputChange);
   }
 
   disConnectedCallback() {
-    this.input.off("change", this.handleInputChange);
+    this.input?.off("change", this.handleInputChange);
   }
 
   static get observedAttributes() {
@@ -155,7 +156,7 @@ class InputRenderer extends HTMLElement {
 
   set value(val: string) {
     this._value = val;
-    this.input.val(val);
+    this.input?.val(val);
   }
 
   get value() {
@@ -163,7 +164,7 @@ class InputRenderer extends HTMLElement {
   }
 
   render() {
-    return `<input id="field-input-renderer" />`;
+    return `<input id="field-input-renderer" value='${this.value}'/>`;
   }
 }
 
@@ -172,4 +173,4 @@ customElements.define("field-input-renderer", InputRenderer);
 export default webComponentWrapper("field-input-renderer");
 ```
 
-preview 组件是预览组件，不涉及业务逻辑交互，不需要事件监听处理，属于比较纯粹的 ui 组件
+preview 组件是预览组件，不涉及业务逻辑交互，不需要事件监听处理，属于比较纯粹的 ui 组件。
