@@ -1,3 +1,6 @@
+const lightCodeTheme = require("prism-react-renderer/themes/github");
+const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+
 module.exports = {
   title: "智能表单",
   tagline: "The tagline of my site",
@@ -10,6 +13,8 @@ module.exports = {
   themeConfig: {
     prism: {
       additionalLanguages: ["java", "http", "nginx"],
+      theme: lightCodeTheme,
+      darkTheme: darkCodeTheme,
     },
     navbar: {
       title: "智能表单",
