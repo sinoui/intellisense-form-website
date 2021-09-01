@@ -1,0 +1,24 @@
+---
+id: guide-form-style
+title: 定制表单样式
+---
+
+我们可以直接在`src`文件下建一个`custom.css`文件，在这个文件中添加一些自定义样式，然后在`src/index.ts`文件中引入样式文件。
+
+```css title="src/custom.css"
+/**
+* 定制列表表头单元格的背景色
+*/
+.sinoform-table-head-cell {
+  background: rgb(46 83 112);
+}
+```
+
+```ts title="src/index.ts"
+/**
+ * 引入自定义样式文件
+ */
+import "./custom.css";
+```
+
+更多元素的`class`名称可参考[表单应用支持定制样式的元素名称](./custom-css-pc)。

@@ -23,6 +23,7 @@ module.exports = {
           "guide-watch-form-values",
           "guide-control-button-click",
           "guide-control-button-formitem",
+          "guide-form-style",
           "guide-summary",
         ],
       },
