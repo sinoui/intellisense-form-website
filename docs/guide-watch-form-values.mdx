@@ -41,9 +41,9 @@ export default function helloExtends(
 
 ## 扩展方法注册
 
-扩展方法开发完成后，我们可以在`/src/index.ts`文件中进行注册，具体如下：
+扩展方法开发完成后，我们可以在`src/index.ts`文件中进行注册，具体如下：
 
-```ts title="src/plugins/index.ts"
+```ts title="src/index.ts"
 import appSetting from "@sinoform/appSetting";
 
 appSetting.detailPageExtendConfig.addDetailPageExtend(
@@ -61,7 +61,7 @@ appSetting.detailPageExtendConfig.addDetailPageExtend(
 
 ### 表单设计 id 的获取方式
 
-对于表单设计 id 的获取方式，我们可以从智能表单管理端打开需要绑定的表单，然后在`url`上截取，url 一般为`http://<网关ip:port>/intellisense-form-manager/:formDesignId?xxx=xxx`。如图：
+对于表单设计 id 的获取方式，我们可以从智能表单管理端打开需要绑定的表单，然后在 url 上截取，url 一般为`http://<网关ip:port>/intellisense-form-manager/:formDesignId?xxx=xxx`。如图：
 
 ![获取formDesignId](/img/get_formdesignId.png)
 
