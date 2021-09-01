@@ -133,7 +133,7 @@ class HelloButton extends HTMLElement {
 
   // 组件初始化加载完成，添加按钮事件监听
   connectedCallback() {
-    this.root.innerHTML = this.render();
+    this.innerHTML = this.render();
     $("#btn", this).on("click", this.handleClick);
   }
 

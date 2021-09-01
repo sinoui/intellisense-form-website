@@ -27,14 +27,6 @@ import $ from "jquery";
 
 // 定义InputRenderer组件
 class InputRenderer extends HTMLElement {
-  constructor() {
-    super();
-    this.root = this.attachShadow({ mode: "open" });
-    this.root.innerHTML = this.render();
-
-    this.input = $("#field-input-renderer", this.root);
-  }
-
   connectedCallback() {
     this.innerHTML = this.render();
   }
@@ -116,24 +108,23 @@ import $ from "jquery";
 
 class InputRenderer extends HTMLElement {
   private _value: string = "";
-  private root: ShadowRoot;
-  private input: JQuery<HTMLElement>;
+  private input: JQuery<HTMLElement> | null = null;
   private _onChange: any;
 
   constructor() {
     super();
-    this.root = this.attachShadow({ mode: "open" });
-    this.root.innerHTML = this.render();
-    this.input = $("#field-input-renderer", this.root);
+
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   connectedCallback() {
+    this.innerHTML = this.render();
+    this.input = $("#field-input-renderer", this);
     this.input.on("change", this.handleInputChange);
   }
 
   disConnectedCallback() {
-    this.input.off("change", this.handleInputChange);
+    this.input?.off("change", this.handleInputChange);
   }
 
   static get observedAttributes() {
@@ -165,7 +156,7 @@ class InputRenderer extends HTMLElement {
 
   set value(val: string) {
     this._value = val;
-    this.input.val(val);
+    this.input?.val(val);
   }
 
   get value() {
@@ -173,7 +164,7 @@ class InputRenderer extends HTMLElement {
   }
 
   render() {
-    return `<input id="field-input-renderer" />`;
+    return `<input id="field-input-renderer" value='${this.value}'/>`;
   }
 }
 
