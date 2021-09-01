@@ -34,6 +34,9 @@ module.exports = {
       "plugin-css",
       "plugin-module-federation",
       "plugin-test",
+      {
+        最佳实践: ["plugin-document-structure", "plugin-dynamic-import"],
+      },
     ],
     样式定制: ["custom-css-pc", "custom-css-mobile", "custom-css-editor"],
     扩展: ["extend-interface"],
