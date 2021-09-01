@@ -3,9 +3,15 @@ id: guide-button
 title: 开发一个按钮
 ---
 
+:::info 示例源码
+
+本章节得示例代码可以在[Web Component 插件示例项目](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/blob/master/src/plugins/flow-button-hello/HelloButton.ts)中找到。
+
+:::
+
 ## Web Components 方式开发
 
-在 plugins/flow-button-hello 下创建`HelloBtn.ts`文件。
+在 plugins/flow-button-hello 下创建`HelloButton.ts`文件。
 
 ### 基本代码结构
 
@@ -13,30 +19,22 @@ title: 开发一个按钮
 
 ```ts
 import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
-import $ from "jquery";
 
-// 定义HelloBtn组件
-class HelloBtn extends HTMLElement {
-  root: ShadowRoot;
-
-  constructor() {
-    super();
-    // 定义shadowDOM
-    this.root = this.attachShadow({ mode: "open" });
-    this.root.innerHTML = this.render();
-
-    // jquery获取按钮，这个需要在innerHTML渲染之后
-    this.btn = $("#btn", this.root);
+// 定义HelloButton组件
+class HelloButton extends HTMLElement {
+  connectedCallback() {
+    // 组件首次加载时，渲染button按钮
+    this.innerHTML = this.render();
   }
 
   render() {
     // 生成DOM节点模板字符串
-    return `<button id="btn">HelloBtn</button>`;
+    return `<button id="btn">HelloButton</button>`;
   }
 }
 
 // 注册自定义组件
-customElements.define("hello-button", HelloBtn);
+customElements.define("hello-button", HelloButton);
 
 // 包装成React组件，并对组件注入系统上下文相关的数据
 export default webComponentWrapper("hello-button");
@@ -44,7 +42,12 @@ export default webComponentWrapper("hello-button");
 
 ### 添加样式
 
-建议在组件内部维护 style 样式， 同样是以字符串的方式创建。
+样式添加的两种方式
+
+- 组件内部编写 style 样式。同样是以字符串的方式来编写样式。
+- 引用外部的 css 文件。直接在文件头部 import 导入 css 文件。
+
+我们以组件内部编写 style 样式为例
 
 ```ts
 renderStyle(){
@@ -65,7 +68,7 @@ renderStyle(){
 render(){
   return `
     ${this.renderStyle()}
-    <button id="btn">HelloBtn</button>
+    <button id="btn">HelloButton</button>
   `;
 }
 ```
@@ -82,7 +85,7 @@ get setting() {
 // 获取组件attributes中的值，发生变更时更新dom节点
 set setting(value: any) {
   this._setting = value;
-  this.button.text(value.name);
+  $("#btn", this).text(value.name);
 }
 ```
 
@@ -96,11 +99,12 @@ constructor(){
 }
 
 connectedCallback() {
-  this.btn.on("click", this.handleClick);
+  this.innerHTML = this.render()
+  $("#btn", this).on("click", this.handleClick);
 }
 
 disConnectedCallback() {
-  this.btn.off("click", this.handleClick);
+  $("#btn", this).off("click", this.handleClick);
 }
 
 handleClick() {
@@ -108,39 +112,34 @@ handleClick() {
 }
 ```
 
-下面我们完成一个完整的 HelloBtn，点击按钮的时候触发 disabled 禁用模拟 loading 效果，事件处理完成之后回复按钮的状态。
+下面我们完成一个完整的 HelloButton，点击按钮的时候触发 disabled 禁用模拟 loading 效果，事件处理完成之后回复按钮的状态。
 
 ```ts
 import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
 import $ from "jquery";
 
-// 定义HelloBtn组件
-class HelloBtn extends HTMLElement {
+// 定义HelloButton组件
+class HelloButton extends HTMLElement {
   public _setting: any = { name: "" };
   public _loadingBtnId: string = "";
-  root: ShadowRoot;
-  button: JQuery<HTMLElement>;
   public _setButtonLoading: (id: string) => void = () => {};
   public _cancelButtonLoading: () => void = () => {};
 
   constructor() {
     super();
-    this.root = this.attachShadow({ mode: "open" });
-    this.root.innerHTML = this.render();
 
-    // jquery获取按钮，需要在innerHTML之后
-    this.button = $("#btn", this.root);
     this.handleClick = this.handleClick.bind(this);
   }
 
   // 组件初始化加载完成，添加按钮事件监听
   connectedCallback() {
-    this.button.on("click", this.handleClick);
+    this.root.innerHTML = this.render();
+    $("#btn", this).on("click", this.handleClick);
   }
 
   // 组件销毁，清除按钮事件监听
   disConnectedCallback() {
-    this.button.off("click", this.handleClick);
+    $("#btn", this).off("click", this.handleClick);
   }
 
   handleClick() {
@@ -149,14 +148,14 @@ class HelloBtn extends HTMLElement {
     // 模拟后端接口请求完成之后按钮状态恢复
     setTimeout(() => {
       this.cancelButtonLoading();
-      this.button.removeAttr("disabled");
+      $("#btn", this).removeAttr("disabled");
     }, 1000);
   }
 
   // 获取组件attributes中的值，发生变更时更新dom节点
   set setting(value: any) {
     this._setting = value;
-    this.button.text(value.name);
+    $("#btn", this).text(value.name);
   }
 
   get setting() {
@@ -166,7 +165,7 @@ class HelloBtn extends HTMLElement {
   set loadingBtnId(value: any) {
     this._loadingBtnId = value;
     if ((value = this.setting.id)) {
-      this.button.attr("disabled", "true");
+      $("#btn", this).attr("disabled", "true");
     }
   }
 
@@ -215,7 +214,7 @@ class HelloBtn extends HTMLElement {
 }
 
 // 注册自定义组件
-customElements.define("flow-button-hello", HelloBtn);
+customElements.define("flow-button-hello", HelloButton);
 
 // 将web components组件封装成react组件
 export default webComponentWrapper("flow-button-hello");
