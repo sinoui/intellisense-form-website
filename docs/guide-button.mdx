@@ -3,7 +3,7 @@ id: guide-button
 title: 开发一个按钮
 ---
 
-上一个章节我们学会了开发简单的按钮，我们以一个简单的表单保存按钮开发为例，讲解如何开发一个流程按钮。
+上一个章节我们学会了开发简单的按钮，这个章节以一个自定义的表单保存按钮为例，讲解如何开发一个流程按钮。您通过此章节，您将学会流程按钮如何与表单数据进行交互，这也是流程按钮的精髓所在。
 
 :::info 示例源码
 
@@ -11,158 +11,55 @@ title: 开发一个按钮
 
 :::
 
-## 基本代码结构
+## 开发基本的按钮组件
 
-下方示例定义了一个最基本的 button 组件。
+我们按照上个章节介绍的方法，快速实现一个基本的按钮组件：
 
-```ts
-import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+组件：
 
-// 定义CustomSaveButton组件
-class CustomSaveButton extends HTMLElement {
+```ts title="src/plugins/flow-button-custom-save/CustomSaveButton.ts"
+import $ from "jQuery";
+import "./CustomSaveButton.css";
+
+/**
+ * 定义CustomSaveButton组件
+ */
+export default class CustomSaveButton extends HTMLElement {
   connectedCallback() {
     // 组件首次加载时，渲染button按钮
-    this.innerHTML = this.render();
+    this.render();
+  }
+
+  onClick() {
+    console.log("保存按钮被点击了");
   }
 
   render() {
     // 生成DOM节点模板字符串
-    return `<button class='custom-save-button'>customSave</button>`;
+    this.innerHTML = `<button class="custom-save-button">新的保存</button>`;
+
+    // 监听保存按钮的点击事件
+    $(".custom-save-button", this).on("click", this.onClick.bind(this));
   }
 }
 ```
 
-## 添加样式
+组件样式：
 
-样式添加的两种方式
-
-- 组件内部编写 style 样式。同样是以字符串的方式来编写样式。
-
-```ts
-renderStyle(){
-  return `
-    <style>
-      .custom-save-button {
-        color: #fff;
-        background-color: #2196f3;
-        font-size: 0.875rem;
-        border: none;
-        height: 36px;
-        margin: 8px;
-      }
-    </style>
-  `;
-}
-
-render(){
-  return `
-    ${this.renderStyle()}
-    <button class='custom-save-button'>customSave</button>
-  `;
+```css title="src/plugins/flow-button-custom-save/CustomSaveButton.css"
+.custom-save-button {
+  color: #fff;
+  background-color: #2196f3;
+  font-size: 0.875rem;
+  border: none;
+  height: 36px;
+  margin: 8px;
 }
 ```
 
-- 编写单独的 css 样式文件，直接在文件头部 import 导入 css。示例代码中采用的此方式
+包装为 React 组件：
 
-```ts
-import "./index.css";
-```
-
-## 获取传递给组件的 props 值
-
-使用 get/set 的方式，在组件内部维护一个对应的私有变量来同步 props 中的属性值。此方式还有另外一个作用，属性值发生变更的时候，我们可以在 set 方法内部来触发相应的 dom 节点变更。比如，组件 props 中含有 setting 属性，该属性定义了组件的部分配置，我们可以使用下面的方式来获取该对象的值。
-
-```ts
-get setting() {
-  return this._setting;
-}
-
-// 获取组件attributes中的值，发生变更时更新dom节点
-set setting(value: any) {
-  this._setting = value;
-  $("#btn", this).text(value.name);
-}
-```
-
-## 添加或销毁事件监听
-
-在组件初始化加载完成添加事件监听，组件销毁的时候销毁监听事件。这使用到了 web components 组件生命周期中的`connectedCallback`和`disConnectedCallback`方法。需要注意的是，触发的监听事件需要注意方法内部的`this`指向，可以在组件`constructor`方法中重新指定方法的`this`
-
-```ts
-constructor(){
-  this.handleClick = this.handleClick.bind(this);
-}
-
-connectedCallback() {
-  this.innerHTML = this.render()
-  $("#btn", this).on("click", this.handleClick);
-}
-
-disConnectedCallback() {
-  $("#btn", this).off("click", this.handleClick);
-}
-
-handleClick() {
-  // 业务逻辑处理代码
-}
-```
-
-下面我们完成一个完整的 CustomSaveButton，点击按钮时触发表单校验，校验通过之后调用后端接口保存表单。
-
-```ts
-import $ from "jquery";
-import { FormState } from "@sinoui/rx-form-state";
-import "./index.css";
-
-export default class CustomSaveButton extends HTMLElement {
-  private _formState: any;
-
-  constructor() {
-    super();
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  // 获取当前的表单状态
-  get formState() {
-    return this._formState;
-  }
-
-  set formState(newVal: FormState<any>) {
-    this._formState = newVal;
-  }
-
-  connectedCallback() {
-    // 组件初始化完成，生成dom并创建事件监听
-    this.innerHTML = this.render();
-
-    $(".custom-save-button", this).on("click", this.handleClick);
-  }
-
-  disConnectedCallback() {
-    // 销毁事件监听
-    $(".custom-save-button", this).off("click", this.handleClick);
-  }
-
-  handleClick() {
-    // 执行表单校验
-    this.formState.validate();
-
-    // 校验通过后执行保存方法
-    if (this.formState.isValid) {
-      this.formState.submit();
-    }
-  }
-
-  render() {
-    return `<button class='custom-save-button'>customSave</button>`;
-  }
-}
-```
-
-然后我们需要在`index.ts`文件中注册自定义组件，并将其封装成 React 组件。
-
-```ts
+```typescript title="src/plugins/flow-button-custom-save/index.tsx"
 import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
 import CustomSaveButton from "./CustomSaveButton";
 
@@ -176,17 +73,136 @@ customElements.define(helloButtonElementName, CustomSaveButton);
 export default webComponentWrapper(helloButtonElementName);
 ```
 
-开发完成之后需要在`src/index.ts`文件中将此组件注册为智能表单插件
+接下来注册到表单中去：
 
-```ts
+```typescript title="src/index.ts"
+import AppSetting from "@sinoform/app-setting";
+
 AppSetting.flowConfig.addButton({
   id: "custom-save-button",
-  name: "CustomSaveButton",
+  name: "新的保存",
   render: React.lazy(() => import("./plugins/flow-button-custom-save")),
-  enabled: false,
-  hidden: false,
-  icon: null,
 });
+```
+
+最后可以在演示系统中查看效果。点击新的保存按钮，会在控制台输出 `保存按钮被点击了`。接下来我们需要改动 `onClick` 方法，点击按钮时保存表单数据。要想保存数据，首先需要通过属性的方式获取到表单状态，我们马上进入下个章节，学习一下如何获取到表单状态。
+
+## 通过属性获取到表单状态
+
+表单会给流程按钮组件传递以下属性：
+
+- `formState` - 表单状态
+- `detailPage` - 详情页数据
+- `appInfo` - 应用级别的信息，包括当前用户信息
+
+使用 get/set 的方式，在组件内部维护一个对应的私有变量来同步以上属性值。如下所示：
+
+```ts title="src/plugins/flow-button-custom-save/CustomSaveButton.ts"
+import type { FormState } from "@sinoui/rx-form-state";
+
+export default class CustomSaveButton extends HTMLElement {
+  // 表单状态
+  private _formState: FormState | undefined;
+
+  /**
+   * 设置表单状态
+   */
+  set formState(formState: FormState) {
+    this._formState = formState;
+
+    console.log("接受来自表单的 formState 属性", formState);
+  }
+}
+```
+
+有了属性，我们就可以在 `onClick` 方法中调用表单状态对象的提交方法。请看下一个章节。
+
+## 点击按钮保存表单
+
+这个小结我们完善 `onClick` 方法，来实现点击保存按钮时，提交表单：
+
+```typescript title="src/plugins/flow-button-custom-save/CustomSaveButton.ts"
+import type { FormState } from "@sinoui/rx-form-state";
+
+export default class CustomSaveButton extends HTMLElement {
+  async onClick() {
+    if (!this._formState) {
+      return;
+    }
+
+    // 执行表单校验
+    const isValid = await this._formState.validate();
+
+    if (!isValid) {
+      console.log("表单校验不通过，不能保存表单");
+      return;
+    }
+
+    try {
+      // 提交表单
+      await this._formState.submit();
+      console.log("保存表单成功");
+    } catch (e) {
+      console.log("保存表单失败");
+    }
+  }
+}
+```
+
+这样，我们新的保存按钮就开发完了，完整的 `CustomSaveButton.ts` 文件代码如下：
+
+```typescript title="src/plugins/flow-button-custom-save/CustomSaveButton.ts"
+import type { FormState } from "@sinoui/rx-form-state";
+import $ from "jQuery";
+import "./CustomSaveButton.css";
+
+/**
+ * 定义CustomSaveButton组件
+ */
+export default class CustomSaveButton extends HTMLElement {
+  // 表单状态
+  private _formState: FormState | undefined;
+
+  connectedCallback() {
+    // 组件首次加载时，渲染button按钮
+    this.render();
+  }
+
+  /**
+   * 设置表单状态
+   */
+  set formState(formState: FormState) {
+    this._formState = formState;
+
+    console.log("接受来自表单的 formState 属性", formState);
+  }
+
+  async onClick() {
+    // 执行表单校验
+    const isValid = await this._formState.validate();
+
+    if (!isValid) {
+      console.log("表单校验不通过，不能保存表单");
+      return;
+    }
+
+    try {
+      // 提交表单
+      await this._formState.submit();
+      console.log("保存表单成功");
+    } catch (e) {
+      console.log("保存表单失败");
+    }
+  }
+
+  render() {
+    // 生成DOM节点模板字符串
+    this.innerHTML = `<button class="custom-save-button">新的保存</button>`;
+
+    // 监听保存按钮的点击事件
+    $(".custom-save-button", this).on("click", this.onClick.bind(this));
+  }
+}
 ```
 
 ## 在智能表单产品中调试插件
