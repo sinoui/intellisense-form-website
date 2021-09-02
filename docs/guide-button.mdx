@@ -5,23 +5,21 @@ title: 开发一个按钮
 
 :::info 示例源码
 
-本章节得示例代码可以在[Web Component 插件示例项目](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/blob/master/src/plugins/flow-button-hello/HelloButton.ts)中找到。
+本章节得示例代码可以在[sinoform-plugins-web-component-examples/src/plugins/flow-button-custom-save](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/blob/master/src/plugins/flow-button-custom-save/)中找到。
 
 :::
 
-## Web Components 方式开发
+我们以一个简单的表单保存按钮开发为例
 
-在 plugins/flow-button-hello 下创建`HelloButton.ts`文件。
-
-### 基本代码结构
+## 基本代码结构
 
 下方示例定义了一个最基本的 button 组件。
 
 ```ts
 import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
 
-// 定义HelloButton组件
-class HelloButton extends HTMLElement {
+// 定义CustomSaveButton组件
+class CustomSaveButton extends HTMLElement {
   connectedCallback() {
     // 组件首次加载时，渲染button按钮
     this.innerHTML = this.render();
@@ -29,31 +27,22 @@ class HelloButton extends HTMLElement {
 
   render() {
     // 生成DOM节点模板字符串
-    return `<button id="btn">HelloButton</button>`;
+    return `<button class='custom-save-button'>customSave</button>`;
   }
 }
-
-// 注册自定义组件
-customElements.define("hello-button", HelloButton);
-
-// 包装成React组件，并对组件注入系统上下文相关的数据
-export default webComponentWrapper("hello-button");
 ```
 
-### 添加样式
+## 添加样式
 
 样式添加的两种方式
 
 - 组件内部编写 style 样式。同样是以字符串的方式来编写样式。
-- 引用外部的 css 文件。直接在文件头部 import 导入 css 文件。
-
-我们以组件内部编写 style 样式为例
 
 ```ts
 renderStyle(){
   return `
     <style>
-      #btn{
+      .custom-save-button {
         color: #fff;
         background-color: #2196f3;
         font-size: 0.875rem;
@@ -68,12 +57,18 @@ renderStyle(){
 render(){
   return `
     ${this.renderStyle()}
-    <button id="btn">HelloButton</button>
+    <button class='custom-save-button'>customSave</button>
   `;
 }
 ```
 
-### 获取传递给组件的 props 值
+- 编写单独的 css 样式文件，直接在文件头部 import 导入 css。示例代码中采用的此方式
+
+```ts
+import "./index.css";
+```
+
+## 获取传递给组件的 props 值
 
 使用 get/set 的方式，在组件内部维护一个对应的私有变量来同步 props 中的属性值。此方式还有另外一个作用，属性值发生变更的时候，我们可以在 set 方法内部来触发相应的 dom 节点变更。比如，组件 props 中含有 setting 属性，该属性定义了组件的部分配置，我们可以使用下面的方式来获取该对象的值。
 
@@ -89,7 +84,7 @@ set setting(value: any) {
 }
 ```
 
-### 添加或销毁事件监听
+## 添加或销毁事件监听
 
 在组件初始化加载完成添加事件监听，组件销毁的时候销毁监听事件。这使用到了 web components 组件生命周期中的`connectedCallback`和`disConnectedCallback`方法。需要注意的是，触发的监听事件需要注意方法内部的`this`指向，可以在组件`constructor`方法中重新指定方法的`this`
 
@@ -112,18 +107,15 @@ handleClick() {
 }
 ```
 
-下面我们完成一个完整的 HelloButton，点击按钮的时候触发 disabled 禁用模拟 loading 效果，事件处理完成之后回复按钮的状态。
+下面我们完成一个完整的 CustomSaveButton，点击按钮时触发表单校验，校验通过之后调用后端接口保存表单。
 
 ```ts
-import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
 import $ from "jquery";
+import { FormState } from "@sinoui/rx-form-state";
+import "./index.css";
 
-// 定义HelloButton组件
-class HelloButton extends HTMLElement {
-  public _setting: any = { name: "" };
-  public _loadingBtnId: string = "";
-  public _setButtonLoading: (id: string) => void = () => {};
-  public _cancelButtonLoading: () => void = () => {};
+export default class CustomSaveButton extends HTMLElement {
+  private _formState: any;
 
   constructor() {
     super();
@@ -131,91 +123,84 @@ class HelloButton extends HTMLElement {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  // 组件初始化加载完成，添加按钮事件监听
-  connectedCallback() {
-    this.innerHTML = this.render();
-    $("#btn", this).on("click", this.handleClick);
+  // 获取当前的表单状态
+  get formState() {
+    return this._formState;
   }
 
-  // 组件销毁，清除按钮事件监听
+  set formState(newVal: FormState<any>) {
+    this._formState = newVal;
+  }
+
+  connectedCallback() {
+    // 组件初始化完成，生成dom并创建事件监听
+    this.innerHTML = this.render();
+
+    $(".custom-save-button", this).on("click", this.handleClick);
+  }
+
   disConnectedCallback() {
-    $("#btn", this).off("click", this.handleClick);
+    // 销毁事件监听
+    $(".custom-save-button", this).off("click", this.handleClick);
   }
 
   handleClick() {
-    this.setButtonLoading(this.setting.id);
-    this.loadingBtnId = this.setting.id;
-    // 模拟后端接口请求完成之后按钮状态恢复
-    setTimeout(() => {
-      this.cancelButtonLoading();
-      $("#btn", this).removeAttr("disabled");
-    }, 1000);
-  }
+    // 执行表单校验
+    this.formState.validate();
 
-  // 获取组件attributes中的值，发生变更时更新dom节点
-  set setting(value: any) {
-    this._setting = value;
-    $("#btn", this).text(value.name);
-  }
-
-  get setting() {
-    return this._setting;
-  }
-
-  set loadingBtnId(value: any) {
-    this._loadingBtnId = value;
-    if ((value = this.setting.id)) {
-      $("#btn", this).attr("disabled", "true");
+    // 校验通过后执行保存方法
+    if (this.formState.isValid) {
+      this.formState.submit();
     }
   }
 
-  get loadingBtnId() {
-    return this._loadingBtnId;
-  }
-
-  set setButtonLoading(func: any) {
-    this._setButtonLoading = func;
-  }
-
-  get setButtonLoading() {
-    return this._setButtonLoading;
-  }
-
-  set cancelButtonLoading(func: any) {
-    this._cancelButtonLoading = func;
-  }
-
-  get cancelButtonLoading() {
-    return this._cancelButtonLoading;
-  }
-
-  renderStyle() {
-    return `
-      <style>
-        #btn{
-          color: #fff;
-          background-color: #2196f3;
-          font-size: 0.875rem;
-          border: none;
-          height: 36px;
-          margin: 8px;
-        }
-      </style>
-    `;
-  }
-
   render() {
-    // 生成dom模板字符串
-    return `
-      ${this.renderStyle()}
-      <button id="btn" >${this.setting.name}</button>
-    `;
+    return `<button class='custom-save-button'>customSave</button>`;
   }
 }
-
-// 注册自定义组件
-customElements.define("flow-button-hello", HelloButton);
-
-// 将web components组件封装成react组件
-export default webComponentWrapper("flow-button-hello");
 ```
+
+然后我们需要在`index.ts`文件中注册自定义组件，并将其封装成 React 组件。
+
+```ts
+import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import CustomSaveButton from "./CustomSaveButton";
+
+// 给按钮元素取名，需要全局唯一，不能有重复的
+const helloButtonElementName = "flow-button-custom-save";
+
+// 注册自定义的CustomSaveButton
+customElements.define(helloButtonElementName, CustomSaveButton);
+
+// 包装成React组件并默认导出
+export default webComponentWrapper(helloButtonElementName);
+```
+
+开发完成之后需要在`src/index.ts`文件中将此组件注册为智能表单插件
+
+```ts
+AppSetting.flowConfig.addButton({
+  id: "custom-save-button",
+  name: "CustomSaveButton",
+  render: React.lazy(() => import("./plugins/flow-button-custom-save")),
+  enabled: false,
+  hidden: false,
+  icon: null,
+});
+```
+
+## 在智能表单产品中调试插件
+
+本小节以智能表单外网演示环境来说明如何在智能表单产品中调试插件。
+
+打开[登录页](http://121.30.232.162:18880/sso/)，使用账号 `智能表单管理员`（密码是：`1qaz2wsx!`） 登录系统，然后选择表单设计器，进入智能表单管理页面。
+
+打开表单`演示自定义保存按钮`，在流程设计界面，选择审批节点，然后右侧更多属性中就可以看到新增的 CustomSaveButton 按钮
+
+![流程配置界面](assets/customsavebtn-in-design.png)
+
+进入产品示例系统，在`演示自定义保存按钮`的代办列表审批节点的表单详情页中可以看到我们新增的按钮
+
+![详情界面](assets/customsavebtn-in-detail.png)
+
+这个时候我们就可以修改表单项的值，测试按钮的保存功能了。
