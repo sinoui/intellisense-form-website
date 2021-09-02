@@ -178,6 +178,10 @@ export default class CustomSaveButton extends HTMLElement {
   }
 
   async onClick() {
+    if (!this._formState) {
+      return;
+    }
+
     // 执行表单校验
     const isValid = await this._formState.validate();
 
