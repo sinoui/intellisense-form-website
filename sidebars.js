@@ -1,7 +1,6 @@
 module.exports = {
-  someSidebar: {
+  someSidebar: ["introduction", {
     部署: [
-      "sinomatrix-intellisenseform-introduce",
       "deployment",
       "integrate",
       "sinomatrix-docker-intellisenseform",
@@ -26,20 +25,20 @@ module.exports = {
           "guide-form-style",
           "guide-summary",
         ],
-      },
-      "use-app-setting",
-      "plugin-field",
-      "plugin-button",
-      "plugin-detail-page-extend",
-      "plugin-css",
-      "plugin-module-federation",
-      "plugin-test",
-      {
+        高级教程: [
+          "use-app-setting",
+          "plugin-field",
+          "plugin-button",
+          "plugin-detail-page-extend",
+          "plugin-css",
+          "plugin-module-federation",
+          "plugin-test",
+        ],
         最佳实践: ["plugin-document-structure", "plugin-dynamic-import"],
       },
     ],
     样式定制: ["custom-css-pc", "custom-css-mobile", "custom-css-editor"],
     扩展: ["extend-interface"],
     序号组件: ["sinomatrix-sequence-table", "sinomatrix-sequence-interface"],
-  },
+  }]
 };
