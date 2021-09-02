@@ -19,68 +19,66 @@ title: 控制按钮的点击行为
 首先我们创建一个简单的示例方法，在点击`保存`按钮时，先在控制台输出一下表单内容，然后再执行保存方法。
 
 ```ts title="src/plugins/detail-page-extends/helloExtends.ts"
-import type { DetailPageExtendsConfig } from "@sinoform/types";
+import AppSetting from "@sinoform/app-setting";
 
-/**
- * 表单详情扩展方法
- */
-export default function helloExtends(
-  detailPageConfig: DetailPageExtendsConfig
-) {
-  // 监听保存按钮点击事件，添加前置处理，返回true或false决定是否继续执行点击事件
-  detailPageConfig.onButtonPrevClick(
-    "save",
-    (event: DetailPageContextType) => {
-      const { formState } = event;
-      // 输出表单值
-      console.log(formState.values);
+AppSetting.hooks.detailPage.tap(
+  "controlButtonClickExtends",
+  (detailPageContext) => {
+    const { hooks, formData = {}, formState } = detailPageContext;
+    const { formDesign: { id } = {} } = formData;
 
-      //返回true,表示继续执行保存操作
-      return true;
-    },
-    true
-  );
-}
+    if (id === "612df55ac9327f1383eb4bbb") {
+      // 监听按钮点击事件，添加前置处理,返回false表示不再执行与后端交互的实际保存动作
+      hooks.beforeButtonClick.tap("controlButtonClickExtends", (buttonId) => {
+        if (buttonId === "save") {
+          // 输出表单值
+          console.log(formState.values);
+        }
+        return undefined;
+      });
+    }
+  }
+);
 ```
 
-## 注册扩展方法
+拓展方法开发完成之后只需要在`src/index.ts`中引入该文件，即可完成该拓展方法的注册。
 
-扩展方法注册同`监听表单值`扩展方法注册方式一致，可参考[监听表单值变化 | 扩展方法注册](./guide-watch-form-values#扩展方法注册)。
+```typescript
+import "./plugins/detail-page-extends/controlButtonClickExtends";
+```
 
 ## 更多示例
 
 在一个有编号字段的表单中，点击`保存`按钮时，首先校验编号字段的值是否与已有数据重复，如果是，则设置校验失败的提示，并且不再执行保存操作；如果不重复，则直接保存。
 
 ```ts title="src/plugins/detail-page-extends/controlButtonClickExtends.ts"
-import type { DetailPageExtendsConfig } from "@sinoform/types";
+import AppSetting from "@sinoform/app-setting";
 
-/**
- * 控制保存按钮点击事件的扩展函数
- */
-export default function controlButtonClickExtends(
-  detailPageConfig: DetailPageExtendsConfig
-) {
-  // 监听保存按钮点击事件，添加前置处理，返回true或false决定是否继续执行点击事件
-  detailPageConfig.onButtonPrevClick(
-    "save",
-    (event: DetailPageContextType) => {
-      const { formState } = event;
-      // 判断编号是否等于已有编号
-      if (formState.values["bianhao"] === "002") {
-        // 设置校验错误
-        formState.setFieldError("bianhao", "编号不能重复");
-        formState.setFieldTouched("bianhao", true);
+AppSetting.hooks.detailPage.tap(
+  "controlButtonClickExtends",
+  (detailPageContext) => {
+    const { hooks, formData = {}, formState } = detailPageContext;
+    const { formDesign: { id } = {} } = formData;
 
-        // 返回false,表示不执行保存操作
-        return false;
-      }
+    if (id === "612df55ac9327f1383eb4bbb") {
+      // 监听按钮点击事件，添加前置处理,返回false表示不再执行与后端交互的实际保存动作
+      hooks.beforeButtonClick.tap("controlButtonClickExtends", (buttonId) => {
+        if (buttonId === "save") {
+          // 判断编号是否等于已有编号
+          if (formState.values["bianhao"] === "002") {
+            // 设置校验错误
+            formState.setFieldError("bianhao", "编号不能重复");
+            formState.setFieldTouched("bianhao", true);
 
-      //返回true,表示执行保存操作
-      return true;
-    },
-    true
-  );
-}
+            // 返回false,表示不执行保存操作
+            return false;
+          }
+        }
+        return undefined;
+      });
+    }
+  }
+);
 ```
 
 ### 流程按钮标识（id）对照表
