@@ -11,20 +11,13 @@ title: 开发一个表单项
 
 :::info 示例源码
 
-本章节得示例代码可以在[Web Component 插件示例项目](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/tree/master/src/plugins/form-field-custom-textinput)中找到。
+本章节得示例代码可以在[sinoform-plugins-web-component-examples/src/plugins/form-field-input](https://gitee.com/sinoui/sinoform-plugins-web-component-examples/tree/master/src/plugins/form-field-input)中找到。
 
 :::
-
-## Web Components 方式开发
-
-以 render 组件为例，在 plugins/form-field-custom-textinput 下创建`InputRenderer.ts`文件
 
 ### 基本的代码结构
 
 ```ts
-import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
-import $ from "jquery";
-
 // 定义InputRenderer组件
 class InputRenderer extends HTMLElement {
   connectedCallback() {
@@ -36,12 +29,6 @@ class InputRenderer extends HTMLElement {
     return `<input id="field-input-renderer" />`;
   }
 }
-
-// 注册render组件
-customElements.define("field-input-renderer", InputRenderer);
-
-// 封装成react组件
-export default webComponentWrapper("field-input-renderer");
 ```
 
 ### 获取传递给组件的 props 值
@@ -80,6 +67,26 @@ attributeChangedCallback(attr: string, _oldVal: any, newVal: any) {
 }
 ```
 
+需要注意的是 props 属性的 set 方法初次触发的时机要比 connectedCallback 早，所以 connectedCallback 中执行 render 时候会导致 input 的值丢失。两种方式解决此问题
+
+1. 直接在 render 方法中指定 input 的 value 值
+
+```ts
+render() {
+  return `<input class="field-input-renderer" value='${this.value}'/>`;
+}
+```
+
+2. innerHTML 之后为 input 手动赋值
+
+```ts
+connectedCallback() {
+  this.innerHTML = this.render();
+  this.input = $(".field-input-renderer", this);
+  this.input.val(this.value);
+}
+```
+
 至此，表单项的值在组件内部的回显处理完毕。
 
 ### 添加或销毁事件监听
@@ -88,6 +95,8 @@ attributeChangedCallback(attr: string, _oldVal: any, newVal: any) {
 
 ```ts
 connectedCallback() {
+  this.innerHTML = this.render();
+  this.input = $(".field-input-renderer", this);
   this.input.on('change', this.handleInputChange);
 }
 
@@ -103,10 +112,10 @@ handleInputChange(e: any){
 完整的示例代码
 
 ```ts
-import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
 import $ from "jquery";
+import "./index.css";
 
-class InputRenderer extends HTMLElement {
+export default class InputRenderer extends HTMLElement {
   private _value: string = "";
   private input: JQuery<HTMLElement> | null = null;
   private _onChange: any;
@@ -119,7 +128,7 @@ class InputRenderer extends HTMLElement {
 
   connectedCallback() {
     this.innerHTML = this.render();
-    this.input = $("#field-input-renderer", this);
+    this.input = $(".field-input-renderer", this);
     this.input.on("change", this.handleInputChange);
   }
 
@@ -164,13 +173,27 @@ class InputRenderer extends HTMLElement {
   }
 
   render() {
-    return `<input id="field-input-renderer" value='${this.value}'/>`;
+    return `<input class="field-input-renderer" value='${this.value}'/>`;
   }
 }
-
-customElements.define("field-input-renderer", InputRenderer);
-
-export default webComponentWrapper("field-input-renderer");
 ```
 
 preview 组件是预览组件，不涉及业务逻辑交互，不需要事件监听处理，属于比较纯粹的 ui 组件。
+
+## 在智能表单产品中调试插件
+
+本小节以智能表单外网演示环境来说明如何在智能表单产品中调试插件。
+
+打开[登录页](http://121.30.232.162:18880/sso/)，使用账号 `智能表单管理员`（密码是：`1qaz2wsx!`） 登录系统，然后选择表单设计器，进入智能表单管理页面。
+
+打开表单`演示自定义表单项`，在表单设计界面可以在左侧的基础字段中看到新增的自定义表单项，拖动它到中间区域就可以完整自定义表单项的添加。
+
+![设计界面](assets/custominput-in-design.png)
+
+打开预览界面就可以实时测试自定义表单项的功能。
+
+![预览界面](assets/custominput-in-preview.png)
+
+进入产品示例系统，在`演示自定义表单项`的表单详情页中也可以测试自定义表单项。
+
+![详情界面](assets/custominput-in-detail.png)
