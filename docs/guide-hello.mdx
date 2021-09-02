@@ -99,10 +99,10 @@ const helloButtonElementName = "hello-button";
 customElements.define(helloButtonElementName, HelloButton);
 
 // 将 hello-button 自定义元素包装为 React 组件
-const HelloButtonComponent = webComponentWrapper(helloButtonElementName);
+const HelloButtonReactComponent = webComponentWrapper(helloButtonElementName);
 
-// 默认导出 HelloButtonComponent
-export default HelloButtonComponent;
+// 默认导出 HelloButtonReactComponent
+export default HelloButtonReactComponent;
 ```
 
 ## 注册 HelloButton 插件

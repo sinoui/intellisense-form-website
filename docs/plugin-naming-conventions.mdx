@@ -1,0 +1,211 @@
+---
+id: plugin-naming-conventions
+title: 命名约定
+---
+
+最重要的一致性规则是命名管理。命名的风格能让我们在不需要去查找类型声明的条件下快速地了解某个名字代表的含义。
+
+## 文件夹命名
+
+> 所有的文件夹名称需要全部小写，可以包含连字符（`-`）。
+
+可接受的文件夹命名示例：
+
+- `qxjoa-plugins`
+- `form-field-custom-text-input`
+- `flow-button-hello`
+- `detail-page-extends-examples`
+
+## 文件命名
+
+> 文件名称采用驼峰形式。如果是组件和类，则采用首字母大写；其他文件名称采用首字符小写。
+
+可接受的文件命名示例：
+
+- `index.ts`
+- `HelloButton.css`
+- `HelloButton.ts`
+- `helloDetailPageExtends.ts`
+
+不建议的文件命名示例：
+
+- `hello-button.css`
+- `hello_button.ts`
+
+## 类命名
+
+> 类的名称采用大写驼峰式。
+
+可以接受的类名称：
+
+- HelloButton
+- CustomTextInput
+
+## 变量、函数、参数命名
+
+> 变量、函数和参数的名称采用小写驼峰式。
+
+可以接受的变量、函数名称：
+
+- `value`
+- `save`
+- `sendFlow`
+
+:::warning 特例
+
+React 函数式组件的名称是特例，采用大写驼峰式。
+
+:::
+
+## 私有变量命名
+
+> 类中的私有变量名称需要以下划线（`_`）开头，采用小写驼峰式。
+
+可以接受的私有变量命名：
+
+- `_value`
+- `_formValues`
+
+## 组件命名
+
+> 组件名称采用大写的驼峰式。
+
+可接受的组件命名示例：
+
+```typescript
+class HelloButton extends HTMLElement {}
+```
+
+## React 组件命名
+
+> 在采用 WebCompnonent 或者 Vue 开发组件时，包装成 React 组件，那么该 React 组件的名称需要以 `ReactComponent` 结尾。
+
+可接受的 React 组件名称示例：
+
+- HelloButtonReactComponent
+- CustomTextInputReactComponent
+
+## 插件 id 和 名称
+
+> 插件 id 和名称需要全部小写，可以包含连字符（`-`）。尽量不要采用单词简写。
+
+可接受的示例 1：
+
+```typescript {4}
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.flowConfig.addButton({
+  id: "hello-button",
+});
+```
+
+可接受的示例 2：
+
+```typescript
+customElements.define("hello-button", HelloButton);
+```
+
+可接受的示例 3：
+
+```typescript {2}
+AppSetting.formConfig.addField({
+  type: "custom-text-input",
+  title: "自定义单行文本",
+});
+```
+
+## 流程按钮插件命名
+
+> 在 `src/plugins` 中新建一个文件夹，包含此流程按钮的代码。流程按钮文件夹名称需要以 `flow-button-` 开头。
+
+可接受的流程按钮插件文件夹名称：
+
+- `flow-button-hello`
+- `flow-button-custom-save`
+- `flow-button-send`
+
+> 流程按钮组件采用首字母大写的驼峰式，且以 `Button` 结尾。
+
+可接受的流程按钮组件名称：
+
+- `HelloButton.ts`
+- `CustomSaveButton.ts`
+- `SendButton.ts`
+
+> 流程按钮的组件名称、自定义元素名称和流程按钮 id 保持名称一致，格式不用保持一致。
+
+可接受的示例：
+
+- 流程按钮的组件名称：`HelloButton`
+- 流程按钮的自定义元素名称： `hello-button`
+- 流程按钮的 id：`hello-button`
+
+流程按钮的组件名称：
+
+```ts
+class HelloButton extends HTMLElement {}
+```
+
+流程按钮的自定义元素名称：
+
+```ts {3}
+import HelloButton from "./HelloButton";
+
+customElements.define("hello-button", HelloButton);
+```
+
+流程按钮的 id :
+
+```typescript {4}
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.flowConfig.addButton({
+  id: "hello-button",
+});
+```
+
+## 表单字段插件命名
+
+> 在 `src/plugins` 中新建一个文件夹，包含此表单字段的代码。表单字段文件夹名称需要以 `form-field-` 开头。
+
+可接受的表单字段文件夹名称：
+
+- `form-field-custom-text-input`
+- `form-field-custom-user-selector`
+
+> 表单字段的组件名称、自定义元素名称和表单字段 type 保持名称一致，格式不用保持一致。
+
+可接受的示例：
+
+表单字段组件名称：
+
+```typescript
+class CustomTextInput extends HTMLElement {}
+```
+
+自定义元素名称：
+
+```typescript {3}
+import CustomTextInput from "./CustomTextInput";
+
+customElements.define("custom-text-input", CustomTextInput);
+```
+
+表单字段的 type :
+
+```typescript {2}
+AppSetting.formConfig.addField({
+  type: "custom-text-input",
+  title: "自定义单行文本",
+});
+```
+
+## 详情页扩展命名
+
+> 在 `src/plugins` 中新建一个文件夹，包含此扩展的代码。详情页扩展文件夹名称需要以 `detail-page-extends-` 开头。
+
+可以接受的详情页扩展文件夹名称：
+
+- `detail-page-extends-hello`
+- `detail-page-extends-user-info-form`
+- `detail-page-extends-enhanced-save`
