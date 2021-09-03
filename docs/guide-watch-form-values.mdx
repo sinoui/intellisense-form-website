@@ -9,16 +9,16 @@ title: 监听表单值变化
 
 :::
 
-我们可以通过扩展详情页业务逻辑的方式添加`监听表单值变化`的方法。一般分成两步：
+添加`监听表单值变化`的扩展，一般分成两步：
 
-1. 创建扩展方法
-2. 将扩展方法注册到表单中
+1. 创建扩展文件
+2. 将扩展文件注册到表单中
 
 ## 创建扩展方法
 
-下面的示例中，我们创建一个名为`helloExtends`的钩子方法，在这个方法中监听表单值的变化，然后控制台输出变化前后的值。
+下面的示例中，我们在`src/plugins/detail-page-extends`文件夹下创建一个`helloExtends`文件，通过`valueChange`钩子监听表单值变化，然后控制台输出变化前后的值。
 
-```ts title="src/plugins/detail-page-extends/helloExtends.ts"
+```ts title="src/plugins/detail-page-extends/helloExtends.ts" {12,13,14}
 import AppSetting from "@sinoform/app-setting";
 
 AppSetting.hooks.detailPage.tap(
@@ -50,7 +50,7 @@ AppSetting.hooks.detailPage.tap(
 
 拓展方法开发完成之后只需要在`src/index.ts`中引入该文件，即可完成该拓展方法的注册。
 
-```typescript
+```ts title="src/index.ts"
 import "./plugins/detail-page-extends/helloExtends";
 ```
 
@@ -60,7 +60,7 @@ import "./plugins/detail-page-extends/helloExtends";
 
 ![获取formDesignId](/img/get_formdesignId.png)
 
-## 更多示例
+## 示例：值关联
 
 以一个产品采购表单为例，我们监听产品的`单价`和`数量`，自动计算出产品总价。具体代码如下：
 
@@ -94,3 +94,13 @@ AppSetting.hooks.detailPage.tap(
   }
 );
 ```
+
+## 在智能表单产品中调试插件
+
+本小节以智能表单外网演示环境来说明如何在智能表单产品中调试插件。
+
+打开[登录页](http://121.30.232.162:18880/sso/)，使用账号 `智能表单管理员`（密码是：`1qaz2wsx!`） 登录系统，然后选择产品示例，进入智能表单管理页面。
+
+打开表单`演示业务逻辑扩展示例`，起草页面，输入`A产品单价`和`A产品数量`，会自动写入`A产品总价`的值。
+
+![监听表单值变化](assets/guide-watch-form-values.gif)
