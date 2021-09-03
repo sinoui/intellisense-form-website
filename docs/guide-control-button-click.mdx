@@ -9,14 +9,14 @@ title: 控制按钮的点击行为
 
 :::
 
-我们可以通过扩展详情页业务逻辑的方式来添加`控制按钮点击行为`的方法。一般分成两步：
+添加`控制按钮点击行为`的扩展，一般分成两步：
 
-1. 创建扩展方法
-2. 注册扩展方法
+1. 创建扩展文件
+2. 注册扩展文件
 
-## 创建扩展方法
+## 创建扩展文件
 
-首先我们创建一个简单的示例方法，在点击`保存`按钮时，先在控制台输出一下表单内容，然后再执行保存方法。
+首先我们创建一个简单的扩展示例，在点击`保存`按钮时，先在控制台输出一下表单内容，然后再执行保存方法。
 
 ```ts title="src/plugins/detail-page-extends/helloExtends.ts"
 import AppSetting from "@sinoform/app-setting";
@@ -34,22 +34,21 @@ AppSetting.hooks.detailPage.tap(
           // 输出表单值
           console.log(formState.values);
         }
-        return undefined;
       });
     }
   }
 );
 ```
 
-## 注册扩展方法
+## 注册扩展文件
 
 拓展方法开发完成之后只需要在`src/index.ts`中引入该文件，即可完成该拓展方法的注册。
 
-```typescript
+```typescript title="src/index.ts"
 import "./plugins/detail-page-extends/controlButtonClickExtends";
 ```
 
-## 更多示例
+## 示例：保存时校验编号字段
 
 在一个有编号字段的表单中，点击`保存`按钮时，首先校验编号字段的值是否与已有数据重复，如果是，则设置校验失败的提示，并且不再执行保存操作；如果不重复，则直接保存。
 
@@ -97,3 +96,13 @@ AppSetting.hooks.detailPage.tap(
 | 收回     | takeback      |
 | 撤办     | cancelBack    |
 | 恢复流程 | regainFlow    |
+
+## 在智能表单产品中调试插件
+
+本小节以智能表单外网演示环境来说明如何在智能表单产品中调试插件。
+
+打开[登录页](http://121.30.232.162:18880/sso/)，使用账号 `智能表单管理员`（密码是：`1qaz2wsx!`） 登录系统，然后选择产品示例，进入智能表单管理页面。
+
+打开表单`演示业务逻辑扩展示例`，起草页面，编号输入 002，点击保存按钮，会看到错误提示，并且不往后端发送请求。
+
+![控制按钮点击行为](assets/control-button-click.gif)
