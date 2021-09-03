@@ -9,134 +9,120 @@ title: 控制表单页上的按钮和表单项
 
 :::
 
-控制表单页上的按钮和表单项一般分为三个步骤：
+添加`控制表单页上的按钮和表单项`的扩展，一般分成两步：
 
-1. 创建一个权限判定方法
-2. 创建一个业务逻辑扩展方法，在此方法中注册权限判定方法
-3. 将业务逻辑扩展方法注册进表单
+1. 创建权限扩展文件
+2. 注册权限扩展文件
 
-## 创建权限判定方法
+## 创建权限扩展文件
 
-首先在`src/plugins/detail-page-extends`文件夹下创建`helloPermission`方法。
+首先在`src/plugins/detail-page-extends`文件夹下创建`helloPermissionExtends`文件。通过`permission`钩子注册监听事件，判断当前节点如果是`中心文秘`，则`退回`按钮可见。
 
 ```ts title="src/plugins/detail-page-extends/helloPermission.ts"
-import type {
-  FormData,
-  FormValues,
-  UserInfo,
-  PermissionItem,
-} from "@sinoform/types";
+import AppSetting from "@sinoform/app-setting";
 
-/**
- * 权限判定示例
- */
-export default function helloPermission(
-  formData: FormData | undefined, // 表单数据，包括表单值，表单设计配置，当前流程节点等
-  formValues: FormValues, //表单值
-  currentUser: UserInfo // 当前登录人信息
-): PermissionItem[] {
-  const permissionItems: PermissionItem[] = [];
-  const { flowNode } = formData ?? {};
-
-  //判断当前节点是否为`处长审批`，如果是，则显示`退回`按钮
-  if (flowNode?.name === "处长审批") {
-    permissionItems.push({
-      name: "back",
-      hidden: false,
-    });
+AppSetting.hooks.detailPage.tap(
+  "helloPermissionExtends",
+  (detailPageContext) => {
+    const { hooks, formData = {} } = detailPageContext;
+    const { formDesign: { id } = {}, flowNode } = formData;
+    // 判断是否为指定的表单id
+    if (id === "612df55ac9327f1383eb4bbb") {
+      // 在产生最终的表单权限时调用，用来收集自定义的权限控制数据。
+      hooks.permission.tap(
+        "helloPermissionExtends",
+        (_currentUser, permissionItemList) => {
+          //判断当前节点是否为`处长审批`，如果是，则显示`退回`按钮
+          if (flowNode?.name === "中心文秘") {
+            permissionItemList.push({
+              name: "back",
+              hidden: false,
+            });
+          }
+        }
+      );
+    }
   }
-
-  return permissionItems;
-}
+);
 ```
 
-## 创建业务逻辑扩展方法
+## 注册权限扩展文件
 
-在`src/plugins/detail-page-extends`文件夹下，创建`helloExtends`方法，将`helloPermission`方法注册进去。
+只需在`src/index.ts`文件中引入扩展文件即可。
 
-```ts title="src/plugins/detail-page-extends/helloExtends.ts"
-import type { DetailPageExtendsConfig } from "@sinoform/types";
-import helloPermission from "./helloPermission";
-
-export default function helloExtends(
-  detailPageConfig: DetailPageExtendsConfig
-) {
-  // 注册权限判定方法
-  detailPageConfig.customPermission(helloPermission);
-}
+```ts title="src/index.ts"
+import "./plugins/detail-page-extends/helloPermissionExtends";
 ```
 
-## 注册业务逻辑扩展
+## 示例：办结按钮显示权限
 
-以上两个步骤完成后，可将业务逻辑扩展注册进表单，注册方法参考[监听表单值变化 | 扩展方法注册](./guide-watch-form-values#扩展方法注册)。
+中心文秘节点配置`办结`按钮，但必须在经过`领导审批`后才能显示此按钮
 
-## 更多示例
+```ts title="src/plugins/detail-page-extends/customPermissionExtends.ts"
+import AppSetting from "@sinoform/app-setting";
 
-1. 文秘节点配置`办结`按钮，但必须在经过`办公室主任审批`后才能显示此按钮
-
-```ts title="getCustomPermission.ts"
-import type {
-  FormData,
-  FormValues,
-  UserInfo,
-  PermissionItem,
-} from "@sinoform/types";
-
-export default function getCustomPermission(
-  formData: FormData | undefined,
-  formValues: FormValues,
-  currentUser: UserInfo
-): PermissionItem[] {
-  const permissionItems: PermissionItem[] = [];
-  const { passNodes = [], flowNode } = formData ?? {};
-
-  // 判断当前节点是否是`文秘`节点且流程已经流经`办公室主任审批`节点，这里用到了节点id,由于每个节点的id都不一致，因此如果使用节点id的话，此权限判定只能对绑定的表单起作用。如果此逻辑为共用，建议使用节点名称匹配，即`node.name !== '办公室主任审批'`
-  if (
-    flowNode?.name === "文秘" &&
-    passNodes?.every(
-      (node) => node.id !== "98dfd13f-f700-4751-8983-0323a451a4c1"
-    )
-  ) {
-    permissionItems.push({
-      name: "end",
-      hidden: true,
-    });
+AppSetting.hooks.detailPage.tap(
+  "customPermissionExtends",
+  (detailPageContext) => {
+    const { hooks, formData = {}, formState } = detailPageContext;
+    const { formDesign: { id } = {}, flowNode, passNodes } = formData;
+    // 判断是否为指定的表单id
+    if (id === "612df55ac9327f1383eb4bbb") {
+      // 在产生最终的表单权限时调用，用来收集自定义的权限控制数据。
+      hooks.permission.tap(
+        "customPermissionExtends",
+        (currentUser, permissionItemList) => {
+          // 判断当前节点是否是`中心文秘`节点且流程已经流经`领导审批`节点，这里用到了节点id,由于每个节点的id都不一致，因此如果使用节点id的话，此权限判定只能对绑定的表单起作用。如果此逻辑为共用，建议使用节点名称匹配，即`node.name !== '领导审批'`
+          if (
+            flowNode?.name === "中心文秘" &&
+            passNodes?.every(
+              (node) => node.id !== "4e7d5e6f-5da7-4b34-a056-950939f6e557"
+            )
+          ) {
+            permissionItemList.push({
+              name: "end",
+              hidden: true,
+            });
+          }
+        }
+      );
+    }
   }
-
-  return permissionItems;
-}
+);
 ```
 
-2.流程 `办结` 之后，`张三` 对表单中的`用户反馈`有可见且可编辑权限
+## 示例：控制表单字段可见且可编辑
 
-```ts title="getCustomPermission.ts"
-import type {
-  FormData,
-  FormValues,
-  UserInfo,
-  PermissionItem,
-} from "@sinoform/types";
+流程 `办结` 之后，`张三` 对表单中的`用户反馈`有可见且可编辑权限
 
-export default function getCustomPermission(
-  formData: FormData | undefined,
-  formValues: FormValues,
-  currentUser: UserInfo
-): PermissionItem[] {
-  const permissionItems: PermissionItem[] = [];
-  const { passNodes = [], flowNode } = formData ?? {};
+```ts title="customPermissionExtends.ts"
+import AppSetting from "@sinoform/app-setting";
 
-  //已办结的流程，张三登录可以对`用户反馈`字段进行编辑
-  if (
-    formValues?.workflowStatus === "已办结" &&
-    currentUser.userName === "张三"
-  ) {
-    permissionItems.push({
-      name: "yonghufankui", // 用户反馈字段标识
-      hidden: false,
-      readOnly: false,
-    });
+AppSetting.hooks.detailPage.tap(
+  "customPermissionExtends",
+  (detailPageContext) => {
+    const { hooks, formData = {}, formState } = detailPageContext;
+    const { formDesign: { id } = {}, flowNode, passNodes } = formData;
+    // 判断是否为指定的表单id
+    if (id === "612df55ac9327f1383eb4bbb") {
+      // 在产生最终的表单权限时调用，用来收集自定义的权限控制数据。
+      hooks.permission.tap(
+        "customPermissionExtends",
+        (currentUser, permissionItemList) => {
+          // 判断是否是已办结状态，如果是并且当前登录人是`智能表单管理员`，则表单中的用户反馈字段可见
+          if (
+            formState.values?.workflowStatus === "已办结" &&
+            currentUser.userName === "智能表单管理员"
+          ) {
+            permissionItemList.push({
+              name: "yonghufankui", // 用户反馈字段标识
+              hidden: false,
+              readOnly: false,
+            });
+          }
+        }
+      );
+    }
   }
-
-  return permissionItems;
-}
+);
 ```
