@@ -33,7 +33,7 @@ sidebar_label: 开篇
 
 入门教程文档中的示例代码是采用 Web Component 编写的。如果您使用 React 或者 Vue 开发插件，则需要自行下载相关的示例代码对比着学习。
 
-入门教程、高级教程文档中的示例代码可以从以下站点下载到：
+入门教程、高级教程文档中的示例代码可以从以下链接下载到：
 
 - [sinoform-plugins-web-component-examples](https://gitee.com/sinoui/sinoform-plugins-web-component-examples)
 - [sinoform-plugins-vue-examples](https://gitee.com/sinoui/sinoform-plugins-vue-examples)
