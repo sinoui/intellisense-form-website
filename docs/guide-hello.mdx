@@ -38,21 +38,14 @@ src/plugins/flow-button-hello
 
 然后打开 `HelloButton.ts` 文件，添加组件实现的代码：
 
-```typescript title="src/plugins/flow-button-hello/HelloButton.ts" {32}
+```typescript title="src/plugins/flow-button-hello/HelloButton.ts" {25}
+import { SinoFormElement } from "@sinoform/plugin-sinoform-helpers";
 import $ from "jquery";
 
 /**
  * 输出 Hello World 的示例按钮
  */
-export default class HelloButton extends HTMLElement {
-  /**
-   * 当 HelloButton 首次插入到 DOM 时，渲染出按钮
-   */
-  // 💚 从这开始看
-  connectedCallback() {
-    this.render();
-  }
-
+export default class HelloButton extends SinoFormElement {
   /**
    * 按钮点击事件的回调函数
    */
@@ -63,10 +56,10 @@ export default class HelloButton extends HTMLElement {
   /**
    * 渲染 HelloButton 组件
    */
-  render() {
+  override render() {
     // 插入 HTML 内容
     this.innerHTML = `
-      <button>Hello World!</button>
+      <button class="hello-button">Hello World!</button>
     `;
 
     // 给查找到的按钮元素添加点击事件
@@ -75,7 +68,7 @@ export default class HelloButton extends HTMLElement {
 }
 ```
 
-上面的代码创建了一个继承自 `HTMLElement` 类的 `HelloButton` 类， `connectedCallback` 函数相当于组件的初始化方法，它调用 `render` 方法，在它的内部生成 HTML，以展现一个按钮。并通过高亮部分的代码给其内部的按钮添加点击事件监听：
+上面的代码创建了一个继承自 `SinoFormElement` 类的 `HelloButton` 类， 我们重写`render`方法，在它的内部生成 HTML，以展现一个按钮。并通过高亮部分的代码给其内部的按钮添加点击事件监听：
 
 ```typescript
 $("button", this).on("click", this.onButtonClick.bind(this));
@@ -89,17 +82,15 @@ $("button", this).on("click", this.onButtonClick.bind(this));
 然后我们需要在 `index.ts` 文件中添加代码将 `HelloButton` 注册为自定义元素和 React 组件，如下所示：
 
 ```typescript title="src/plugins/flow-button-hello/index.ts"
-import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import { wrapperWebComponent } from "@sinoform/plugin-sinoform-helpers";
 import HelloButton from "./HelloButton";
 
-// 给按钮元素取名，需要全局唯一，不能有重复的
-const helloButtonElementName = "hello-button";
-
-// 注册 hello-button 自定义元素
-customElements.define(helloButtonElementName, HelloButton);
-
-// 将 hello-button 自定义元素包装为 React 组件
-const HelloButtonReactComponent = webComponentWrapper(helloButtonElementName);
+// 将 HelloButton 包装为 React 组件
+// 注意：第一个参数是全局唯一的自定义元素名称
+const HelloButtonReactComponent = wrapperWebComponent(
+  "hello-button",
+  HelloButton
+);
 
 // 默认导出 HelloButtonReactComponent
 export default HelloButtonReactComponent;
@@ -220,8 +211,8 @@ localStorage.setItem(
 + import './HelloButton.css';
 
 
-class HelloButton extends HTMLElement {
-  render() {
+class HelloButton extends SinoFormElement {
+  override render() {
     // 插入 HTML 内容
     this.innerHTML = `
 -      <button>Hello World!</button>
@@ -234,22 +225,15 @@ class HelloButton extends HTMLElement {
 
 完整的 `HelloButton.ts` 代码如下所示：
 
-```typescript title="src/plugins/flow-button-hello/HelloButton.ts" {2,29}
+```typescript title="src/plugins/flow-button-hello/HelloButton.ts" {2,22}
 import $ from "jquery";
+import { SinoFormElement } from "@sinoform/plugin-sinoform-helpers";
 import "./HelloButton.css";
 
 /**
  * 输出 Hello World 的示例按钮
  */
-export default class HelloButton extends HTMLElement {
-  /**
-   * 当 HelloButton 首次插入到 DOM 时，渲染出按钮
-   */
-  // 💚 从这开始看
-  connectedCallback() {
-    this.render();
-  }
-
+export default class HelloButton extends SinoFormElement {
   /**
    * 按钮点击事件的回调函数
    */
@@ -260,7 +244,7 @@ export default class HelloButton extends HTMLElement {
   /**
    * 渲染 HelloButton 组件
    */
-  render() {
+  override render() {
     // 插入 HTML 内容
     this.innerHTML = `
       <button class="hello-button">Hello World!</button>

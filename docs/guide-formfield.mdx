@@ -15,165 +15,88 @@ title: 开发一个表单项
 
 :::
 
-### 基本的代码结构
+### 开发 CustomInputRenderer 组件
 
 ```ts
-// 定义InputRenderer组件
-class InputRenderer extends HTMLElement {
-  connectedCallback() {
-    this.innerHTML = this.render();
-  }
+import { SinoFormElement } from "@sinoform/plugin-sinoform-helpers";
+import "./index.css";
 
-  render() {
-    // 生成dom模板字符串
-    return `<input id="field-input-renderer" />`;
-  }
-}
-```
-
-### 获取传递给组件的 props 值
-
-使用 get/set 的方式，在组件内部维护一个对应的私有变量来同步 props 中的属性值。获取 props 中的 value 值，并将其赋值给 input
-
-```ts
-set value(val: string) {
-    this._value = val;
-    this.input.val(val);
-  }
-
-get value() {
-  return this._value;
-}
-```
-
-如果组件外部触发 value 值变化之后还需要同步到组件内部，所以需要在组件内部添加属性监听，使用 web components 的`observedAttributes`和`attributeChangedCallback`回调函数。
-
-```ts
-// 静态方法，返回值就是需要监听的属性
-static get observedAttributes() {
-    return ['value'];
-  }
-
-// 属性值变化之后的回调函数
-attributeChangedCallback(attr: string, _oldVal: any, newVal: any) {
-  switch (attr) {
-    case 'value':
-      this.value = newVal;
-      break;
-
-    default:
-      break;
+/**
+ * 自定义文本框在表单中展示的组件
+ */
+export default class CustomInputRenderer extends SinoFormElement {
+  override render() {
+    this.innerHTML = `<input class="custom-input"  />`;
   }
 }
 ```
 
-需要注意的是 props 属性的 set 方法初次触发的时机要比 connectedCallback 早，所以 connectedCallback 中执行 render 时候会导致 input 的值丢失。两种方式解决此问题
+上面代码创建了一个最基本的 input 输入框，接下来我们需要给这个 input 添加一些代码完成输入框与当前表单状态的交互，我们能实时获取表单当前值的变化，也能在 input 发生变化时实时更新当前表单状态。
 
-1. 直接在 render 方法中指定 input 的 value 值
+```typescript
+const { value = "", readOnly, id, name } = this.props;
+this.innerHTML = `<input class="custom-input" name="${name}" id="${id}" value="${value}" ${
+  readOnly ? `readonly="readonly"` : ""
+} />`;
 
-```ts
-render() {
-  return `<input class="field-input-renderer" value='${this.value}'/>`;
-}
+const { value = "", readOnly, id, name } = this.props;
+this.innerHTML = `<input class="custom-input" name="${name}" id="${id}" value="${value}" ${
+  readOnly ? `readonly="readonly"` : ""
+} />`;
+const $input = $("input", this);
+
+// 绑定表单控件。绑定做了两件事，即：
+// 1. 监听 this.props 中的 value 属性值变更，同步到 $input 中
+// 2. 监听 $input 中的 change 事件，将用户输入的值通过 this.props.onChange 告知智能表单
+this.bindFormControl($input);
 ```
 
-2. innerHTML 之后为 input 手动赋值
+如果我们需要监听表单值的变化，可以使用`watch`方法
 
-```ts
-connectedCallback() {
-  this.innerHTML = this.render();
-  this.input = $(".field-input-renderer", this);
-  this.input.val(this.value);
-}
+```typescript
+// 监听 readOnly 属性值变更
+this.props.watch("readOnly", (readOnly) => {
+  if (readOnly) {
+    $input.attr("readonly", "readonly");
+  } else {
+    $input.removeAttr("readonly");
+  }
+});
 ```
 
 至此，表单项的值在组件内部的回显处理完毕。
-
-### 添加或销毁事件监听
-
-组件内部添加 input 输入框 change 事件监听，在值变化之后需要调用 props 中传入的 onChange 事件将值提供给外层组件
-
-```ts
-connectedCallback() {
-  this.innerHTML = this.render();
-  this.input = $(".field-input-renderer", this);
-  this.input.on('change', this.handleInputChange);
-}
-
-disConnectedCallback() {
-  this.input.off('change', this.handleInputChange);
-}
-
-handleInputChange(e: any){
-  this.onChange(e.target.value);
-}
-```
 
 完整的示例代码
 
 ```ts
 import $ from "jquery";
+import { SinoFormElement } from "@sinoform/plugin-sinoform-helpers";
 import "./index.css";
 
-export default class InputRenderer extends HTMLElement {
-  private _value: string = "";
-  private input: JQuery<HTMLElement> | null = null;
-  private _onChange: any;
+/**
+ * 自定义文本框在表单中展示的组件
+ */
+export default class CustomInputRenderer extends SinoFormElement {
+  override render() {
+    const { value = "", readOnly, id, name } = this.props;
+    this.innerHTML = `<input class="custom-input" name="${name}" id="${id}" value="${value}" ${
+      readOnly ? `readonly="readonly"` : ""
+    } />`;
+    const $input = $("input", this);
 
-  constructor() {
-    super();
+    // 绑定表单控件。绑定做了两件事，即：
+    // 1. 监听 this.props 中的 value 属性值变更，同步到 $input 中
+    // 2. 监听 $input 中的 change 事件，将用户输入的值通过 this.props.onChange 告知智能表单
+    this.bindFormControl($input);
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  connectedCallback() {
-    this.innerHTML = this.render();
-    this.input = $(".field-input-renderer", this);
-    this.input.on("change", this.handleInputChange);
-  }
-
-  disConnectedCallback() {
-    this.input?.off("change", this.handleInputChange);
-  }
-
-  static get observedAttributes() {
-    return ["value"];
-  }
-
-  attributeChangedCallback(attr: string, _oldVal: any, newVal: any) {
-    switch (attr) {
-      case "value":
-        this.value = newVal;
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  set onChange(fn: any) {
-    this._onChange = fn;
-  }
-
-  get onChange() {
-    return this._onChange;
-  }
-
-  handleInputChange(e: any) {
-    this.onChange(e.target.value);
-  }
-
-  set value(val: string) {
-    this._value = val;
-    this.input?.val(val);
-  }
-
-  get value() {
-    return this._value;
-  }
-
-  render() {
-    return `<input class="field-input-renderer" value='${this.value}'/>`;
+    // 监听 readOnly 属性值变更
+    this.props.watch("readOnly", (readOnly) => {
+      if (readOnly) {
+        $input.attr("readonly", "readonly");
+      } else {
+        $input.removeAttr("readonly");
+      }
+    });
   }
 }
 ```
