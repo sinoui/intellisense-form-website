@@ -38,11 +38,6 @@ const { value = "", readOnly, id, name } = this.props;
 this.innerHTML = `<input class="custom-input" name="${name}" id="${id}" value="${value}" ${
   readOnly ? `readonly="readonly"` : ""
 } />`;
-
-const { value = "", readOnly, id, name } = this.props;
-this.innerHTML = `<input class="custom-input" name="${name}" id="${id}" value="${value}" ${
-  readOnly ? `readonly="readonly"` : ""
-} />`;
 const $input = $("input", this);
 
 // 绑定表单控件。绑定做了两件事，即：
