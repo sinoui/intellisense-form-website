@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@docusaurus/preset-classic": "^2.0.0-beta.4",
+    "@docusaurus/preset-classic": "^2.0.0-beta.6",
     "@sinoui/core": "1.0.10",
     "@sinoui/message": "^2.0.2",
     "@sinoui/rx-core-form": "^1.0.1",
@@ -29,6 +29,7 @@
     "jszip": "^3.7.1",
     "node-rsa": "^1.1.1",
     "prettier": "^2.3.2",
+    "prism-react-renderer": "^1.2.1",
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -37,8 +38,7 @@
     "styled-components": "^5.3.0",
     "worker-loader": "^3.0.8",
     "yaml": "^1.10.2",
-    "yaml-unist-parser": "^1.3.1",
-    "prism-react-renderer": "^1.2.1"
+    "yaml-unist-parser": "^1.3.1"
   },
   "browserslist": {
     "production": [
