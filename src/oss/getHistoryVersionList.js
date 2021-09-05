@@ -5,7 +5,6 @@ import {
   OSS_BUCKET,
   OSS_REGION,
 } from "../contants";
-import { compare, valid } from "semver";
 import getLatestVersion from "./getLatestVersion";
 
 let client;
