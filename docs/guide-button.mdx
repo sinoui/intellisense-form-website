@@ -140,56 +140,40 @@ export default class CustomSaveButton extends SinoFormElement {
 这样，我们新的保存按钮就开发完了，完整的 `CustomSaveButton.ts` 文件代码如下：
 
 ```typescript title="src/plugins/flow-button-custom-save/CustomSaveButton.ts"
-import type { FormState } from "@sinoui/rx-form-state";
-import $ from "jQuery";
+import { SinoFormElement } from "@sinoform/plugin-sinoform-helpers";
+import $ from "jquery";
 import "./CustomSaveButton.css";
 
 /**
  * 定义CustomSaveButton组件
  */
-export default class CustomSaveButton extends HTMLElement {
-  // 表单状态
-  private _formState: FormState | undefined;
-
-  connectedCallback() {
-    // 组件首次加载时，渲染button按钮
-    this.render();
-  }
-
-  /**
-   * 设置表单状态
-   */
-  set formState(formState: FormState) {
-    this._formState = formState;
-
-    console.log("接受来自表单的 formState 属性", formState);
-  }
-
+export default class CustomSaveButton extends SinoFormElement {
   async onClick() {
-    if (!this._formState) {
+    const { formState } = this.props;
+    if (!formState) {
       return;
     }
 
     // 执行表单校验
-    const isValid = await this._formState.validate();
+    const isValid = formState.validate();
 
     if (!isValid) {
-      console.log("表单校验不通过，不能保存表单");
+      alert("表单校验不通过，不能保存表单");
       return;
     }
 
     try {
       // 提交表单
-      await this._formState.submit();
-      console.log("保存表单成功");
+      await formState.submit();
+      alert("保存表单成功");
     } catch (e) {
-      console.log("保存表单失败");
+      alert("保存表单失败");
     }
   }
 
   override render() {
     // 生成DOM节点模板字符串
-    this.innerHTML = `<button class="custom-save-button">新的保存</button>`;
+    this.innerHTML = '<button class="custom-save-button">新的保存</button>';
 
     // 监听保存按钮的点击事件
     $(".custom-save-button", this).on("click", this.onClick.bind(this));
