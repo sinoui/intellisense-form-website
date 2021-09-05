@@ -56,17 +56,11 @@ export default class CustomSaveButton extends SinoFormElement {
 包装为 React 组件：
 
 ```typescript title="src/plugins/flow-button-custom-save/index.ts"
-import { webComponentWrapper } from "@sinoform/plugin-sinoform-helpers";
+import { wrapperWebComponent } from "@sinoform/plugin-sinoform-helpers";
 import CustomSaveButton from "./CustomSaveButton";
 
-// 给按钮元素取名，需要全局唯一，不能有重复的
-const helloButtonElementName = "flow-button-custom-save";
-
-// 注册自定义的CustomSaveButton
-customElements.define(helloButtonElementName, CustomSaveButton);
-
 // 包装成React组件并默认导出
-export default webComponentWrapper(helloButtonElementName);
+export default wrapperWebComponent("flow-button-custom-save", CustomSaveButton);
 ```
 
 接下来注册到表单中去：
