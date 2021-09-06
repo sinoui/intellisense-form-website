@@ -203,7 +203,7 @@ AppSetting.formConfig.addField({
 
 目前我们只是开发出了表单控件的初始效果，但是还有重要的两件事情需要处理，即：
 
-- 表单控件与表单联动，包括值的双向绑定、表单控件只读控制、标签与输入框的联动等
+- 表单控件与表单联动，包括值的双向绑定、表单项只读控制、标签与输入框的联动等
 - 给表单控件添加合适的属性配置项，这样在使用设计器设计表单时，可以定制表单控件的行为
 
 接下来，我们一一讲解这些内容。
@@ -214,7 +214,7 @@ AppSetting.formConfig.addField({
 
 - [绑定 `name` 属性](#绑定-name-属性)
 - [值的双向绑定](#值的双向绑定)
-- [表单控件只读控制](#表单控件只读控制)
+- [表单项只读控制](#表单项只读控制)
 - [标签与表单控件联动](#标签与表单控件联动)
 
 注：本节所有的内容均是在增强 `CustomTextInputRenderer` 组件的代码。
@@ -288,7 +288,7 @@ class CustomTextInputRenderer extends SinoFormElement {
 }
 ```
 
-### 表单控件只读控制
+### 表单项只读控制
 
 智能表单会给表单控件的`render`组件传递 `readOnly` 属性，告知表单控件当前是只读的还是可编辑的。我们优化 `CustomTextInputRenderer` 的代码，以实现只读控制：
 
@@ -383,7 +383,7 @@ export default class CustomTextInputRenderer extends SinoFormElement {
 
 ## 完善表单控件的配置面板
 
-接下来我们需要在配置面板中添加一些表单控件得配置项。可以使用 jQuery 开发配置面板组件，但是目前智能表单没有发布用来构建配置面板的 Web Component 组件，如果要求您通过 jQuery 和 CSS 开发出一套与智能表单保持风格一致的配置面板，工作量有点大。所以我们目前推荐您直接使用智能表单封装好的 React 组件来快速实现表单控件的配置面板。
+接下来我们需要在配置面板中添加一些表单控件的配置项。可以使用 jQuery 开发配置面板组件，但是目前智能表单没有发布用来构建配置面板的 Web Component 组件，如果要求您通过 jQuery 和 CSS 开发出一套与智能表单保持风格一致的配置面板，工作量有点大。所以我们目前推荐您直接使用智能表单封装好的 React 组件来快速实现表单控件的配置面板。
 
 我们调整 `config-panel/index.ts` 和 `config-panel/CustomTextInputConfigPanel.ts` 两个文件的内容：
 

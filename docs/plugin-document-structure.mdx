@@ -1,28 +1,142 @@
 ---
 id: plugin-document-structure
-title: 插件文档结构
+title: 插件项目结构
 ---
 
-为了使项目中代码得层级结构更加分明，我们需要对插件项目得文件命名做一些约定
+为了使项目中代码得层级结构更加分明，我们需要对插件项目的结构做一些约定。
 
-- 插件项目命名可以使用当前项目组自身名称命名，比如项目组自身名称 teamA，插件项目名称为`teamA-plugin`
-- 项目源代码放置在`src`，与插件组件或业务逻辑相关得代码放在`src/plugins`下，工具类或其他公用的一些代码可以在 plugins 的同级
-- 每个插件功能的实现都需要在 plugins 下单独创建文件夹，文件夹遵循的命名规则
-  - 自定义表单项：form-field-xxx，xxx 为插件功能实现描述说明，下面的描述同理
-  - 流程按钮：flow-button-xxx
-  - 流程配置：flow-config-xxx
-  - 详情页业务逻辑拓展：detail-page-extends
-
-一个简单的项目文档结构如下
+看一个较为完整的插件项目结构（以 qxjoa-plugins 为例介绍）：
 
 ```
-teamA-plugin  // 插件项目名称
-  |__ src     // 项目源码文件夹
-    |__ plugins   // 插件开发文件夹
-      |__ flow-button-hello   // 单个插件功能实现文件夹
-        |__ HelloButton.ts    // 插件实现
-      |__ detail-page-extends
-        |__ index.ts          // 详情页业务逻辑拓展
-    |__ index.ts  // 入口文件
+📦qxjoa-plugins
+ ┣ 📂src
+ ┃ ┣ 📂plugins
+ ┃ ┃ ┣ 📂detail-page-extends
+ ┃ ┃ ┃ ┣ 📜controlButtonClickExtends.ts
+ ┃ ┃ ┃ ┣ 📜customPermissionExtends.ts
+ ┃ ┃ ┃ ┣ 📜helloExtends.ts
+ ┃ ┃ ┃ ┣ 📜helloPermissionExtends.ts
+ ┃ ┃ ┃ ┗ 📜watchFormValuesExtends.ts
+ ┃ ┃ ┣ 📂flow-button-custom-save
+ ┃ ┃ ┃ ┣ 📜CustomSaveButton.css
+ ┃ ┃ ┃ ┣ 📜CustomSaveButton.ts
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┣ 📂flow-button-hello
+ ┃ ┃ ┃ ┣ 📜HelloButton.css
+ ┃ ┃ ┃ ┣ 📜HelloButton.ts
+ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┗ 📂form-field-custom-text-input
+ ┃ ┃ ┃ ┣ 📂config-panel
+ ┃ ┃ ┃ ┃ ┣ 📜CustomTextInputConfigPanel.tsx
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┃ ┣ 📂preview
+ ┃ ┃ ┃ ┃ ┣ 📜CustomTextInputPreview.ts
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┃ ┃ ┗ 📂render
+ ┃ ┃ ┃ ┃ ┣ 📜CustomTextInputRenderer.css
+ ┃ ┃ ┃ ┃ ┣ 📜CustomTextInputRenderer.ts
+ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+ ┃ ┗ 📜index.ts
+ ┣ 📜.babelrc
+ ┣ 📜.editorconfig
+ ┣ 📜.gitignore
+ ┣ 📜.npmignore
+ ┣ 📜LICENSE
+ ┣ 📜package.json
+ ┣ 📜README.md
+ ┣ 📜tsconfig.json
+ ┣ 📜webpack.base.config.js
+ ┣ 📜webpack.dev.config.js
+ ┣ 📜webpack.prod.config.js
+ ┗ 📜yarn.lock
+```
+
+接下来一一介绍插件项目结构中的重要组成部分。
+
+## 插件项目名称
+
+插件项目名称有一定的约束，命名规则如下：
+
+- 只能包含小写字母、数字和连字符（`-`）
+- 开头只能是小写字母
+- 必须以 `-plugins` 结尾
+
+可以接受的插件项目名称：
+
+- `qxjoa-plugins`
+- `tjoa-plugins`
+
+## 源码目录和入口文件
+
+项目所有源码均放入 `src` 目录中。项目源码的入口文件是 `src/index.ts`。智能表单访问插件项目时，首先访问到的就是入口文件。
+
+## 插件代码
+
+所有的插件代码均放入 `src/plugins` 目录中。每个插件都需要有自己独立的子文件夹，我们称之为插件文件夹。插件文件夹的命名需要根据插件类型和插件用途来命名。
+
+### 流程按钮插件文件夹
+
+流程按钮插件文件夹名称需要以 `flow-button-` 开头。
+
+可以接受的流程按钮插件文件夹名称：
+
+- `flow-button-hello`
+- `flow-button-custom-save`
+
+流程按钮一般只需要定义一个组件即可，所有流程按钮文件夹是一个[组件文件夹](#组件文件夹)。
+
+### 表单字段插件文件夹
+
+表单字段插件文件夹名称需要以 `form-field-` 开头。
+
+可以接受的表单字段插件文件夹名称：
+
+- `form-field-custom-text-input`
+- `form-field-custom-select`
+
+表单字段中每一个组件是一个独立的文件夹，称之为[组件文件夹](#组件文件夹)。在表单字段中，以组件用途来命名组件文件夹。如下所示：
+
+- `render` - 表单控件在表单中展现的组件
+- `preview` - 表单控件在表单设计器中展现的组件
+- `config-panel` - 表单控件在表单设计器的属性面板中展现的组件
+
+## 组件文件夹
+
+一个组件一个文件夹。组件往往会包括：
+
+- 组件文件，如使用 Web Component、Vue 或者 React 开发的组件
+- 组件的样式文件
+- 将组件包装为 React 组件（如有必要）
+- 将组件默认导出
+
+这些文件的命名规则如下：
+
+- 组件文件名称需遵循大写驼峰式
+- 组件的样式文件需要保持与组件文件名称一致
+- 在 `index.ts` 文件中将组件包装为 React 组件，并默认导出
+
+正确的示例：
 
 ```
+📂flow-button-hello
+ ┣ 📜HelloButton.css
+ ┣ 📜HelloButton.ts
+ ┗ 📜index.ts
+```
+
+## 详情页扩展代码
+
+详情页扩展代码放在 `src/plugins/detail-page-extends` 目录下。所有扩展文件名称以 `Extends` 结尾。
+
+### 全局详情页扩展
+
+如果扩展代码针对的是所有表单的，那么此扩展称之为全局详情页扩展。全局详情页扩展以`GobalExtends` 结尾。
+
+### 表单或者应用扩展
+
+一个表单的扩展代码或者一个应用所有表单的扩展代码放在一个扩展文件中。这些扩展文件名称需要包含表单或者应用名称。
+
+可以接受的扩展文件名称示例：
+
+- `GwFormExtends.ts` - 公文表单扩展
+- `MeetingAppEtends.ts` - 会议应用扩展
