@@ -77,6 +77,13 @@ const getObjectVersion = (obj) => obj.name.split("/")[0].substring(1);
 const getObjectName = (obj) => obj.name.split("/")[1];
 
 /**
+ * 判断是否是先行版对象
+ * @param {import('ali-oss').ObjectMeta} obj
+ * @returns
+ */
+const isAlpha = (obj) => obj.name.indexOf("alpha") !== -1;
+
+/**
  * 获取最新版本的对象
  *
  * @param { import('ali-oss').ObjectMeta[] } objects
@@ -90,13 +97,15 @@ function getLatestVersionObject(objects) {
 
   let latestVersion = getObjectVersion(result);
 
-  objects.forEach((obj) => {
-    const version = getObjectVersion(obj);
-    if (compare(latestVersion, version) === -1) {
-      result = obj;
-      latestVersion = version;
-    }
-  });
+  objects
+    .filter((item) => !isAlpha(item))
+    .forEach((obj) => {
+      const version = getObjectVersion(obj);
+      if (compare(latestVersion, version) === -1) {
+        result = obj;
+        latestVersion = version;
+      }
+    });
 
   return result;
 }

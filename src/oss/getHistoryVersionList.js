@@ -67,6 +67,13 @@ const getObjectVersion = (obj) => obj.name.split("/")[0].substring(1);
 const getObjectName = (obj) => obj.name.split("/")[1];
 
 /**
+ * 判断是否是先行版对象
+ * @param {import('ali-oss').ObjectMeta} obj
+ * @returns
+ */
+const isAlpha = (obj) => obj.name.indexOf("alpha") !== -1;
+
+/**
  * 获取指定类型安装包的历史版本和下载链接
  */
 export default async function getHistoryVersionList(type) {
@@ -76,6 +83,7 @@ export default async function getHistoryVersionList(type) {
     .filter((item) =>
       type === "frontend" ? isFrontendObject(item) : isBackendObject(item)
     )
+    .filter((item) => !isAlpha(item))
     .filter((item) => item.name.indexOf(latestVersion[type].version) === -1)
     .map((item) => ({
       name: getObjectName(item),
