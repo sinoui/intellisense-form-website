@@ -25,7 +25,7 @@ const getClient = () => {
 /**
  * 获取最新的次版本号
  */
-async function getLatestMinorVersion() {
+async function getLatestMinorVersion(isAlpha) {
   const subjects = await getClient().list({
     delimiter: "/",
   });
@@ -35,7 +35,7 @@ async function getLatestMinorVersion() {
     .map((prefix) => prefix.substring(1, prefix.length - 1))
     .filter(valid);
 
-  const latestMinorVersions = findLatestMinorVersions(versions);
+  const latestMinorVersions = findLatestMinorVersions(versions, isAlpha);
 
   return latestMinorVersions.map((version) => `v${version}`);
 }
@@ -81,14 +81,15 @@ const getObjectName = (obj) => obj.name.split("/")[1];
  * @param {import('ali-oss').ObjectMeta} obj
  * @returns
  */
-const isAlpha = (obj) => obj.name.indexOf("alpha") !== -1;
+const isAlphaFn = (obj) => obj.name.indexOf("alpha") !== -1;
 
 /**
  * 获取最新版本的对象
  *
  * @param { import('ali-oss').ObjectMeta[] } objects
+ * @param { boolean } isAlpha
  */
-function getLatestVersionObject(objects) {
+function getLatestVersionObject(objects, isAlpha) {
   let result = objects[0];
 
   if (result == null) {
@@ -98,7 +99,7 @@ function getLatestVersionObject(objects) {
   let latestVersion = getObjectVersion(result);
 
   objects
-    .filter((item) => !isAlpha(item))
+    .filter((item) => (isAlpha ? isAlphaFn(item) : !isAlphaFn(item)))
     .forEach((obj) => {
       const version = getObjectVersion(obj);
       if (compare(latestVersion, version) === -1) {
@@ -113,17 +114,20 @@ function getLatestVersionObject(objects) {
 /**
  * 获取下载包的最新版本和下载链接
  */
-export default async function getLatestVersion() {
-  const latestMinorVersions = await getLatestMinorVersion();
+export default async function getLatestVersion(isAlpha) {
+  const latestMinorVersions = await getLatestMinorVersion(isAlpha);
+
   const subjects = await getClient().list({
     prefixes: latestMinorVersions,
   });
 
   const latestFrontend = getLatestVersionObject(
-    subjects.objects.filter(isFrontendObject)
+    subjects.objects.filter(isFrontendObject),
+    isAlpha
   );
   const latestBackend = getLatestVersionObject(
-    subjects.objects.filter(isBackendObject)
+    subjects.objects.filter(isBackendObject),
+    isAlpha
   );
 
   return {

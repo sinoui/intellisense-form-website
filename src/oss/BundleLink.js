@@ -6,8 +6,8 @@ import useLatestPackage from "./useLastestPackage";
  *
  * @returns
  */
-const BundleLink = ({ children, type }) => {
-  const result = useLatestPackage(type);
+const BundleLink = ({ children, type, isAlpha }) => {
+  const result = useLatestPackage(type, isAlpha);
 
   return (
     <a href={result?.url}>

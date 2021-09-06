@@ -14,16 +14,17 @@ const loadGetLatestVersion = async () => {
 /**
  * 使用最新版本的发布包
  * @param {'frontend' | 'backend'} type
+ * @param {boolean} isAlpha
  * @returns {{name: string; url: string; version: string} | undefined}
  */
-function useLatestPackage(type) {
+function useLatestPackage(type, isAlpha) {
   const [result, setResult] = useState();
 
   useEffect(() => {
     let cancel = false;
     const init = async () => {
       const getLatestVersion = await loadGetLatestVersion();
-      const result = await getLatestVersion();
+      const result = await getLatestVersion(isAlpha);
       if (cancel) {
         return;
       }
