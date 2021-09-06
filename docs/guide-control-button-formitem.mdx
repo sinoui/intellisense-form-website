@@ -24,7 +24,7 @@ import AppSetting from "@sinoform/app-setting";
 AppSetting.hooks.detailPage.tap(
   "helloPermissionExtends",
   (detailPageContext) => {
-    const { hooks, formData = {} } = detailPageContext;
+    const { hooks, formData } = detailPageContext;
     const { formDesign: { id } = {}, flowNode } = formData;
     // 判断是否为指定的表单id
     if (id === "612df55ac9327f1383eb4bbb") {
@@ -64,7 +64,7 @@ import AppSetting from "@sinoform/app-setting";
 AppSetting.hooks.detailPage.tap(
   "customPermissionExtends",
   (detailPageContext) => {
-    const { hooks, formData = {}, formState } = detailPageContext;
+    const { hooks, formData, formState } = detailPageContext;
     const { formDesign: { id } = {}, flowNode, passNodes } = formData;
     // 判断是否为指定的表单id
     if (id === "612df55ac9327f1383eb4bbb") {
@@ -101,7 +101,7 @@ import AppSetting from "@sinoform/app-setting";
 AppSetting.hooks.detailPage.tap(
   "customPermissionExtends",
   (detailPageContext) => {
-    const { hooks, formData = {}, formState } = detailPageContext;
+    const { hooks, formData, formState } = detailPageContext;
     const { formDesign: { id } = {}, flowNode, passNodes } = formData;
     // 判断是否为指定的表单id
     if (id === "612df55ac9327f1383eb4bbb") {

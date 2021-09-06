@@ -269,7 +269,7 @@ class CustomTextInputRenderer extends SinoFormElement {
 
 解释这么多，是为了让大家了解智能表单处理表单值的基本过程。我们改进 `CustomTextInputRenderer` 的代码，实现值的双向绑定：
 
-```typescript title="src/plugins/form-field-custom-text-input/render/CustomTextInputRenderer.ts" {7,13}
+```typescript title="src/plugins/form-field-custom-text-input/render/CustomTextInputRenderer.ts" {7,14}
 import $ from "jQuery";
 
 class CustomTextInputRenderer extends SinoFormElement {
@@ -433,7 +433,7 @@ export default function CustomTextInputConfigPanel({
 
 :::info 小知识点
 
-如果您可以通过 `render` 组件的 `config` 属性获取到表单项在设计器中的配置，如下所示：
+您可以通过 `render` 组件的 `config` 属性获取到表单项在设计器中的配置，如下所示：
 
 ```typescript
 class CustomTextInputRenderer extends SinoFormElement {

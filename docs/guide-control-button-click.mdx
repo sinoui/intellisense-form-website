@@ -24,7 +24,7 @@ import AppSetting from "@sinoform/app-setting";
 AppSetting.hooks.detailPage.tap(
   "controlButtonClickExtends",
   (detailPageContext) => {
-    const { hooks, formData = {}, formState } = detailPageContext;
+    const { hooks, formData, formState } = detailPageContext;
     const { formDesign: { id } = {} } = formData;
 
     if (id === "612df55ac9327f1383eb4bbb") {
@@ -58,7 +58,7 @@ import AppSetting from "@sinoform/app-setting";
 AppSetting.hooks.detailPage.tap(
   "controlButtonClickExtends",
   (detailPageContext) => {
-    const { hooks, formData = {}, formState } = detailPageContext;
+    const { hooks, formData, formState } = detailPageContext;
     const { formDesign: { id } = {} } = formData;
 
     if (id === "612df55ac9327f1383eb4bbb") {
