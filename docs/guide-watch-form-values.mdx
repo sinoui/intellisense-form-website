@@ -24,7 +24,7 @@ import AppSetting from "@sinoform/app-setting";
 AppSetting.hooks.detailPage.tap(
   "helloExtends", // 详情页拓展逻辑钩子的名称
   (detailPageContext) => {
-    const { hooks, formData = {}, formState } = detailPageContext;
+    const { hooks, formData, formState } = detailPageContext;
     const { formDesign: { id } = {} } = formData;
 
     // 根据表单设计id，判断拓展逻辑是否对该表单生效，如果不加这层判断，则默认拓展逻辑对所有表单都适用
@@ -70,7 +70,7 @@ import AppSetting from "@sinoform/app-setting";
 AppSetting.hooks.detailPage.tap(
   "watchFormValuesExtends",
   (detailPageContext) => {
-    const { hooks, formData = {}, formState } = detailPageContext;
+    const { hooks, formData, formState } = detailPageContext;
     const { formDesign: { id } = {} } = formData;
 
     if (id === "612df55ac9327f1383eb4bbb") {
