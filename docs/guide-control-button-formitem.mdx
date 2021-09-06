@@ -32,7 +32,7 @@ AppSetting.hooks.detailPage.tap(
       hooks.permission.tap(
         "helloPermissionExtends",
         (_currentUser, permissionItemList) => {
-          //判断当前节点是否为`处长审批`，如果是，则显示`退回`按钮
+          //判断当前节点是否为`中心文秘`，如果是，则显示`退回`按钮
           if (flowNode?.name === "中心文秘") {
             permissionItemList.push({
               name: "back",

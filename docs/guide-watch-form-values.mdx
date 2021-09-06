@@ -20,7 +20,7 @@ title: 监听表单值变化
 
 ```ts title="src/plugins/detail-page-extends/helloExtends.ts" {12,13,14}
 import AppSetting from "@sinoform/app-setting";
-
+// 监听详情页创建
 AppSetting.hooks.detailPage.tap(
   "helloExtends", // 详情页拓展逻辑钩子的名称
   (detailPageContext) => {
