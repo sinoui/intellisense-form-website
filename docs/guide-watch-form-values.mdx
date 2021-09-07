@@ -32,7 +32,7 @@ AppSetting.hooks.detailPage.tap(EXTEND_NAME, (detailPageContext) => {
 });
 ```
 
-在详情页钩子中，你可以查看详情页数据，甚至可以变更详情页数据。在钩子监听函数中拿到详情页上下文（`detailPageContext`）后，我们可以监听详情页上下文中的钩子，扩展详情页内部的逻辑。例如我们通过详情页上的表单值变更钩子（`valueChange` hook）监听表单变化，示例代码如下：
+在详情页钩子中，可以查看详情页数据，甚至可以变更详情页数据。在钩子监听函数中拿到详情页上下文（`detailPageContext`）后，我们可以监听详情页上下文中的钩子，扩展详情页内部的逻辑。例如我们通过详情页上的表单值变更钩子（`valueChange` hook）监听表单变化，示例代码如下：
 
 ```typescript
 import AppSetting from "@sinoform/app-setting";
