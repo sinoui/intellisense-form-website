@@ -43,6 +43,27 @@ AppSetting.hooks.detailPage.tap(
 );
 ```
 
+:::info 异步监听钩子
+
+有一些钩子允许有异步监听者，即监听的回调函数会返回 `promise`（异步函数）。例如 `beforeButtonClick` 钩子就是一个支持异步的钩子。
+
+如果想异步监听钩子，统一使用 `tapPromise` 方法。如下所示：
+
+```typescript
+hooks.beforeButtonClick.tapPromise("extend-name", async () => {
+  // 调用远程接口
+  const result = await checkSomethingFromRemote();
+
+  if (!result) {
+    return false;
+  }
+
+  return undefined;
+});
+```
+
+:::
+
 ## 注册扩展文件
 
 拓展方法开发完成之后只需要在`src/index.ts`中引入该文件，即可完成该拓展方法的注册。
