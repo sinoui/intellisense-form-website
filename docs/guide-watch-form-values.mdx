@@ -48,9 +48,12 @@ AppSetting.hooks.detailPage.tap(EXTEND_NAME, (detailPageContext) => {
   }
 
   // 监听值变更钩子。用户在表单中输入值，就会触发值变更钩子，执行此监听函数。
-  detailPageContext.hooks.valueChange(EXTEND_NAME, (prevValue, newValue) => {
-    console.log("新的表单值", newValue);
-  });
+  detailPageContext.hooks.valueChange.tap(
+    EXTEND_NAME,
+    (prevValue, newValue) => {
+      console.log("新的表单值", newValue);
+    }
+  );
 });
 ```
 
