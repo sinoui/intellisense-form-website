@@ -311,7 +311,7 @@ export default function getCustomPermission(
 
 2.流程 `办结` 之后，`张三` 对表单中的`用户反馈`有可见且可编辑权限
 
-```ts title="getCustomPermission.ts"
+```ts title="src/plugins/detail-page-extends/getCustomPermission.ts"
 import type {
   FormData,
   FormValues,
