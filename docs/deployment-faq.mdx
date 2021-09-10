@@ -7,7 +7,7 @@ title: 部署常见问题
 
 发送流程成功后的提示中包含中文乱码的情况，一般时因为部署工作流服务时，没有配置好 tomcat 的原因导致的。
 
-解决方式：设置 workflow 项目的 tomcat 字符集 为 `utf-8`。如下所示：
+解决方式：设置 workflow 项目的 tomcat 字符集 为 `utf-8`。需要修改 tomcat 下 `conf/server.xml` 文件。如下所示：
 
 ```xml title="conf/server.xml" {7}
 <Connector
