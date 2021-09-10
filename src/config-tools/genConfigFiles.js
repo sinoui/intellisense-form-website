@@ -28,7 +28,7 @@ const genConfigFiles = async (config) => {
     port: ${config.port}
 
   # 数据库类型
-  db:
+  database:
     type: ${config.db.type === "mysql" ? "mysql" : "oracle"}
   `,
     {
