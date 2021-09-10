@@ -1,0 +1,49 @@
+---
+id: deployment-faq
+title: 部署常见问题
+---
+
+## 1. 发送流程成功的提示中显示乱码
+
+发送流程成功后的提示中包含中文乱码的情况，一般时因为部署工作流服务时，没有配置好 tomcat 的原因导致的。
+
+解决方式：设置 workflow 项目的 tomcat 字符集 为 `utf-8`。如下所示：
+
+```xml title="conf/server.xml" {7}
+<Connector
+  port="8080"
+  protocol="HTTP/1.1"
+  connectionTimeout="20000"
+  redirectPort="8443"
+  useBodyEncodingForURI="true"
+  URIEncoding="UTF-8"
+/>
+```
+
+## 2. 点击“发送”出现超时问题
+
+当点击“发送”按钮，出现超时的情况，一般是因为工作流配置中可能有调不通的远程事件配置。
+
+解决方式：需要在工作流设计器平台---》系统配置，找到待办授权服务，清空服务名称，把后面的下拉选项，选择为本地实现类。然后重新启动工作流设计器服务。
+
+## 3. 配置的是 oracle 数据库类型，但是发布表单时，却采用 MySQL 语法的 SQL 语句生成数据库表
+
+这种情况往往是忘记配置 `database.type`，或者配置有误。
+
+解决方式：请正确配置 `database.type`。
+
+正确的配置：
+
+```yaml title="config/application.yml" {2}
+database:
+  type: oracle
+```
+
+错误的配置：
+
+```text title="config/application.yml" {2}
+database:
+  type:oracle
+```
+
+请检查 `type: oracle` 之间是否有空格。如果没有空格，则不符合 `yaml` 语法。
