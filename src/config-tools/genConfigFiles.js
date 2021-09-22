@@ -28,7 +28,7 @@ const genConfigFiles = async (config) => {
     port: ${config.port}
 
   # 数据库类型
-  db:
+  database:
     type: ${config.db.type === "mysql" ? "mysql" : "oracle"}
   `,
     {
@@ -87,7 +87,9 @@ const genConfigFiles = async (config) => {
   zip.file("application-prod.yml", devApplicationFile);
 
   const content = await zip.generateAsync({ type: "blob" });
-  const { saveAs } = await import("file-saver");
+  const {
+    default: { saveAs },
+  } = await import("file-saver");
   saveAs(content, "config.zip");
 };
 

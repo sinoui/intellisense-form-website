@@ -98,15 +98,22 @@ function getLatestVersionObject(objects, isAlpha) {
 
   let latestVersion = getObjectVersion(result);
 
-  objects
-    .filter((item) => (isAlpha ? isAlphaFn(item) : !isAlphaFn(item)))
-    .forEach((obj) => {
-      const version = getObjectVersion(obj);
-      if (compare(latestVersion, version) === -1) {
-        result = obj;
-        latestVersion = version;
-      }
-    });
+  const isAlphaObjects = objects.filter((item) => isAlphaFn(item));
+
+  const filterObjects = isAlpha
+    ? isAlphaObjects.length > 0
+      ? isAlphaObjects
+      : objects
+    : objects.filter((item) => !isAlphaFn(item));
+
+  filterObjects.forEach((obj) => {
+    const version = getObjectVersion(obj);
+    if (compare(latestVersion, version) === -1) {
+      console.log(version);
+      result = obj;
+      latestVersion = version;
+    }
+  });
 
   return result;
 }
