@@ -18,8 +18,8 @@ title: 数据结构
 | :------------------------ | :------------- | :----------------------------------------------------------- |
 | [FormDesign](#FormDesign) | formDesign     | 表单设计信息                                                 |
 | [FormValue](#FormValue)   | formValue      | 表单数据                                                     |
-| JSONObject                | workFlowParam  | 工作流请求的参数 ([FlowSendEvent](#FlowSendEvent - workFlowParam - workFlowResult)、[FlowEndEvent](#FlowEndEvent - workFlowParam)) |
-| JSONObject                | workFlowResult | 工作流请求的响应([FlowSendEvent](#FlowSendEvent - workFlowParam - workFlowResult)、[FlowEndEvent](#FlowEndEvent - workFlowResult)) |
+| JSONObject                | workFlowParam  | 工作流请求的参数 ([FlowSendEvent](#FlowSendEvent-workFlowParam-workFlowResult)、[FlowEndEvent](#FlowEndEvent-workFlowParam)) |
+| JSONObject                | workFlowResult | 工作流请求的响应([FlowSendEvent](#FlowSendEvent-workFlowParam-workFlowResult)、[FlowEndEvent](#FlowEndEvent-workFlowResult)) |
 | [FlowIdea](#FlowIdea)     | workFlowIdea   | 流程意见信息                                                 |
 | String                    | userId         | 当前用户id                                                   |
 | String                    | userName       | 当前用户名                                                   |
@@ -295,7 +295,7 @@ title: 数据结构
 | String   | deptId   | 所属部门id   |
 | String   | deptName | 所属部门名称 |
 
-<h6 id="FlowSendEvent - workFlowParam - workFlowResult"></h6>
+<h6 id="FlowSendEvent-workFlowParam-workFlowResult"></h6>
 
 ## FlowSendEvent - workFlowParam - workFlowResult
 
@@ -471,7 +471,7 @@ stayTime:停留时长
 ]
 ~~~
 
-<h6 id="FlowEndEvent - workFlowParam"></h6>
+<h6 id="FlowEndEvent-workFlowParam"></h6>
 
 ## FlowEndEvent - workFlowParam
 
@@ -492,7 +492,7 @@ Flag标识值:
 4	主办终止流程。主办会签分支，结束掉本级会签，回到发起人会签处。
 ~~~
 
-<h6 id="FlowEndEvent - workFlowResult"></h6>
+<h6 id="FlowEndEvent-workFlowResult"></h6>
 
 ## FlowEndEvent - workFlowResult
 
