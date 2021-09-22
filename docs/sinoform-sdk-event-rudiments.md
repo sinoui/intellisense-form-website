@@ -48,8 +48,21 @@ title: 入门教程
 <dependency>
     <groupId>com.sinosoft</groupId>
     <artifactId>sinoform-sdk</artifactId>
-    <version>1.12.0-alpha.0</version>
+    <version>1.12.0</version>
 </dependency>
+<repositories>
+    <repository>
+        <id>sinoform</id>
+        <name>nexus repository</name>
+        <url>http://47.93.34.153/repository/sinoform-group/</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
 ~~~
 
 
@@ -64,9 +77,11 @@ server:
 sinoform:
   event:
     server:
-      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个以“,”分割，端口需要与ip地址一一对应
-      ip: 192.168.90.92
-      port: 8080
+      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个，端口需要与ip地址一一对应
+      ip:
+        - 192.168.90.44
+      port:
+        - 8080
     client:
       #当前项目的分组，可自定义分组名称，同一分组多个项目若订阅了相同的事件，那么只会发布给其中一个项目
       group: meeting
@@ -109,14 +124,14 @@ public class FirstSubscriber {
 启动项目，可以看到以下输出，说明已经订阅了智能表单服务的事件，其中/sinoform/client/apis/post是默认的当前项目的发布接口，sinoform-sdk会根据接收到的事件信息自动转换事件对象，并调用订阅了该事件的方法。
 
 ~~~
-智能表单服务地址 : [http://192.168.90.92:8080/sinoform/server/apis/registerEventListener]
+智能表单服务地址 : [http://192.168.90.44:8080/sinoform/server/apis/registerEventListener]
 当前项目的事件发布URL : /sinoform/client/apis/post
 订阅事件数量 : 3
 订阅事件列表 : 
         com.sinosoft.plugin.sinosoftplugin.FirstSubscriber.helloEvent(com.sinosoft.sdk.event.FlowEndEvent)
 开始订阅 : 
         订阅请求：{"eventListeners":......}
-        向智能表单服务 http://192.168.90.92:8080/sinoform/server/apis/registerEventListener 订阅成功. ok
+        向智能表单服务 http://192.168.90.44:8080/sinoform/server/apis/registerEventListener 订阅成功. ok
 
 ~~~
 
@@ -126,7 +141,7 @@ public class FirstSubscriber {
 
 智能表单服务端提供了测试接口，使用postman调用测试接口进行事件发布的测试
 
-- 测试接口 ： http://192.168.90.92:8080/sinoform/server/apis/testPostEvent
+- 测试接口 ： http://192.168.90.44:8080/sinoform/server/apis/testPostEvent
 - 请求类型 ： post
 - body格式 ：form-data
 - 接口参数 ： key : eventName     value(事件对象的包名+类名) : com.sinosoft.sdk.event.FlowEndEvent
@@ -181,7 +196,7 @@ Hello event : WorkFlowEvent(......)
 启动项目，可以看到以下输出，订阅事件列表中有三条记录，在FirstSubscriber类中找到了一个订阅方法，在ManySubscriber中找到了两个订阅方法，并订阅成功。
 
 ~~~
-智能表单服务地址 : [http://192.168.90.92:8080/sinoform/server/apis/registerEventListener]
+智能表单服务地址 : [http://192.168.90.44:8080/sinoform/server/apis/registerEventListener]
 当前项目的事件发布URL : /sinoform/client/apis/post
 订阅事件数量 : 3
 订阅事件列表 : 
@@ -190,7 +205,7 @@ Hello event : WorkFlowEvent(......)
         com.sinosoft.plugin.sinosoftplugin.ManySubscriber.helloFlowSendEvent(com.sinosoft.sdk.event.FlowSendEvent)
 开始订阅 : 
         订阅请求：{"eventListeners":......}
-        向智能表单服务 http://192.168.90.92:8080/sinoform/server/apis/registerEventListener 订阅成功. ok
+        向智能表单服务 http://192.168.90.44:8080/sinoform/server/apis/registerEventListener 订阅成功. ok
 ~~~
 
 
@@ -228,15 +243,21 @@ Test 2 : Hello FlowEndEvent : WorkFlowEvent(...)
 
 在sinoform.event.server.ip中配置多个ip地址，其中实际可用的ip为121.30.232.162，配置如下：
 
-~~~yml
+~~~yaml
 server:
   port: 8081
 sinoform:
   event:
     server:
-      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个以“,”分割，端口需要与ip地址一一对应
-      ip: 10.200.100.1,10.200.100.2,192.168.90.92,10.200.100.3,10.200.100.34
-      port: 8080
+      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个，端口需要与ip地址一一对应
+      ip:
+        - 10.200.100.1
+        - 10.200.100.2
+        - 192.168.90.44
+        - 10.200.100.3
+        - 10.200.100.4
+      port:
+        - 8080
     client:
       #当前项目的分组，可自定义分组名称，同一分组多个项目若订阅了相同的事件，那么只会发布给其中一个项目
       group: meeting
@@ -251,7 +272,7 @@ sinoform:
 启动项目，可以看到以下输出，在订阅失败后，会依次尝试向其他的智能表单服务订阅，直到订阅成功。
 
 ~~~
-智能表单服务地址 : [http://10.200.100.1:8080/sinoform/server/apis/registerEventListener, http://10.200.100.2:8080/sinoform/server/apis/registerEventListener, http://192.168.90.92:8080/sinoform/server/apis/registerEventListener, http://10.200.100.3:8080/sinoform/server/apis/registerEventListener, http://10.200.100.34:8080/sinoform/server/apis/registerEventListener]
+智能表单服务地址 : [http://10.200.100.1:8080/sinoform/server/apis/registerEventListener, http://10.200.100.2:8080/sinoform/server/apis/registerEventListener, http://192.168.90.44:8080/sinoform/server/apis/registerEventListener, http://10.200.100.3:8080/sinoform/server/apis/registerEventListener, http://10.200.100.34:8080/sinoform/server/apis/registerEventListener]
 当前项目的事件发布URL : /sinoform/client/apis/post
 订阅事件数量 : 3
 订阅事件列表 : 
@@ -262,7 +283,7 @@ sinoform:
         订阅请求：{"eventListeners":...}
         向智能表单服务 http://10.200.100.1:8080/sinoform/server/apis/registerEventListener 订阅失败. 错误信息：Connection timed out: connect
         向智能表单服务 http://10.200.100.2:8080/sinoform/server/apis/registerEventListener 订阅失败. 错误信息：Connection timed out: connect
-        向智能表单服务 http://192.168.90.92:8080/sinoform/server/apis/registerEventListener 订阅成功. ok
+        向智能表单服务 http://192.168.90.44:8080/sinoform/server/apis/registerEventListener 订阅成功. ok
 ~~~
 
 
@@ -282,15 +303,17 @@ sinoform:
 
 ### 配置application.yml
 
-~~~yml
+~~~yaml
 server:
   port: 8081
 sinoform:
   event:
     server:
-      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个以“,”分割，端口需要与ip地址一一对应
-      ip: 192.168.90.92
-      port: 8080
+      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个，端口需要与ip地址一一对应
+      ip:
+        - 192.168.90.44
+      port:
+        - 8080
     client:
       #当前项目的分组，可自定义分组名称，同一分组多个项目若订阅了相同的事件，那么只会发布给其中一个项目
       group: meeting
@@ -310,15 +333,17 @@ sinoform:
 
 修改项目端口配置：
 
-~~~yml
+~~~yaml
 server:
   port: 8082
 sinoform:
   event:
     server:
-      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个以“,”分割，端口需要与ip地址一一对应
-      ip: 192.168.90.92
-      port: 8080
+      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个，端口需要与ip地址一一对应
+      ip:
+        - 192.168.90.44
+      port:
+        - 8080
     client:
       #当前项目的分组，可自定义分组名称，同一分组多个项目若订阅了相同的事件，那么只会发布给其中一个项目
       group: meeting
@@ -362,15 +387,17 @@ sinoform:
 
 在[同组订阅实例](#同组订阅实例)的基础上,不要停止项目，再次修改配置，修改当前项目application.yml中的端口信息和分组信息：
 
-~~~yml
+~~~yaml
 server:
   port: 8083
 sinoform:
   event:
     server:
-      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个以“,”分割，端口需要与ip地址一一对应
-      ip: 192.168.90.92
-      port: 8080
+      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个，端口需要与ip地址一一对应
+      ip:
+        - 192.168.90.44
+      port:
+        - 8080
     client:
       #当前项目的分组，可自定义分组名称，同一分组多个项目若订阅了相同的事件，那么只会发布给其中一个项目
       group: email
@@ -390,15 +417,17 @@ sinoform:
 
 再次修改配置，将当前项目application.yml中的端口信息：
 
-~~~yml
+~~~yaml
 server:
   port: 8084
 sinoform:
   event:
     server:
-      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个以“,”分割，端口需要与ip地址一一对应
-      ip: 192.168.90.92
-      port: 8080
+      #智能表单服务的ip和端口，用于向服务端订阅事件，可配置多个，端口需要与ip地址一一对应
+      ip:
+        - 192.168.90.44
+      port:
+        - 8080
     client:
       #当前项目的分组，可自定义分组名称，同一分组多个项目若订阅了相同的事件，那么只会发布给其中一个项目
       group: email
