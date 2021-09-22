@@ -47,13 +47,17 @@ module.exports = {
         "plugin-faq",
       ],
       样式定制: ["custom-css-pc", "custom-css-mobile", "custom-css-editor"],
-      扩展: [ {
-        事件订阅: [
+      扩展: [
+        {
+          事件订阅: [
             "sinoform-sdk-event-starter",
             "sinoform-sdk-event-rudiments",
-            "sinoform-sdk-event-data"
-        ]
-      }, "extend-interface"],
+            "sinoform-sdk-event-data",
+          ],
+        },
+        "extend-interface",
+      ],
+      版本变更记录: ["changelog-v1.12.0"],
       序号组件: ["sinomatrix-sequence-table", "sinomatrix-sequence-interface"],
     },
   ],
