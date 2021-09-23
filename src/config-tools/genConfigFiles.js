@@ -19,6 +19,22 @@ const TEST_SQL = {
   kingbase: "select 1 from dual",
 };
 
+/**
+ * 生成mongodb数据库的uri
+ *
+ * @param {{port: string; username?: string; password?: string; host: string;}} mongodbConfig 
+ * @returns 返回产生的 mongodb 数据库的 uri
+ */
+const getMongoDbUri = ({
+  port = '27017',
+  username = '',
+  password = '',
+  host
+}) => {
+  const auth = username && password ? `${username}:${password}@`;
+  return `mongodb://${auth}${host}:${port}/form`;
+}
+
 const genConfigFiles = async (config) => {
   const { prettier, yamlParser } = await loadPrettier();
   const applicationFile = prettier.format(
@@ -43,11 +59,7 @@ const genConfigFiles = async (config) => {
   spring:
     data:
       mongodb:
-        host: ${config.mongodb.host ?? ""}
-        port: ${config.mongodb.port ?? ""}
-        database: form
-        username: ${config.mongodb.username ?? ""}
-        password: ${config.mongodb.password ?? ""}
+        uri: ${getMongoDbUri(config.mongodb)}
       datasource:
         url: ${config.db.url ?? ""}
         username: ${config.db.username ?? ""}
