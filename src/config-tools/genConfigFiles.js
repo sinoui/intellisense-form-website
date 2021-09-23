@@ -22,18 +22,18 @@ const TEST_SQL = {
 /**
  * 生成mongodb数据库的uri
  *
- * @param {{port: string; username?: string; password?: string; host: string;}} mongodbConfig 
+ * @param {{port: string; username?: string; password?: string; host: string;}} mongodbConfig
  * @returns 返回产生的 mongodb 数据库的 uri
  */
 const getMongoDbUri = ({
-  port = '27017',
-  username = '',
-  password = '',
-  host
+  port = "27017",
+  username = "",
+  password = "",
+  host,
 }) => {
-  const auth = username && password ? `${username}:${password}@`;
+  const auth = username && password ? `${username}:${password}@` : "";
   return `mongodb://${auth}${host}:${port}/form`;
-}
+};
 
 const genConfigFiles = async (config) => {
   const { prettier, yamlParser } = await loadPrettier();
