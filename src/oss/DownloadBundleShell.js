@@ -1,6 +1,6 @@
 import React from "react";
 import CodeBlock from "@theme/CodeBlock";
-import useLatestPackage from "./useLastestPackage";
+import useLatestPackage from "./useLatestPackage";
 
 /**
  * 展示下载发布包脚本的组件
@@ -15,8 +15,9 @@ const DownloadBundleShell = ({ type }) => {
         wget ${result?.url ?? ""}
         # 解压缩智能表单前端发布包
         unzip ${result?.name ?? ""} -d /apps/sino-intellisense-form/frontend
-        `.trim()
-        .replace(/^ +/gm, "")
+        `
+          .trim()
+          .replace(/^ +/gm, "")
       : `
         # 下载智能表单后端发布包
         wget ${result?.url ?? ""}

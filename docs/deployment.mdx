@@ -9,6 +9,8 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import ConfigTools from "../src/config-tools";
 import StartBackendShell from "../src/oss/StartBackendShell";
+import DeploymentFileStructure from "../src/oss/DeploymentFileStructure";
+import RunBackendInKylin from "../src/oss/RunBackendInKylin";
 
 目前的智能表单版本推荐与 sinomatrix 组合在一起使用，本文将会介绍智能表单的[部署架构图](#部署架构图)，让您了解智能表单的组成部分。然后一一讲解如何部署每个组成部分。
 
@@ -93,22 +95,9 @@ Nginx 主要承担两个职责：
 
 ## 第二步：下载智能表单部署资源
 
-我们需要下载智能表单资源，并解压缩到服务器的任意目录中（如果是 Linux 服务器，需要注意文件访问权限）。例如，将文件放入 `/apps/sino-intellisense-form` 目录中。经过下载和解压缩，最终会形成下面的文件目录：
+我们需要下载智能表单资源，并解压缩到服务器的任意目录中（如果是 Linux 服务器，需要注意文件访问权限）。例如，将文件放入 `/apps/sino-intellisense-form` 目录中。经过下载和解压缩，最终会形成下面的文件结构：
 
-```
-/apps/sino-intellisense-form
-|___ frontend                  --------------------------> 智能表单前端资源，包含的子目录和文件都是从前端压缩包中解压出来的
-  |___ intellisense-form
-  |___ intellisense-form-manger
-  |___ intellisense-form-mobile
-|___ backend                   ---------------------------> 智能表单后端资源
-  |___ config                  ---------------------------> 后端配置，在部署智能表单后端的章节中会介绍
-    |___ application.yml
-    |___ application-dev.yml
-    |___ application-test.yml
-    |___ application-prod.yml
-  |___ sino-intellisense-form-v1.11.2.jar -----------------> 需要下载
-```
+<DeploymentFileStructure />
 
 ### 步骤一：创建目录
 
@@ -392,12 +381,7 @@ unzip config.zip -d /apps/sino-intellisense-form/backend/config
 
 在麒麟操作系统中，通过 `nohup` 在后台启动智能表单时，可能找不到 `config` 目录下的配置文件。如果出现这样的问题，请通过类似下面的命令行启动：
 
-```bash
-nohup java -Dspring.config.location=classpath:/ \
-           -Dspring.config.location=file:/apps/sino-intellisense-form/backend/config/ \
-           -Dspring.profiles.active=test \
-           -jar sino-intellisense-form-v1.11.2.jar > intellisenseform.log &
-```
+<RunBackendInKylin />
 
 如果您有更好的方式解决此问题，请您不吝赐教。
 

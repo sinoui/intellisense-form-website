@@ -1,6 +1,6 @@
 import React from "react";
 import CodeBlock from "@theme/CodeBlock";
-import useLatestPackage from "./useLastestPackage";
+import useLatestPackage from "./useLatestPackage";
 
 const StartBackendShell = () => {
   const result = useLatestPackage("backend");

@@ -1,5 +1,5 @@
 import React from "react";
-import useLatestPackage from "./useLastestPackage";
+import useLatestPackage from "./useLatestPackage";
 
 /**
  * 智能表单发布包链接
