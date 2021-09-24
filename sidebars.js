@@ -3,7 +3,12 @@ module.exports = {
     "introduction",
     "download",
     {
-      部署: ["deployment", "integrate", "sinomatrix-docker-intellisenseform"],
+      部署: [
+        "deployment",
+        "integrate",
+        "sinomatrix-docker-intellisenseform",
+        "deployment-mongodb",
+      ],
       应用程序配置: [
         "config-custom",
         "config-disable-modules",
