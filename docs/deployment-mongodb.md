@@ -1,3 +1,8 @@
+---
+id: deployment-mongodb
+title: 安装mongodb
+---
+
 # 安装mongodb
 
 ## 下载
@@ -12,7 +17,7 @@
 
 
 
-此处我选择的通过下载链接进行下载：
+此处我选择的通过下载链接进行下载，复制链接后在服务器执行下载命令：
 
 ~~~
 wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2004-5.0.3.tgz
