@@ -3,12 +3,7 @@ module.exports = {
     "introduction",
     "download",
     {
-      部署: [
-        "deployment",
-        "integrate",
-        "sinomatrix-docker-intellisenseform",
-        "deployment-faq",
-      ],
+      部署: ["deployment", "integrate", "sinomatrix-docker-intellisenseform"],
       应用程序配置: [
         "config-custom",
         "config-disable-modules",
@@ -58,6 +53,7 @@ module.exports = {
         },
         "extend-interface",
       ],
+      常见问题: ["deployment-faq", "feature-faq"],
       版本变更记录: ["changelog-v1.12.0"],
       序号组件: ["sinomatrix-sequence-table", "sinomatrix-sequence-interface"],
     },
