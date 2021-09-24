@@ -395,8 +395,8 @@ unzip config.zip -d /apps/sino-intellisense-form/backend/config
 在麒麟操作系统中，通过 `nohup` 在后台启动智能表单时，可能找不到 `config` 目录下的配置文件。如果出现这样的问题，请通过类似下面的命令行启动：
 
 ```bash
-nohup java -Dspring.config.location=/apps/sino-intellisense-form/backend/config/application.yml \
-           -Dspring.config.location=/apps/sino-intellisense-form/backend/config/application-test.yml \
+nohup java -Dspring.config.location=classpath:/ \
+           -Dspring.config.location=file:/apps/sino-intellisense-form/backend/config/ \
            -Dspring.profiles.active=test \
            -jar sino-intellisense-form-v1.11.2.jar > intellisenseform.log &
 ```

@@ -14,6 +14,7 @@ module.exports = {
         "config-disable-modules",
         "config-audit",
         "config-version",
+        "config-external-intro",
       ],
       插件开发: [
         "plugin-index",
