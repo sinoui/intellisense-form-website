@@ -60,14 +60,14 @@ const genConfigFiles = async (config) => {
     data:
       mongodb:
         uri: ${getMongoDbUri(config.mongodb)}
-      datasource:
-        url: ${config.db.url ?? ""}
-        username: ${config.db.username ?? ""}
-        password: ${config.db.password ?? ""}
-        driver-class-name: ${DRIVER_CLASS_NAMES[config.db.type]}
-        druid:
-          # 指定测试数据库连接的连通性 SQL 语句
-          validation-query: ${TEST_SQL[config.db.type]}
+    datasource:
+      url: ${config.db.url ?? ""}
+      username: ${config.db.username ?? ""}
+      password: ${config.db.password ?? ""}
+      driver-class-name: ${DRIVER_CLASS_NAMES[config.db.type]}
+      druid:
+        # 指定测试数据库连接的连通性 SQL 语句
+        validation-query: ${TEST_SQL[config.db.type]}
 
   # 指定单点登录服务链接
   sso:
