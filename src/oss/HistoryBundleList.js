@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import getHistoryVersionList from "./getHistoryVersionList";
 
 /**
  * 智能表单发布包历史版本
@@ -7,9 +8,6 @@ function HistoryBundleList({ type }) {
   const [items, setItems] = useState([]);
 
   useEffect(async () => {
-    const { default: getHistoryVersionList } = await import(
-      "./getHistoryVersionList"
-    );
     const result = await getHistoryVersionList(type);
     setItems(result ?? []);
   }, []);
