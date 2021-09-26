@@ -136,10 +136,7 @@ const ConfigTools = () => {
             </FormItem>
           </Column>
           <Column md={6} sm={12} xs={24}>
-            <FormItem
-              name="sinomatrix.workflowDesignServerUri"
-              label="uias服务"
-            >
+            <FormItem name="sinomatrix.uiasServerUri" label="uias服务">
               <TextInput placeholder={defaultConfig.sinomatrix.uiasServerUri} />
             </FormItem>
           </Column>
