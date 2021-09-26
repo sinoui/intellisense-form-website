@@ -2,32 +2,12 @@ import React, { useState } from "react";
 import TextInput from "@sinoui/core/TextInput";
 import Select from "@sinoui/core/Select";
 import { Form, FormItem } from "@sinoui/rx-core-form";
-import { useFormState } from "@sinoui/rx-form-state";
 import { Row, Column } from "@sinoui/core/Grid";
 import "./config-tools.css";
 import Button from "@sinoui/core/Button";
 import genConfigFiles from "./genConfigFiles";
 import PasswordInput from "../components/password-input";
-
-const defaultConfig = {
-  port: 8085,
-  db: {
-    type: "mysql",
-    url: "jdbc:mysql://127.0.0.1:3306/form?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false",
-    username: "root",
-    password: "12345678",
-  },
-  mongodb: {
-    host: "127.0.0.1",
-    port: 27017,
-  },
-  sinomatrix: {
-    ssoServerUrl: "http://127.0.0.1:18880/sso",
-    workflowDesignServerUri: "127.0.0.1:8088",
-    workflowServerUri: "127.0.0.1:18003",
-    uiasServerUri: "127.0.0.1:18001",
-  },
-};
+import useConfigToolsState, { defaultConfig } from "./useConfigToolsState";
 
 const defaultDbUrl = {
   mysql:
@@ -41,7 +21,7 @@ const defaultDbUrl = {
  * 配置生成工具
  */
 const ConfigTools = () => {
-  const formState = useFormState(defaultConfig);
+  const formState = useConfigToolsState();
 
   useState(() => {
     formState.addRelyRule(["db.type"], (draft) => {

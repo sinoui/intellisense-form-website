@@ -2493,10 +2493,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@sinoui/core@1.0.10", "@sinoui/core@^1.0.1", "@sinoui/core@^1.0.5":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@sinoui/core/-/core-1.0.10.tgz#801b278bec46a2b7241b62596138212af20a5688"
-  integrity sha512-fqKrd8okj2LEbW8Ygk2dGWtt2VOKfP7Ooi9lyogcgw9Q8f4IR5c2hTsXViC3pW6rLkxyHGXuFZFEsu57dsURfQ==
+"@sinoui/core@1.0.12", "@sinoui/core@^1.0.1", "@sinoui/core@^1.0.5":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@sinoui/core/-/core-1.0.12.tgz#99d94e58d8daff5c3372a411f92f76a305b87b13"
+  integrity sha512-L4+0Q00iH4MtEto8zjQuRPLieqkCsxa4IEZ7dEyE8nCxcQ0BdqNacvxuzTqiayhTIWadsvsQrxBypsXe0UuxOA==
   dependencies:
     "@babel/polyfill" "^7.8.7"
     "@babel/runtime" "^7.9.2"
@@ -4921,6 +4921,7 @@ deep-is@~0.1.3:
 deepmerge@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
+  integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
 
 default-gateway@^4.2.0:
   version "4.2.0"
