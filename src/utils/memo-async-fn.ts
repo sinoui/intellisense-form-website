@@ -9,7 +9,7 @@ function memoAsyncFn<T extends (...args: any) => any>(
  * 规则：
  *
  * * 只缓存正确的成果
- * * 只缓存 10 分钟
+ * * 只缓存 5 分钟
  *
  * @param fn
  */
