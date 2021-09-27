@@ -371,6 +371,14 @@ unzip config.zip -d /apps/sino-intellisense-form/backend/config
 }
 ```
 
+然后访问健康状态接口 [http://localhost:8085/actuator/health](http://localhost:8085/actuator/health)，验证数据库的连通性。如果出现类似下面的信息，说明数据库连通没问题：
+
+```json
+{
+  "status": "UP"
+}
+```
+
 :::warning
 
 在麒麟操作系统中，通过 `nohup` 在后台启动智能表单时，可能找不到 `config` 目录下的配置文件。如果出现这样的问题，请通过类似下面的命令行启动：
