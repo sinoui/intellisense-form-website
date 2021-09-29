@@ -6,9 +6,13 @@ title: v1.12.0
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 1. 发布日期
+## 1. 发布情况
 
-2021.9.22
+发布日期：2021.9.22
+
+前端包：[sino-intellisense-form-v1.12.0.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.0/sino-intellisense-form-v1.12.0.zip)
+
+后端包：[sino-intellisense-form-v1.12.0.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.0/sino-intellisense-form-v1.12.0.jar)
 
 ## 2. 平滑升级
 
@@ -18,7 +22,7 @@ import TabItem from "@theme/TabItem";
 >
 > 主要是因为时间上来不及处理。我们需要按照计划将 v1.12.0 版本发布出去，因为个别项目组正在等待此版本的升级。
 >
-> 我们预计在一周后的 `v1.12.1` 版本包含自动升级脚本，来实现此版本的平滑升级。
+> 我们预计在一周后的 `v1.12.2` 版本包含自动升级脚本，来实现此版本的平滑升级。
 
 ## 3. sinomatrix 依赖变更
 
@@ -176,7 +180,7 @@ sinoform:
 
 因需要实现[规范数据库表名和列名](#45-规范数据库表名和列名)，所以此版本包含一个破坏性变更：表单项标识名称为`驼峰式`的命名风格，需要手动将相对应的数据库表列名调整为 `大写 + 下划线` 风格。
 
-鉴于很少有项目组直接调整表单项标识，所以 v1.12.0 版本不提供自动升级脚本（来不及提供）。预计将在 `v1.12.1` 版本中提供。
+鉴于很少有项目组直接调整表单项标识，所以 v1.12.0 版本不提供自动升级脚本（来不及提供）。预计将在 `v1.12.2` 版本中提供。
 
 如果您的项目采用的数据库对大小写不敏感，或者目前没有遇到因字段标识大小写问题导致表单发布失败的情况，那么可以通过下面的配置禁用此配置：
 

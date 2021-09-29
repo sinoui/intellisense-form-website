@@ -1,0 +1,33 @@
+---
+id: changelog-v1.12.1
+title: v1.12.1
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 1. 发布情况
+
+发布日期：2021.9.29
+
+前端包：[sino-intellisense-form-v1.12.0.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.0/sino-intellisense-form-v1.12.0.zip)
+
+后端包：[sino-intellisense-form-v1.12.1.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.1/sino-intellisense-form-v1.12.1.jar)
+
+## 2. 平滑升级
+
+可以从 v1.12.0 平滑升级到 v1.12.1。但是从 v1.12.0 版本之前升级到 v1.12.1，需要完成一些手动升级的任务，详情请见 [v1.12.0 版本发布公告](./changelog-v1.12.0.mdx)。
+
+> 为什么 v1.12.0 版本没有提供平滑升级？
+>
+> 主要是因为时间上来不及处理。我们需要按照计划将 v1.12.0 版本发布出去，因为个别项目组正在等待此版本的升级。
+>
+> 我们预计在一周后的 `v1.12.2` 版本包含自动升级脚本，来实现此版本的平滑升级。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.31](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要特性
+
+- 紧急修复缺陷：流程办结失败

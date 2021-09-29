@@ -59,7 +59,7 @@ module.exports = {
         "extend-interface",
       ],
       常见问题: ["deployment-faq", "feature-faq"],
-      版本变更记录: ["changelog-v1.12.0"],
+      版本变更记录: ["changelog-v1.12.1", "changelog-v1.12.0"],
       序号组件: ["sinomatrix-sequence-table", "sinomatrix-sequence-interface"],
     },
   ],
