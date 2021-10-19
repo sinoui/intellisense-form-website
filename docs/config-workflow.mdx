@@ -1,0 +1,72 @@
+---
+id: config-workflow
+title: 流程配置
+---
+
+智能表单默认与 sinomatrix 平台的工作流引擎交互，完成流程配置和流转的功能。我们可以通过本页介绍的配置项定义与工作流引擎交互的行为。
+
+## sinoform.workflow-server-uri 配置项
+
+`sinoform.workflow-server-uri` 配置项用来定义工作流引擎服务地址（`sino-matrix-workflow`），如下所示：
+
+```yaml title="application-dev.yml"
+sinoform:
+  workflow-server-uri: 127.0.0.1:18003
+```
+
+## sinoform.workflow-design-server-uri 配置项
+
+`sinoform.workflow-design-server-uri` 配置项用来定义 sinomatrix 中工作流设计器服务地址（`sino-matrix-workflow-design`），如下所示：
+
+```yaml title="application-dev.yml"
+sinoform:
+  workflow-design-server-uri: 127.0.0.1:8080
+```
+
+## url.sync-workflow-items-url 配置项
+
+`url.sync-workflow-items-url` 配置项用来定义业务实现的接受流程待办和已办数据的扩展接口链接，如下所示：
+
+```yaml title="application-dev.yml"
+url:
+  sync-workflow-items-url: http://192.168.90.110:19001/custom-sync-workflow-items
+```
+
+:::info 何时使用此配置项
+
+当您遇到以下情况时，需要使用配置项：
+
+- 用户从业务系统中看到的待办、已办不是从工作流引擎中读取的
+- 门户不是中科软的产品，需要将待办数据及时同步到第三方门户中去
+
+:::
+
+### 扩展接口约定
+
+此扩展接口需要遵循以下接口约定：
+
+```http
+POST [接收待办、已办数据的扩展链接，您可以自行设计链接路径，如http://192.168.90.110:19001/custom-sync-workflow-items]
+```
+
+请求体是 `application/json` 格式的，示例数据如下：
+
+```json
+{
+  "read": ["delete sql", "insert sql"],
+  "write": ["delete sql", "insert sql"],
+  "formId": "表单id",
+  "appId": "应用id",
+  "formDesignId": "表单设计id"
+}
+```
+
+其中 `read` 和 `write` 字段的值是来自工作流引擎在提交流程时返回的同步待办和已办的 SQL 语句，`read` 字段值是用来同步已办数据的 SQL，`write` 字段值是用来同步待办数据的 SQL。
+
+您可以通过解析 SQL 语句，知晓待办和已办发生的变化，从而同步到您的业务系统中去。
+
+:::info 推荐
+
+推荐您使用 [jsqlparser](https://github.com/JSQLParser/JSqlParser) 库解析 SQL。
+
+:::

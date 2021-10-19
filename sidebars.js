@@ -14,6 +14,7 @@ module.exports = {
         "config-disable-modules",
         "config-data-perm",
         "config-resource-publish",
+        "config-workflow",
         "config-audit",
         "config-version",
         "config-external-intro",
