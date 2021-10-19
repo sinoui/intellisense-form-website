@@ -12,6 +12,7 @@ module.exports = {
       应用程序配置: [
         "config-custom",
         "config-disable-modules",
+        "config-data-perm",
         "config-audit",
         "config-version",
         "config-external-intro",
