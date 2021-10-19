@@ -47,3 +47,46 @@ database:
 ```
 
 请检查 `type: oracle` 之间是否有空格。如果没有空格，则不符合 `yaml` 语法。
+
+## 4. 配置的扩展接口没有起作用
+
+大部分情况下是配置格式不正确导致的。如下错误的 `application.yml` 配置：
+
+```yaml title="application-dev.yaml" {5}
+sinoform:
+  workflow-design-server-uri: 192.168.80.142:8080
+  workflow-server-uri: 192.168.80.142:18003
+  uias-server-uri: 192.168.80.142:18001
+  url:
+    resource-publish-url: http://192.168.90.110:19001/extend-resource-publish
+```
+
+上面的配置是在 `sinoform` 中添加了 `url.resource-publish-url` 配置，即相当于：
+
+```yaml
+sinoform.url.resource-publish-url: http://192.168.90.110:19001/extend-resource-publish
+```
+
+但是智能表单关于扩展链接的配置都是以 `url` 开头的，而非 `sinoform.url` 开头的，即：
+
+```yaml
+url.resource-publish-url: http://192.168.90.110:19001/extend-resource-publish
+```
+
+所以，正确的配置如下：
+
+```yaml title="application-dev.yaml" {6}
+sinoform:
+  workflow-design-server-uri: 192.168.80.142:8080
+  workflow-server-uri: 192.168.80.142:18003
+  uias-server-uri: 192.168.80.142:18001
+
+url:
+  resource-publish-url: http://192.168.90.110:19001/extend-resource-publish
+```
+
+:::warning 注意
+
+请注意 `url` 的缩进。`url` 与 `sinoform` 是对齐的。
+
+:::
