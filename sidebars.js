@@ -13,6 +13,7 @@ module.exports = {
         "config-custom",
         "config-disable-modules",
         "config-data-perm",
+        "config-resource-publish",
         "config-audit",
         "config-version",
         "config-external-intro",
