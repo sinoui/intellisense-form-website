@@ -254,3 +254,23 @@ end;
 
   </TabItem>
 </Tabs>
+
+## 7. 特别设置
+
+> 为了解决 sino-matrix 给部门下的业务角色授权的缺陷，需要项目组完成此设置。
+
+需要在 sino-matrix 统一授权的 `统一系统管理 > 系统配置管理 > 平台产品集成示例` 中，将 `业务角色是否受限部门级别` 选项设置为 `否`。步骤如下：
+
+首先，进入设置界面：
+
+![](assets/changelog-v1.12.0/enter-sys-config.png)
+
+然后，设置 `业务角色是否受限部门级别`：
+
+![](assets/changelog-v1.12.0/set-dept-level-role-bind.png)
+
+或者，您可以在 `sinoepuias` 数据库中执行以下 SQL 语句：
+
+```sql
+update sys_sub_rd_info set CREATE_FLOWROLE_TYPE = '0' where SUB_ID = '67250';
+```
