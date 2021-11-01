@@ -67,7 +67,7 @@ module.exports = {
         "changelog-v1.12.1",
         "changelog-v1.12.0",
       ],
-      序号组件: ["sinomatrix-sequence-table", "sinomatrix-sequence-interface"],
+      表单配置教程: ["custom-print-template"],
     },
   ],
 };
