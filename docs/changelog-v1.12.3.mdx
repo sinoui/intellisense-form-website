@@ -1,0 +1,32 @@
+---
+id: changelog-v1.12.3
+title: v1.12.3
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 1. 发布情况
+
+发布日期：2021.11.02
+
+前端包：[sino-intellisense-form-v1.12.0.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.0/sino-intellisense-form-v1.12.0.zip)
+
+后端包：[sino-intellisense-form-v1.12.3.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.3/sino-intellisense-form-v1.12.3.jar)
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.12.3。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.31](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要特性
+
+- improve: 文本类型的表单项字段长度从 `100` 改成 `200`。
+- feat: 添加印章测试接口
+- fix: 修复MySQL8.0数据库无法查询草稿数据的缺陷
+- fix: 修复 versiontask 的 oracle 兼容性问题（关于日期字段的缺陷）
+- fix: 修复格式化表名和列名的任务格式化字段不全
+
