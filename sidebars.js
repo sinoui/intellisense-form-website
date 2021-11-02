@@ -63,9 +63,10 @@ module.exports = {
       ],
       常见问题: ["deployment-faq", "feature-faq"],
       版本变更记录: [
+        "changelog-v1.12.3",
         "changelog-v1.12.2",
         "changelog-v1.12.1",
-        "changelog-v1.12.0",
+        "changelog-v1.12.0"
       ],
       表单配置教程: ["custom-print-template"],
     },
