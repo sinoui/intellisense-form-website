@@ -10,13 +10,13 @@ import TabItem from "@theme/TabItem";
 
 发布日期：2021.11.10
 
-前端包：[sino-intellisense-form-v1.12.0.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.0/sino-intellisense-form-v1.12.0.zip)
+前端包：[sino-intellisense-form-v1.13.0-alpha.0.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.0/sino-intellisense-form-v1.13.0-alpha.0.zip)
 
 后端包：[intellisense-form-1.13.0-alpha.0.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.0/intellisense-form-1.13.0-alpha.0.jar)
 
 ## 2. 平滑升级
 
-可以从任何版本平滑升级到v1.13.0-alpha.0。
+可以从任何版本平滑升级到 v1.13.0-alpha.0。
 
 ## 3. sinomatrix 依赖变更
 
@@ -26,14 +26,23 @@ import TabItem from "@theme/TabItem";
 
 - improve(bff): 拟稿人从查询列表页打开的已撤办的表单应可以修改
 - feat: 添加打印按钮权限控制
-- feat: 添加配置draft-print-button，控制起草页面是否显示打印按钮
+- feat: 添加配置 draft-print-button，控制起草页面是否显示打印按钮
 - fix: 表单设置流程使用范围为父部门时，子部门成员在移动端查看不到该表单
 - fix: 修复无流程表单无打印按钮权限的缺陷
+- improve: 改进`isIn`方法使其支持带备注选项的简单匹配
+- fix: 缩减查询值为 200 最大长度
+- feat: 支持自定义流程待办标题
+- fix: 修复旧版页面路由跳转错误
+- improve: 优化在线自定义打印模板
+- feat: 打印按钮可配置
+- feat: 文本字段默认值中，新增“创建人完整部门”的选项，要求：部门/处室/科室
+- improve: 附件上传支持自定义上传类型
+- improve: 附件上传添加选完文件之后的校验
 
-draft-print-button配置说明
+draft-print-button 配置说明
+
 ```yaml title="application.yml"
 sinoform:
   # 起草页是否显示打印按钮，默认true-显示
   draft-print-button: false
-
 ```
