@@ -1,0 +1,27 @@
+---
+id: changelog-v1.13.0-alpha.0
+title: v1.13.0-alpha.0
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 1. 发布情况
+
+发布日期：2021.11.12
+
+前端包：[sino-intellisense-form-v1.13.0-alpha.1.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.0/sino-intellisense-form-v1.13.0-alpha.1.zip)
+
+后端包：[intellisense-form-1.13.0-alpha.0.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.0/intellisense-form-1.13.0-alpha.0.jar)
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.13.0-alpha.0。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.31](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要特性
+
+- fix(workflow): 修复工作流引擎和资源权限对候选人范围解析不一致的缺陷（启动流程时，不再校验提交人是否有权限启动流程）
