@@ -1,0 +1,58 @@
+---
+id: changelog-v1.13.0
+title: v1.13.0
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 1. 发布情况
+
+发布日期：待定
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.13.0。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.31](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要特性
+
+v1.13.0 版本主要针对打印输出功能进行完善和提升。
+
+### 4.1 打印输出
+
+- 在线定制打印模板：支持使用默认模板
+  直接使用默认模板打印，按照页面显示布局直接输出内容。
+  ![默认模板输出](./assets/changelog-v1.13.0/default-template-out.png)
+
+- 在线定制打印模板：支持设置字体、字号、字重、下划线、删除线、斜体等文本样式
+  可以使用工具条上的按钮设置文本样式。
+  ![字体样式](./assets/changelog-v1.13.0/font-style-template.png)
+  输出效果如下：
+  ![自定义文本样式](./assets/changelog-v1.13.0/font-style-template-out.png)
+- 在线定制打印模板：支持设置单元格背景色
+- 在线定制打印模板：支持合并单元格
+- 在线定制打印模板：支持设置边框线、边框线样式和粗细支持调整
+  自定义模板默认没有边框。支持设置表格边框线，支持实线、虚线不同样式，支持设置边框线颜色。
+  ![设置边框](./assets/changelog-v1.13.0/border-setting.png)
+- 在线定制打印模板：支持设置单元格内部文本对齐方式
+  智能表单在线自定义打印模板单元格内文本对齐方式默认为：水平方向左对齐，垂直方向居中对齐。可以使用工具条相关按钮改变文本对齐方式。
+- 在线定制打印模板：支持自定义打印配置
+  在设置打印模板时，还可以自定义打印配置，比如：页面尺寸、打印方向、页边距等；还可以自定义内容配置，比如：是否显示默认标题、行高是否自适应等。
+  ![打印设置](./assets/changelog-v1.13.0/print-setting.png)
+- 完善打印分页方式（保证文字不被切分）
+- 更完善的打印预览
+  打印预览支持页面缩放。
+- 支持显示页码打印
+  打印预览时，可以设置显示页码，页码显示方式及显示位置也可自定义。
+  ![设置页码](./assets/changelog-v1.13.0/page-number-setting.png)
+
+  显示效果：
+  ![显示页码](./assets/changelog-v1.13.0/page-number-setting-out.png)
+
+- 支持带水印打印
+  打印预览支持显示水印，设置水印支持`用户名`、`日期`、`部门`、`机构`的任意组合。
+  ![设置水印](./assets/changelog-v1.13.0/watermark-setting.png)
