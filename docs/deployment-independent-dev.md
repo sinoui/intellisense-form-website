@@ -170,7 +170,7 @@ bin/mongod -f mongodb.conf
   - 智能表单 - 静态资源缓存配置
 
     ```nginx
-     location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf)$ {
+     location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf|ttf|ttc|eot|woff2|woff|svg)$ {
              expires 365d;
      }
 
