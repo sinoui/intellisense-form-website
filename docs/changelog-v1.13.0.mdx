@@ -14,6 +14,25 @@ import TabItem from "@theme/TabItem";
 
 可以从任何版本平滑升级到 v1.13.0。
 
+由于 1.13.0 版本打印输出功能需要加载字体文件，所以建议改进 Nginx 缓存策略，如下所示：
+
+```diff title="nginx.conf文件变更"
+  # 缓存智能表单静态资源
+-  location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf)$ {
++  location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf|ttf|ttc|eot|woff2|woff|svg)$ {
+    expires 365d;
+  }
+```
+
+变更之后的 `nginx.conf` 的静态资源缓存配置如下：
+
+```nginx
+  # 缓存智能表单静态资源
+  location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf|ttf|ttc|eot|woff2|woff|svg)$ {
+    expires 365d;
+  }
+```
+
 ## 3. sinomatrix 依赖变更
 
 因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.31](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
