@@ -170,6 +170,10 @@ http {
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-Real-IP $remote_addr;
       proxy_pass http://sinoform_web_app;
+
+      # 禁用 API 的浏览器缓存，以解决 IE11 怪异的 AJAX 缓存问题
+      proxy_hide_header Cache-Control;
+      add_header Cache-Control no-store;
     }
 
     # 配置主题入口文件不做缓存
@@ -286,6 +290,10 @@ http {
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-Real-IP $remote_addr;
       proxy_pass http://sinoform_web_app;
+
+      # 禁用 API 的浏览器缓存，以解决 IE11 怪异的 AJAX 缓存问题
+      proxy_hide_header Cache-Control;
+      add_header Cache-Control no-store;
     }
 
     # 配置主题入口文件不做缓存
