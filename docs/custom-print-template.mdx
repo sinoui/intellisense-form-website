@@ -38,6 +38,7 @@ title: 在线自定义打印模板
 - 框住多个单元格，整体设置文本样式
 - 单元格处于编辑状态时，选中部分文字，给选中的文字单独设置样式
 
+智能表单内置支持`仿宋_GB2312`、`宋体`、`楷体`、`黑体`、`Times New Roman`五种字体，如果想要设置别的字体，可以通过插件开发的方式添加字体文件。具体方式参考[字体定制](#字体定制)。
 :::
 
 ## 单元格操作
@@ -204,3 +205,71 @@ userName like "张%"
 
 - 纸张设置 —— 可以设置打印纸张大小、打印方向、页面边距等
 - 内容设置 —— 可以设置是否有默认标题、打印表格行高是否根据内容自适应
+
+## 字体定制
+
+可以通过插件开发的方式向智能表单项目中注册打印时想要使用的字体。入门插件开发请参考[插件开发 | 环境准备](guide-setup)。
+
+### 添加字体文件
+
+直接在`plugins`文件下创建`fonts`文件夹，然后把准备好的字体文件全部放在此文件夹下。
+
+![字体文件](./assets/custom-print-layout/custom-print-fonts.png)
+
+:::info
+
+- 可以直接百度搜索想要使用的字体文件
+- 所使用的字体文件必须是`.ttf`后缀的，不支持`.ttc`文件
+
+:::
+
+### 注册字体文件
+
+准备好字体文件后，在 `src` 下的 `index.ts` 文件中引入并注册字体（这里以注册微软雅黑和等线字体为例）。
+
+```ts title="src/index.ts"
+import AppSetting from "@sinoform/app-setting";
+import Deng from "./plugins/fonts/Deng.ttf";
+import Dengb from "./plugins/fonts/Dengb.ttf";
+import msyh from "./plugins/fonts/msyh.ttf";
+import msyhbd from "./plugins/fonts/msyhbd.ttf";
+
+AppSetting.printOutConfig.addFont({
+  title: "等线", // 字体标题，在渲染页面时使用
+  name: "DX", // 字体名称，在生成pdf中使用，必须为英文
+  url: {
+    // 字体文件链接
+    normal: Deng,
+    bd: Dengb,
+  },
+});
+
+AppSetting.printOutConfig.addFont({
+  title: "微软雅黑",
+  name: "MSYH",
+  url: {
+    normal: msyh,
+    bd: msyhbd,
+  },
+});
+```
+
+上述示例中，我们使用`AppSetting.printOutConfig.addFont()`方法注册字体，字体配置对象包含以下几个属性：
+
+- `title` —— 字体标题，在 `html`中使用
+- `name` —— 字体名称，在生成 `pdf` 时使用，必须为英文
+- `url` —— 字体文件的加载链接。如果我们想要使用的字体只有常规类型（即只有一个字体链接），直接指定即可；如果我们使用的字体，包含常 规、粗体、斜体等字体链接时，`url` 需指定为对象类型，具体属性如下：
+  - `normal` —— 常规字体库文件链接
+  - `i` —— 斜体字体库文件链接
+  - `bd` —— 粗体字体库文件链接
+  - `bi` —— 粗斜体字体库文件链接
+
+### 字体在智能表单中使用
+
+字体注册完成后，我们可以启动插件项目，跟智能表单联调测试字体是否注册成功。关于如何验证，请参考[在智能表单产品中调试](guide-hello#在智能表单产品中调试插件)。
+
+登录成功之后，打开在线设计打印模板页面，查看工具条上的字体选择框中是否有注册的字体类型。
+
+![字体选择](./assets/custom-print-layout/font-family-select.png)
+
+如上图所示，选择框中出现`等线`和`微软雅黑`，则表示注册成功。
