@@ -18,6 +18,7 @@ module.exports = {
         "config-audit",
         "config-version",
         "config-external-intro",
+        "config-remove-test-data",
       ],
       插件开发: [
         "plugin-index",
