@@ -67,6 +67,7 @@ module.exports = {
       版本变更记录: [
         "changelog-v1.13.0-alpha.1",
         "changelog-v1.13.0-alpha.0",
+        "changelog-v1.12.4",
         "changelog-v1.12.3",
         "changelog-v1.12.2",
         "changelog-v1.12.1",
