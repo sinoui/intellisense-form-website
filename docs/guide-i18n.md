@@ -28,7 +28,7 @@ AppSetting.i18n = {
   // 当前状态是否显示
   'theme2.detailPage.flow.status.visible': false,
   // 审批意见是否显示
-  'theme2.detailPage.flow.idea.visible': false,
+  'theme2.detailPage.flow.idea.visible': true,
   // 管理首页列表的展现形式
   'manager.homelist': 'table',
 };
