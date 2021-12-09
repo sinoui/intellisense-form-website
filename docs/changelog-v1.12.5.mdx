@@ -1,0 +1,48 @@
+---
+id: changelog-v1.12.5
+title: v1.12.5
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 1. 发布情况
+
+发布日期：2021.12.09
+
+前端包：[sino-intellisense-form-v1.12.2.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.0/sino-intellisense-form-v1.12.2.zip)
+
+后端包：[sino-intellisense-form-v1.12.5.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.12.4/sino-intellisense-form-v1.12.5.jar)
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.12.5。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.31](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要特性
+
+- fix: 修复移动端打开不了我的应用的缺陷
+- fix: 修复移动端打开单个应用失败的缺陷
+
+### 4.1. 新增缓存时长的配置项
+
+新增以下控制缓存时长的配置项：
+
+```yaml
+sinoform:
+  # 用户信息缓存时长：30分钟（单位：毫秒）
+  user-cache-time: 1800000
+  # 部门信息缓存时长：1小时（单位：毫秒）
+  dept-cache-time: 3600000
+  # 部门路径信息缓存时长：1小时（单位：毫秒）
+  dept-path-cache-time: 3600000
+  # 用户对应的业务角色信息缓存时长：5分钟（单位：毫秒）
+  user-roles-cache-time: 300000
+```
+
+> 备注：上面示例中的值是系统中的默认值
+
+详情请见[用户信息配置](./config-user-info)。
