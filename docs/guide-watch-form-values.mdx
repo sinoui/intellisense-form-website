@@ -125,29 +125,23 @@ import "./plugins/detail-page-extends/helloExtends";
 ```ts title="src/plugins/detail-page-extends/watchFormValuesExtends.ts"
 import AppSetting from "@sinoform/app-setting";
 
-AppSetting.hooks.detailPage.tap(
-  "watchFormValuesExtends",
-  (detailPageContext) => {
-    const { hooks, formData, formState } = detailPageContext;
-    const { formDesign: { id } = {} } = formData;
+AppSetting.hooks.detailPage.tap("计算产品总价", (detailPageContext) => {
+  const { hooks, formData, formState } = detailPageContext;
+  const { formDesign: { id } = {} } = formData;
 
-    if (id === "612df55ac9327f1383eb4bbb") {
-      // 监听表单值变化
-      hooks.valueChange.tap(
-        "watchFormValuesExtends",
-        (prevValue, nextValue) => {
-          // 如果产品单价或者数量值发生变化，则重新计算
-          if (
-            nextValue.price !== prevValue.price ||
-            nextValue.count !== prevValue.count
-          ) {
-            nextValue.total = nextValue.price * nextValue.count;
-          }
-        }
-      );
-    }
+  if (id === "612df55ac9327f1383eb4bbb") {
+    // 监听表单值变化
+    hooks.valueChange.tap("计算产品总价", (prevValue, nextValue) => {
+      // 如果产品单价或者数量值发生变化，则重新计算
+      if (
+        nextValue.price !== prevValue.price ||
+        nextValue.count !== prevValue.count
+      ) {
+        nextValue.total = nextValue.price * nextValue.count;
+      }
+    });
   }
-);
+});
 ```
 
 ## 示例 2：异步值关联[v1.13.0]
@@ -157,26 +151,23 @@ AppSetting.hooks.detailPage.tap(
 ```ts title="src/plugins/detail-page-extends/watchFormValuesExtends.ts"
 import AppSetting from "@sinoform/app-setting";
 
-AppSetting.hooks.detailPage.tap(
-  "watchFormValuesExtends",
-  (detailPageContext) => {
-    const { hooks, formData, formState } = detailPageContext;
-    const { formDesign: { id } = {} } = formData;
+AppSetting.hooks.detailPage.tap("异步获取员工编号", (detailPageContext) => {
+  const { hooks, formData, formState } = detailPageContext;
+  const { formDesign: { id } = {} } = formData;
 
-    if (id === "612df55ac9327f1383eb4bbb") {
-      // 监听表单值变化
-      hooks.valueChangeAsync.tapPromise(
-        "watchFormValuesExtends",
-        async (prevValue, nextValue) => {
-          // 如果userName发生变化，则重新获取workerId的值
-          if (nextValue.userName !== prevValue.userName) {
-            nextValue.workerId = await getWorkIdByUserName(nextValue.userName);
-          }
+  if (id === "612df55ac9327f1383eb4bbb") {
+    // 监听表单值变化
+    hooks.valueChangeAsync.tapPromise(
+      "异步获取员工编号",
+      async (prevValue, nextValue) => {
+        // 如果userName发生变化，则重新获取workerId的值
+        if (nextValue.userName !== prevValue.userName) {
+          nextValue.workerId = await getWorkIdByUserName(nextValue.userName);
         }
-      );
-    }
+      }
+    );
   }
-);
+});
 ```
 
 ## 在智能表单产品中调试插件
