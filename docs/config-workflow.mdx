@@ -3,6 +3,9 @@ id: config-workflow
 title: 流程配置
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 智能表单默认与 sinomatrix 平台的工作流引擎交互，完成流程配置和流转的功能。我们可以通过本页介绍的配置项定义与工作流引擎交互的行为。
 
 ## sinoform.workflow-server-uri 配置项
@@ -65,215 +68,241 @@ POST [接收待办、已办数据的扩展链接，您可以自行设计链接�
 
 SQL 示例如下：
 
-```sql
+<Tabs defaultValue="deleteRead"
+  values={[
+    { label: "删除已办", value: "deleteRead" },
+    { label: "新增已办", value: "insertRead" },
+    { label: "删除待办", value: "deleteWrite"},
+    { label: "新增待办", value: "insertWrite"}
+  ]}>
+<TabItem value="deleteRead">
 
-#同步已办数据-delete sql
-delete
-from
-	FLOW_READ
+```sql title="删除已办数据的SQL (read[0])"
+delete from
+  FLOW_READ
 where
-	FILETYPEID = '3396254c845548bdbbd1cd55973ac6f5'
-	and DEPTID = '18043'
-	and USERID = '1'
-	and RECORDID = '619b8f49ec2ee8ac2f5b32ef';
-
-#同步已办数据-insert sql
-insert
-	into
-	FLOW_READ(HANDDONEURL,
-	SYS_ID,
-	CREATETIME,
-	FILETYPEID,
-	SUPERWORKFLOW,
-	ACCFLAG,
-	DEPTNAME,
-	USERID,
-	ID,
-	READFLAG,
-	WORKFLOWID,
-	SUPERFILETYPE,
-	GIVEACCUSER,
-	DOCID,
-	W_BACKUP,
-	STATTAG,
-	DRAFTUSER,
-	WORKFLOWNAME,
-	SORTID,
-	FILETYPENAME,
-	DRAFTDEPT,
-	ACCINFO,
-	USERNAME,
-	ATTR,
-	ATTR2,
-	READTIME,
-	ATTR1,
-	BACKUP1,
-	FORMURL,
-	TITLE,
-	UNIQUEID,
-	DEPTID,
-	RECORDID,
-	PARA,
-	LOGID,
-	ORGANISEID,
-	ACCDEPTID)
-values('',
-'67250',
-'2021-12-10 08:33:53',
-'3396254c845548bdbbd1cd55973ac6f5',
-'',
-'',
-'系统管理部',
-'1',
-'ca9a13f16b26439b9fab8fc0bcc380c4',
-'1',
-'3396254c845548bdbbd1cd55973ac6f5',
-'',
-'',
-'619b8f49ec2ee8ac2f5b32ef',
-'',
-'1',
-'1',
-'测试办结时间和起草部门名',
-'4f96523e1dc04339b8ed432effc76b3e',
-'测试办结时间和起草部门名',
-'18043',
-'',
-'admin',
-'intellisenseForm',
-'',
-'2021-12-10 08:33:53',
-'',
-'c49bbb22c698423eb7874e479aad9ee7',
-'619b32c3c9327f42e98a1882',
-'456456456456456456456',
-'4f96523e1dc04339b8ed432effc76b3e',
-'18043',
-'619b8f49ec2ee8ac2f5b32ef',
-'',
-'46aef7122a6d4dddb5c34a35173ad82d',
-'18043',
-'');
-
-
-#同步待办数据-delete sql
-delete
-from
-	FLOW_WRITE
-where
-	WORKFLOWINFOID = 'c49bbb22c698423eb7874e479aad9ee7';
-
-
-#同步待办数据-insert sql
-insert
-	into
-	FLOW_WRITE(SYS_ID,
-	PREUSERNAME,
-	PREWFLEVELID,
-	CREATETIME,
-	FILETYPEID,
-	WAITDOURL,
-	WFLEVEID,
-	PREUSERID,
-	WFLEVENAME,
-	SIGNTIME,
-	LIMITTIME,
-	SUPERWORKFLOW,
-	DRAFTUSERNAME,
-	PREORGANISEID,
-	ACCFLAG,
-	DEPTNAME,
-	PREDEPTID,
-	WORKFLOWINFOID,
-	USERID,
-	ID,
-	WORKFLOWID,
-	SUPERFILETYPE,
-	GIVEACCUSER,
-	PREWFLEVENAME,
-	DOCID,
-	W_BACKUP,
-	STATTAG,
-	OPSTATE,
-	DRAFTUSER,
-	WORKFLOWNAME,
-	SORTID,
-	FILETYPENAME,
-	DRAFTDEPT,
-	DRAFTWFLEVEID,
-	ACCINFO,
-	USERNAME,
-	ATTR,
-	ATTR2,
-	BACKUP2,
-	ATTR1,
-	BACKUP1,
-	FORMURL,
-	TITLE,
-	DEPTID,
-	RECORDID,
-	SIGNTAG,
-	PREDEPTNAME,
-	PARA,
-	LOGID,
-	ORGANISEID,
-	ACCDEPTID,
-	RECEIVETIME,
-	DRAFTDEPTNAME)
-values('67250',
-'admin',
-'63d85a21-d42f-4640-bc55-63e2aaf96378',
-'2021-12-10 08:33:53',
-'3396254c845548bdbbd1cd55973ac6f5',
-'/intellisense-form/619b32c3c9327f42e98a1882/todo',
-'a272b4b1-470f-468e-a229-7d8675a08ec7',
-'1',
-'审批节点',
-'',
-'',
-'',
-'admin',
-'18043',
-'0',
-'公文处/金融保险部/演示部门',
-'18043',
-'c49bbb22c698423eb7874e479aad9ee7',
-'4028d00e6f16845c016f79dda0c20231',
-'4f8d967525d744a08db02a3c00ab3234',
-'3396254c845548bdbbd1cd55973ac6f5',
-'',
-'',
-'开始节点',
-'619b8f49ec2ee8ac2f5b32ef',
-'',
-'1',
-'0',
-'1',
-'测试办结时间和起草部门名',
-'4f96523e1dc04339b8ed432effc76b3e',
-'测试办结时间和起草部门名',
-'18043',
-'63d85a21-d42f-4640-bc55-63e2aaf96378',
-'',
-'汪芳',
-'intellisenseForm',
-'',
-'',
-'',
-'',
-'619b32c3c9327f42e98a1882',
-'456456456456456456456',
-'4028d00e6ec96438016ec97b4b10000b',
-'619b8f49ec2ee8ac2f5b32ef',
-'0',
-'系统管理部',
-'',
-'b7a9b0fa987649b5aac3ca600069a5b4',
-'4028d00e6ec42073016ec4629a490001',
-'',
-'2021-12-10 08:33:53',
-'系统管理部');
+  FILETYPEID = '3396254c845548bdbbd1cd55973ac6f5'
+  and DEPTID = '18043'
+  and USERID = '1'
+  and RECORDID = '619b8f49ec2ee8ac2f5b32ef';
 ```
+
+</TabItem>
+<TabItem value="insertRead">
+
+```sql title="新增已办数据的SQL (read[1])"
+insert into
+  FLOW_READ (
+    HANDDONEURL,
+    SYS_ID,
+    CREATETIME,
+    FILETYPEID,
+    SUPERWORKFLOW,
+    ACCFLAG,
+    DEPTNAME,
+    USERID,
+    ID,
+    READFLAG,
+    WORKFLOWID,
+    SUPERFILETYPE,
+    GIVEACCUSER,
+    DOCID,
+    W_BACKUP,
+    STATTAG,
+    DRAFTUSER,
+    WORKFLOWNAME,
+    SORTID,
+    FILETYPENAME,
+    DRAFTDEPT,
+    ACCINFO,
+    USERNAME,
+    ATTR,
+    ATTR2,
+    READTIME,
+    ATTR1,
+    BACKUP1,
+    FORMURL,
+    TITLE,
+    UNIQUEID,
+    DEPTID,
+    RECORDID,
+    PARA,
+    LOGID,
+    ORGANISEID,
+    ACCDEPTID
+  )
+values
+  (
+    '',
+    '67250',
+    '2021-12-10 08:33:53',
+    '3396254c845548bdbbd1cd55973ac6f5',
+    '',
+    '',
+    '系统管理部',
+    '1',
+    'ca9a13f16b26439b9fab8fc0bcc380c4',
+    '1',
+    '3396254c845548bdbbd1cd55973ac6f5',
+    '',
+    '',
+    '619b8f49ec2ee8ac2f5b32ef',
+    '',
+    '1',
+    '1',
+    '测试办结时间和起草部门名',
+    '4f96523e1dc04339b8ed432effc76b3e',
+    '测试办结时间和起草部门名',
+    '18043',
+    '',
+    'admin',
+    'intellisenseForm',
+    '',
+    '2021-12-10 08:33:53',
+    '',
+    'c49bbb22c698423eb7874e479aad9ee7',
+    '619b32c3c9327f42e98a1882',
+    '456456456456456456456',
+    '4f96523e1dc04339b8ed432effc76b3e',
+    '18043',
+    '619b8f49ec2ee8ac2f5b32ef',
+    '',
+    '46aef7122a6d4dddb5c34a35173ad82d',
+    '18043',
+    ''
+  );
+```
+
+</TabItem>
+<TabItem value="deleteWrite">
+
+```sql title="删除待办数据的SQL (write[0])"
+delete from
+  FLOW_WRITE
+where
+  WORKFLOWINFOID = 'c49bbb22c698423eb7874e479aad9ee7';
+```
+
+</TabItem>
+<TabItem value="insertWrite">
+
+```sql title="新增待办数据的SQL (write[1])"
+insert into
+  FLOW_WRITE(
+    SYS_ID,
+    PREUSERNAME,
+    PREWFLEVELID,
+    CREATETIME,
+    FILETYPEID,
+    WAITDOURL,
+    WFLEVEID,
+    PREUSERID,
+    WFLEVENAME,
+    SIGNTIME,
+    LIMITTIME,
+    SUPERWORKFLOW,
+    DRAFTUSERNAME,
+    PREORGANISEID,
+    ACCFLAG,
+    DEPTNAME,
+    PREDEPTID,
+    WORKFLOWINFOID,
+    USERID,
+    ID,
+    WORKFLOWID,
+    SUPERFILETYPE,
+    GIVEACCUSER,
+    PREWFLEVENAME,
+    DOCID,
+    W_BACKUP,
+    STATTAG,
+    OPSTATE,
+    DRAFTUSER,
+    WORKFLOWNAME,
+    SORTID,
+    FILETYPENAME,
+    DRAFTDEPT,
+    DRAFTWFLEVEID,
+    ACCINFO,
+    USERNAME,
+    ATTR,
+    ATTR2,
+    BACKUP2,
+    ATTR1,
+    BACKUP1,
+    FORMURL,
+    TITLE,
+    DEPTID,
+    RECORDID,
+    SIGNTAG,
+    PREDEPTNAME,
+    PARA,
+    LOGID,
+    ORGANISEID,
+    ACCDEPTID,
+    RECEIVETIME,
+    DRAFTDEPTNAME
+  )
+values
+(
+    '67250',
+    'admin',
+    '63d85a21-d42f-4640-bc55-63e2aaf96378',
+    '2021-12-10 08:33:53',
+    '3396254c845548bdbbd1cd55973ac6f5',
+    '/intellisense-form/619b32c3c9327f42e98a1882/todo',
+    'a272b4b1-470f-468e-a229-7d8675a08ec7',
+    '1',
+    '审批节点',
+    '',
+    '',
+    '',
+    'admin',
+    '18043',
+    '0',
+    '公文处/金融保险部/演示部门',
+    '18043',
+    'c49bbb22c698423eb7874e479aad9ee7',
+    '4028d00e6f16845c016f79dda0c20231',
+    '4f8d967525d744a08db02a3c00ab3234',
+    '3396254c845548bdbbd1cd55973ac6f5',
+    '',
+    '',
+    '开始节点',
+    '619b8f49ec2ee8ac2f5b32ef',
+    '',
+    '1',
+    '0',
+    '1',
+    '测试办结时间和起草部门名',
+    '4f96523e1dc04339b8ed432effc76b3e',
+    '测试办结时间和起草部门名',
+    '18043',
+    '63d85a21-d42f-4640-bc55-63e2aaf96378',
+    '',
+    '汪芳',
+    'intellisenseForm',
+    '',
+    '',
+    '',
+    '',
+    '619b32c3c9327f42e98a1882',
+    '456456456456456456456',
+    '4028d00e6ec96438016ec97b4b10000b',
+    '619b8f49ec2ee8ac2f5b32ef',
+    '0',
+    '系统管理部',
+    '',
+    'b7a9b0fa987649b5aac3ca600069a5b4',
+    '4028d00e6ec42073016ec4629a490001',
+    '',
+    '2021-12-10 08:33:53',
+    '系统管理部'
+  );
+```
+
+</TabItem>
+</Tabs>
 
 您可以通过解析 SQL 语句，知晓待办和已办发生的变化，从而同步到您的业务系统中去。
 
