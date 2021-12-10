@@ -118,7 +118,9 @@ import "./plugins/detail-page-extends/helloExtends";
 
 ![获取formDesignId](/img/get_formdesignId.png)
 
-## 示例 1：值关联[v1.13.0]
+## 示例 1：值关联
+
+> 启用版本：v1.13.0
 
 以一个产品采购表单为例，我们监听产品的`单价`和`数量`，自动计算出产品总价。具体代码如下：
 
@@ -144,7 +146,28 @@ AppSetting.hooks.detailPage.tap("计算产品总价", (detailPageContext) => {
 });
 ```
 
-## 示例 2：异步值关联[v1.13.0]
+从 v1.13.0 版本开始，提供了更简约的表单值关联计算的方式：
+
+```typescript
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.listenFormChange(
+  "612df55ac9327f1383eb4bbb",
+  (prevValue, nextValue) => {
+    // 如果产品单价或者数量值发生变化，则重新计算
+    if (
+      nextValue.price !== prevValue.price ||
+      nextValue.count !== prevValue.count
+    ) {
+      nextValue.total = nextValue.price * nextValue.count;
+    }
+  }
+);
+```
+
+## 示例 2：异步值关联
+
+> 启用版本：v1.13.0
 
 我们在实际应用中，有些值的计算需要从后端获取。 比如一个绩效考核表单，我们需要监听`人员姓名(userName)`的变化，然后从后端读取`员工编号(workerId)`的值， 此时我们可以使用`valueChangeAsync`钩子来监并处理异步值关联。具体代码如下：
 
@@ -168,6 +191,22 @@ AppSetting.hooks.detailPage.tap("异步获取员工编号", (detailPageContext) 
     );
   }
 });
+```
+
+从 v1.13.0 版本开始，提供了更简约的表单值关联计算的方式：
+
+```typescript
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.listenFormChangeAsync(
+  "612df55ac9327f1383eb4bbb",
+  async (prevValue, nextValue) => {
+    // 如果userName发生变化，则重新获取workerId的值
+    if (nextValue.userName !== prevValue.userName) {
+      nextValue.workerId = await getWorkIdByUserName(nextValue.userName);
+    }
+  }
+);
 ```
 
 ## 在智能表单产品中调试插件
