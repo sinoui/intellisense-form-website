@@ -3,7 +3,7 @@ import getLatestVersion from "./getLatestVersion";
 
 /**
  * 使用最新版本的发布包
- * @param {'frontend' | 'backend'} type
+ * @param {'frontend' | 'backend'| 'font'} type
  * @param {boolean} isAlpha
  * @returns {{name: string; url: string; version: string} | undefined}
  */

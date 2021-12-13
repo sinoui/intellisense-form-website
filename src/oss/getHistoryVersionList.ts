@@ -24,18 +24,30 @@ function isBackendObject(object: ReleaseItem) {
 }
 
 /**
+ * 判断指定对象是否是字体对象
+ * @returns
+ */
+function isFontObject(object: ReleaseItem) {
+  return object.name.indexOf("dynamic-font-server") !== -1;
+}
+
+/**
  * 获取指定类型安装包的历史版本和下载链接
  *
  * @param type 类型
  */
 export default async function getHistoryVersionList(
-  type: "frontend" | "backend"
+  type: "frontend" | "backend" | "font"
 ) {
   const latestVersion = await getLatestVersion();
   const list = await getReleaseList();
   const filterListByType = list
     .filter((item) =>
-      type === "frontend" ? isFrontendObject(item) : isBackendObject(item)
+      type === "frontend"
+        ? isFrontendObject(item)
+        : type === "font"
+        ? isFontObject(item)
+        : isBackendObject(item)
     )
     .filter((item) => !item.isAlpha)
     .filter((item) => item.name.indexOf(latestVersion[type].version) === -1)

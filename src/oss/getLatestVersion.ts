@@ -20,6 +20,14 @@ function isBackendObject(object: ReleaseItem) {
 }
 
 /**
+ * 判断指定对象是否是字体对象
+ * @returns
+ */
+function isFontObject(object: ReleaseItem) {
+  return object.name.indexOf("dynamic-font-server") !== -1;
+}
+
+/**
  * 获取最新版本的对象
  *
  * @param objects
@@ -56,6 +64,7 @@ function getLatestPrerelease(items: ReleaseItem[]) {
 export default async function getLatestVersion(isAlpha = false): Promise<{
   backend: ReleaseItem;
   frontend: ReleaseItem;
+  font: ReleaseItem;
 }> {
   const releaseList = await getReleaseList();
   const objects = releaseList
@@ -72,9 +81,11 @@ export default async function getLatestVersion(isAlpha = false): Promise<{
 
   const latestFrontend = findLatest(isFrontendObject);
   const latestBackend = findLatest(isBackendObject);
+  const latestFont = findLatest(isFontObject);
 
   return {
     backend: latestBackend,
     frontend: latestFrontend,
+    font: latestFont,
   };
 }
