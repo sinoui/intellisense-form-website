@@ -83,6 +83,20 @@ const DeploymentFileStructure = () => {
                     <FileTreeNode title="application-prod.yml" />
                   </FileTreeNode>
                 </FileTreeNode>
+                <FileTreeNode
+                  title={
+                    <strong style={stylesheet.strong}>
+                      dynamic-font-server
+                    </strong>
+                  }
+                  description={
+                    <>
+                      智能表单字体服务文件夹。此服务是可选的，如果需要在 IE 11
+                      中支持表单打印的pdf导出功能，需要部署字体服务
+                      <a href="#步骤四：下载字体服务发布包">下载</a>
+                    </>
+                  }
+                ></FileTreeNode>
               </FileTreeNode>
             </FileTree>
           </code>

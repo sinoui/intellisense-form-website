@@ -8,6 +8,7 @@ module.exports = {
         "integrate",
         "sinomatrix-docker-intellisenseform",
         "deployment-mongodb",
+        "deployment-nodejs",
       ],
       应用程序配置: [
         "config-custom",
