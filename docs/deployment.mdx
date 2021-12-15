@@ -3,14 +3,14 @@ id: deployment
 title: 部署智能表单
 ---
 
-import BundleLink from "../src/oss/BundleLink";
-import DownloadBundleShell from "../src/oss/DownloadBundleShell";
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import ConfigTools from "../src/config-tools";
-import StartBackendShell from "../src/oss/StartBackendShell";
-import DeploymentFileStructure from "../src/oss/DeploymentFileStructure";
-import RunBackendInKylin from "../src/oss/RunBackendInKylin";
+import BundleLink from '../src/oss/BundleLink';
+import DownloadBundleShell from '../src/oss/DownloadBundleShell';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import ConfigTools from '../src/config-tools';
+import StartBackendShell from '../src/oss/StartBackendShell';
+import DeploymentFileStructure from '../src/oss/DeploymentFileStructure';
+import RunBackendInKylin from '../src/oss/RunBackendInKylin';
 
 目前的智能表单版本推荐与 sinomatrix 组合在一起使用，本文将会介绍智能表单的[部署架构图](#部署架构图)，让您了解智能表单的组成部分。然后一一讲解如何部署每个组成部分。
 
@@ -440,11 +440,18 @@ nginx -s reload
 
 ### 步骤二：启动字体服务
 
-进入 `/apps/sino-intellisense-form/dynamic-font-server`文件夹，执行以下启动命令：
+字体服务默认监听 8088 端口，用户也可以指定服务的端口。需要注意的是，要保证字体服务的端口与 nginx 中配置的代理端口保持一致。进入 `/apps/sino-intellisense-form/dynamic-font-server`文件夹，执行以下启动命令：
 
 ```bash
 $ cd /apps/sino-intellinse-form/dynamic-font-server
-$ node src/index.js
+# 默认端口启动
+$ npm run server-start
+
+# 指定端口启动
+$ npm run server-start -- -- --port=9090
+
+# 如果字体服务已启动，部署代码之后只需要重启服务
+$ npm run server-restart
 ```
 
 启动成功之后，可访问[验证地址](http://localhost:8088/apis/intellisense-form/dynamic-font?text=%E8%BF%99%E6%98%AF%E4%B8%80%E6%AE%B5%E6%96%87%E6%9C%AC&fontUrl=http://localhost:6600/static/fonts/simkai.ttf)查看是否能够正常加载文件。
