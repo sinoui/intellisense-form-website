@@ -90,3 +90,43 @@ url:
 请注意 `url` 的缩进。`url` 与 `sinoform` 是对齐的。
 
 :::
+
+## 5. 突然无法访问表单设计器
+
+表单设计器一直是可用的，但是突然某一天无法使用了，出现类似下面的页面：
+
+![](./assets/development-faq/error-page.png)
+
+首先验证一下后台服务是否正常运行：
+
+```http
+http://[智能表单ip]:[智能表单后台服务端口号]/actuator/health
+```
+
+如果能够正常访问，则查看一下后台日志，看报什么错误。根据日志错误做相关的处理。下面的章节介绍常见的日志错误如何处理。
+
+### 5.1. 获取当前用户业务角色信息失败
+
+从日志中搜索出以下关键信息，说明获取当前用户业务角色信息失败：
+
+```bash
+获取用户的角色【请求】，url：http://127.0.0.1:18001/uias/resource/getFlowRolesById , 参数uid:1,subId:67250
+获取用户的角色【响应】:<!doctype html><html lang="en"><head><title>HTTP Status 500 Internal Server Error</title><style type="text/css">
+h1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} h2 {font-family:Tahoma,Arial,sans-serif;
+color:white;background-color:#525D76;font-size:16px;} h3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;}
+body {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} b {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;}
+p {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;} a {color:black;} a.name {color:black;}
+.line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP Status 500 Internal Server Error</h1><hr class="line" /><p>
+<b>Type</b> Exception Report</p><p><b>Message</b> java.lang.NullPointerException</p><p><b>Description</b>
+The server encountered an unexpected condition that prevented it from fulfilling the request.</p><p>
+<b>Exception</b></p><pre>org.jboss.resteasy.spi.UnhandledException: java.lang.NullPointerException
+```
+
+以及下面这样的关键信息：
+
+```bash {2}
+</pre><p><b>Root Cause</b></p><pre>java.lang.NullPointerException
+	com.sinosoft.authorization.module.system.itsubs.service.SysSubRdInfoServiceImpl.getShareRoleSubBySubId(SysSubRdInfoServiceImpl.java:272)
+```
+
+这样的日志一般是因为我们将 `平台产品集成示例` 子系统清除导致的。我们可以创建一个新的子系统，然后在智能表单中重新配置一下子系统即可，配置请见：[configssystem-id 配置项](config-resource-publish.md#configssystem-id-配置项)。
