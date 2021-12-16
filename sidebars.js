@@ -5,9 +5,11 @@ module.exports = {
     {
       部署: [
         "deployment",
+        "nav-in-sino-matrix",
         "integrate",
         "sinomatrix-docker-intellisenseform",
         "deployment-mongodb",
+        "deployment-nodejs",
       ],
       应用程序配置: [
         "config-custom",
@@ -67,6 +69,7 @@ module.exports = {
       ],
       常见问题: ["deployment-faq", "feature-faq"],
       版本变更记录: [
+        "changelog-v1.13.0-alpha.8",
         "changelog-v1.13.0-alpha.1",
         "changelog-v1.13.0-alpha.0",
         "changelog-v1.12.5",
