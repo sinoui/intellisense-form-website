@@ -8,6 +8,8 @@ import Button from "@sinoui/core/Button";
 import genConfigFiles from "./genConfigFiles";
 import PasswordInput from "../components/password-input";
 import useConfigToolsState, { defaultConfig } from "./useConfigToolsState";
+import { FormValueMonitor } from "@sinoui/rx-form-state";
+import ssoServerUrlValidateFn from "./ssoServerUrlValidateFn";
 
 const defaultDbUrl = {
   mysql:
@@ -33,9 +35,22 @@ const ConfigTools = () => {
     <div className="config-tools">
       <h4>应用配置</h4>
       <Form variant="outlined" labelLayout="floating" formState={formState}>
-        <FormItem name="port" label="智能表单应用端口号">
-          <TextInput type="number" />
-        </FormItem>
+        <FormValueMonitor>
+          {(value) =>
+            value.port !== "8085" ? (
+              <FormItem name="port" label="智能表单应用端口号">
+                <TextInput
+                  type="number"
+                  helperText="此端口需要与nginx配置中的sinoform_web_app端口保持一致"
+                />
+              </FormItem>
+            ) : (
+              <FormItem name="port" label="智能表单应用端口号">
+                <TextInput type="number" />
+              </FormItem>
+            )
+          }
+        </FormValueMonitor>
 
         <h4>关系型数据库配置</h4>
         <Row gutter={8}>
@@ -51,7 +66,7 @@ const ConfigTools = () => {
           </Column>
           <Column md={18} xs={24}>
             <FormItem name="db.url" label="数据库链接">
-              <TextInput />
+              <TextInput helperText="建议智能表单和业务系统使用同一个数据库，示例中给出的数据库form 如果不存在，可以换成业务系统数据库，或者创建一个新的form " />
             </FormItem>
           </Column>
 
@@ -94,7 +109,11 @@ const ConfigTools = () => {
         <h4>sinomatrix 集成配置</h4>
         <Row gutter={8}>
           <Column md={6} sm={12} xs={24}>
-            <FormItem name="sinomatrix.ssoServerUrl" label="单点登录链接">
+            <FormItem
+              name="sinomatrix.ssoServerUrl"
+              label="单点登录链接"
+              validate={ssoServerUrlValidateFn}
+            >
               <TextInput placeholder={defaultConfig.sinomatrix.ssoServerUrl} />
             </FormItem>
           </Column>
@@ -123,7 +142,7 @@ const ConfigTools = () => {
         </Row>
       </Form>
 
-      <Button raised onClick={() => genConfigFiles(formState.values)}>
+      <Button raised onClick={() => genConfigFiles(formState)}>
         生成配置文件
       </Button>
     </div>

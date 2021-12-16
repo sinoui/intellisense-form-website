@@ -1,3 +1,4 @@
+import message from "@sinoui/message";
 async function loadPrettier() {
   const { default: prettier } = await import("prettier/standalone");
   const { default: yamlParser } = await import("prettier/parser-yaml");
@@ -35,7 +36,14 @@ const getMongoDbUri = ({
   return `mongodb://${auth}${host}:${port}/form`;
 };
 
-const genConfigFiles = async (config) => {
+const genConfigFiles = async (formState) => {
+  const { values: config } = formState;
+  formState.validate();
+  const valid = formState.isValid;
+  if (!valid) {
+    message.error("单点登录链接填写不正确，请修改后重试");
+    return;
+  }
   const { prettier, yamlParser } = await loadPrettier();
   const applicationFile = prettier.format(
     `
