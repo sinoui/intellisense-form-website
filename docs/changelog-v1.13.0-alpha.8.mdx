@@ -15,7 +15,7 @@ import FontBundleLink from "../src/oss/FontBundleLink";
 
 后端包：[intellisense-form-v1.13.0-alpha.8.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.8/intellisense-form-v1.13.0-alpha.8.jar)
 
-字体服务包：[dynamic-font-server-v1.13.0-alpha.7.0.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.7/dynamic-font-server-v1.13.0-alpha.7.zip)
+字体服务包：[dynamic-font-server-v1.13.0-alpha.7.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.7/dynamic-font-server-v1.13.0-alpha.7.zip)
 
 ## 2. 平滑升级
 
@@ -118,11 +118,9 @@ nginx -s reload
 
 ```bash
 $ cd /apps/sino-intellinse-form/dynamic-font-server
-# 默认端口启动
-$ npm run server-start
 
-# 如果字体服务已启动，部署代码之后只需要重启服务
-$ npm run server-restart
+# 启动字体服务
+$ npm run server-start
 ```
 
 可以执行以下命令查看服务是否成功启动：
