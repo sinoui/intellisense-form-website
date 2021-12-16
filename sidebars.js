@@ -5,6 +5,7 @@ module.exports = {
     {
       部署: [
         "deployment",
+        "nav-in-sino-matrix",
         "integrate",
         "sinomatrix-docker-intellisenseform",
         "deployment-mongodb",
