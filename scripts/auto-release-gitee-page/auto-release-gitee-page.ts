@@ -60,6 +60,8 @@ export default async function autoReleaseGiteePage(
     options
   );
 
+  console.log("即将打开浏览器，并加载 gitee page 页面，请勿关闭。");
+
   const browserPath = getBrowserExecutablePath(browser);
 
   const browserObj = await puppeteer.launch({
