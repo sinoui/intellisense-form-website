@@ -1,0 +1,55 @@
+---
+id: guide-validate
+title: 表单校验
+---
+
+智能表单支持以插件的方式集成自定义的表单校验。校验分同步校验和异步校验两种方式。
+
+## 如何使用
+
+1. 声明校验规则。
+
+```typescript title=src/plugins/validate/index.ts
+import AppSetting from '@sinoform/app-setting';
+
+// 同步校验
+AppSetting.formValidate('61c99ea3c9327f1d0cb7ef26', {
+  num1: (value, values) => {
+    if (value && values.num2 && Number(value) > Number(values.num2)) {
+      return 'num1不能比num2大';
+    }
+    return undefined;
+  },
+
+  count: (value) => {
+    if (!value) return 'count不能为空';
+    return undefined;
+  },
+});
+
+// 异步校验
+AppSetting.formValidateAsync('61c99ea3c9327f1d0cb7ef26', {
+  name: async (value, values) => {
+    if (value) {
+      return validateNameAsync(value);
+    }
+    return undefined;
+  },
+});
+```
+
+2. 在插件项目入口文件中引用该配置文件。
+
+```typescript title=src/index.ts
+import './plugins/validate';
+```
+
+## 参数说明
+
+- 校验规则对应的表单 id。如果传`*`或者空字符串，则校验规则适用于所有表单。
+- 校验规则对象。格式：`{[表单项 fieldName] : [对应的校验规则]}`。
+  - formValidate 中的校验规则方法只能是同步的方法；formValidateAsync 的校验规则方法为异步方法。
+  - 校验规则方法中可传递两个参数：当前表单项的值、所有表单项的值。
+  - 校验方法的返回值：
+    - 校验未通过： 未通过的提示信息。
+    - 校验通过： undefined。
