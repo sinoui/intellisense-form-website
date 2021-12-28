@@ -448,7 +448,18 @@ Chromium 97.0.4691.0
 - [centos 离线安装 Google Chrome](https://blog.csdn.net/ancientapesman/article/details/118340178)
 - [ubuntu 包查询站点](https://packages.ubuntu.com/)
 
-### 步骤二：修改 Nginx 配置
+### 步骤二：安装字体
+
+pdf 导出需要用到一些字体，请安装以下字体：
+
+- 仿宋\_GB2312
+- 宋体
+- 楷体
+- 黑体
+
+请参考下面的文档完成字体安装： [如何给 Linux 安装新的字体](https://blog.csdn.net/ouyangzhenxin/article/details/82387632)。
+
+### 步骤三：修改 Nginx 配置
 
 在第三步中提到的 nginx 配置文件中添加关于字体服务的配置，具体内容如下：
 
@@ -478,7 +489,7 @@ Chromium 97.0.4691.0
 nginx -s reload
 ```
 
-### 步骤三：启动字体服务
+### 步骤四：启动字体服务
 
 进入 `/apps/sino-intellisense-form/dynamic-font-server`文件夹，执行以下启动命令：
 
