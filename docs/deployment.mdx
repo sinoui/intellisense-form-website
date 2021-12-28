@@ -408,7 +408,47 @@ unzip config.zip -d /apps/sino-intellisense-form/backend/config
 
 ## 第五步：部署字体服务
 
-### 步骤一：修改 Nginx 配置
+:::tip 提示
+
+字体服务不是必须安装的，只有在以下情况下我们才需要部署字体服务：
+
+1. 需要使用表单打印的 pdf 导出功能
+2. 需要支持 IE 11 浏览器
+3. 下载表单打印 pdf 文件缓存，需要加速
+
+:::
+
+### 步骤一：下载并安装 chrome
+
+:::tip 提示
+
+如果在 windows 操作系统中部署智能表单，则可以跳过此步骤。
+
+:::
+
+```bash
+mkdir -p /apps/sino-intellisense-form
+cd /apps/sino-intellisense-form
+wget https://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/software/chrome-linux.zip
+unzip chrome-linux.zip
+chmod +x ./chrome-linux/chrome
+cp -r ./chrome-linux /usr/local/chrome
+ln -s /usr/local/chrome/chrome /usr/local/bin/
+```
+
+然后通过下面的命令行验证是否安装成功：
+
+```bash
+$ chrome --version
+Chromium 97.0.4691.0
+```
+
+如果提示失败，应该是缺少依赖，请安装好依赖。如果您是离线环境，需要离线安装依赖包。请参见相关文档完成安装：
+
+- [centos 离线安装 Google Chrome](https://blog.csdn.net/ancientapesman/article/details/118340178)
+- [ubuntu 包查询站点](https://packages.ubuntu.com/)
+
+### 步骤二：修改 Nginx 配置
 
 在第三步中提到的 nginx 配置文件中添加关于字体服务的配置，具体内容如下：
 
@@ -438,7 +478,7 @@ unzip config.zip -d /apps/sino-intellisense-form/backend/config
 nginx -s reload
 ```
 
-### 步骤二：启动字体服务
+### 步骤三：启动字体服务
 
 进入 `/apps/sino-intellisense-form/dynamic-font-server`文件夹，执行以下启动命令：
 
