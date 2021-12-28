@@ -21,6 +21,7 @@ module.exports = {
         "config-version",
         "config-external-intro",
         "config-remove-test-data",
+        "config-move-form-to-application",
         "config-user-info",
       ],
       插件开发: [
