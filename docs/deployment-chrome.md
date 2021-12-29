@@ -243,8 +243,8 @@ chmod 777 -R /root/offline-packages
 
 ```bash
 apt-get install dpkg-dev
-cd /root/offline-packages/archives
-dpkg-scanpackages . /dev/null > Packages
+cd /root/offline-packages
+dpkg-scanpackages ./archives /dev/null > archives/Packages
 ```
 
 然后将 `/root/offline-packages` 制作成压缩包：
