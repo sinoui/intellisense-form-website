@@ -23,9 +23,7 @@ const DownloadBundleShell = ({ type }) => {
         # 下载智能表单字体服务包
         wget ${result?.url ?? ''}
         # 解压缩智能表单字体服务包
-        unzip ${
-          result?.name ?? ''
-        } -d /apps/sino-intellisense-form/dynamic-font-server
+        unzip ${result?.name ?? ''} -d /apps/sino-intellisense-form
         # 解压后node_modules中的文件只有读写权限，需要提升文件的执行权限
         cd /apps/sino-intellisense-form/dynamic-font-server && chmod -R 777 node_modules
         `
