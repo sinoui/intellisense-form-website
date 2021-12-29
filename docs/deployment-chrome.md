@@ -8,7 +8,7 @@ import TabItem from "@theme/TabItem";
 
 本文介绍如何在 Linux 服务器上安装 Chrome。Windows 操作系统自带的 edge 可以充当 chrome 浏览器，所以不需要单独安装 chrome。
 
-## 一、在 Ubuntu 中安装 Chrome
+## 一、在 Ubuntu 中安装 Chrome（在线安装）
 
 ### 1.1. 使用国内 apt 镜像源
 
@@ -204,13 +204,91 @@ Google Chrome 96.0.4664.110
 
 ## 三、Ubuntu 离线安装 Chrome
 
-需要在外网环境安装好 Chrome，然后制作 `apt-get` 离线源，在内网环境中就可以通过相同的步骤安装 Chrome。
+需要先[在外网环境安装好 Chrome](#一、在-ubuntu-中安装-chrome（在线安装）)，然后制作 `apt-get` 离线源，在内网环境中就可以通过相同的步骤安装 Chrome。
 
 ### 3.1. 制作 apt-get 离线源
 
+首先，找一台可以访问互联网的 Ubuntu 服务器，按照[在 Ubuntu 中安装 Chrome（在线安装）](#一、在-ubuntu-中安装-chrome（在线安装）)教程，安装好 Chrome 浏览器，然后在此机器上制作 apt-get 离线源。
+
+首先，需要将 ubuntu 官方源加入到 `/etc/apt/sources.list` 中：
+
+```bash
+deb http://archive.ubuntu.com/ubuntu hirsute main restricted
+deb http://archive.ubuntu.com/ubuntu hirsute-updates main restricted
+deb http://archive.ubuntu.com/ubuntu hirsute universe
+deb http://archive.ubuntu.com/ubuntu hirsute-updates universe
+deb http://archive.ubuntu.com/ubuntu hirsute multiverse
+deb http://archive.ubuntu.com/ubuntu hirsute-updates multiverse
+deb http://archive.ubuntu.com/ubuntu hirsute-backports main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu hirsute-security main restricted
+deb http://archive.ubuntu.com/ubuntu hirsute-security universe
+deb http://archive.ubuntu.com/ubuntu hirsute-security multiverse
+```
+
+然后执行 apt 更新操作：
+
+```bash
+apt update
+```
+
+拷贝 apt 缓存的安装包到指定目录（这里假设为 `/root/offline-packages`，可以自定义。注意此目录非常重要，在内网环境中使用离线包时，目录要保持一致）：
+
+```bahs
+mkdir /root/offline-packages
+cp -r /var/cache/apt/archives /root/offline-packages
+chmod 777 -R /root/offline-packages
+```
+
+然后制作软件包的依赖关系：
+
+```bash
+apt-get install dpkg-dev
+cd /root/offline-packages/archives
+dpkg-scanpackages . /dev/null > Packages
+```
+
+然后将 `/root/offline-packages` 制作成压缩包：
+
+```bash
+cd /root
+tar -czvf /root/offline-packages.tar.gz offline-packages
+```
+
+将离线包 `offline-packages.tar.gz` 和 `google-chrome-stable_current_amd64.deb` 两个文件拷贝到 U 盘中，复制到内网环境服务器的 `/root` 目录中。
+
 ### 3.2. 在内网环境中使用离线源
 
+解压缩 `offline-packages.tar.gz`：
+
+```bash
+cd /root
+tar -zxvf offline-packages.tar.gz
+```
+
+替换离线 apt 源配置：
+
+```bash
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+echo "deb file:///root/offline-packages archives/" > /etc/apt/sources.list
+apt-get update --allow-insecure-repositories
+```
+
 ### 3.3. 安装 Chrome
+
+安装 Chrome：
+
+```bash
+sudo apt-get install libxss1 libappindicator1 libindicator7
+dpkg -i google-chrome*.deb
+apt-get --fix-broken install
+```
+
+然后验证 Chrome 是否安装成功：
+
+```bash
+$ google-chrome-stable --version
+Google Chrome 96.0.4664.110
+```
 
 ## 四、centos 离线安装 Chrome
 
