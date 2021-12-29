@@ -72,7 +72,7 @@ $ google-chrome-stable --version
 Google Chrome 96.0.4664.110
 ```
 
-## 二、在 centos 中安装 Chrome
+## 二、在 centos 中安装 Chrome（在线安装）
 
 ### 2.1. 使用国内 yum 镜像源
 
@@ -292,7 +292,7 @@ Google Chrome 96.0.4664.110
 
 ## 四、centos 离线安装 Chrome
 
-需要在外网环境安装好 Chrome，然后制作 `yum` 离线源，在内网环境中就可以通过相同的步骤安装 Chrome。
+需要[在外网环境安装好 Chrome](#二、在-centos-中安装-chrome（在线安装）)，然后制作 `yum` 离线源，在内网环境中就可以通过相同的步骤安装 Chrome。
 
 ### 4.1. 制作 yum 离线源
 

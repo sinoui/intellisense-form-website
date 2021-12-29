@@ -426,27 +426,7 @@ unzip config.zip -d /apps/sino-intellisense-form/backend/config
 
 :::
 
-```bash
-mkdir -p /apps/sino-intellisense-form
-cd /apps/sino-intellisense-form
-wget https://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/software/chrome-linux.zip
-unzip chrome-linux.zip
-chmod +x ./chrome-linux/chrome
-cp -r ./chrome-linux /usr/local/chrome
-ln -s /usr/local/chrome/chrome /usr/local/bin/
-```
-
-然后通过下面的命令行验证是否安装成功：
-
-```bash
-$ chrome --version
-Chromium 97.0.4691.0
-```
-
-如果提示失败，应该是缺少依赖，请安装好依赖。如果您是离线环境，需要离线安装依赖包。请参见相关文档完成安装：
-
-- [centos 离线安装 Google Chrome](https://blog.csdn.net/ancientapesman/article/details/118340178)
-- [ubuntu 包查询站点](https://packages.ubuntu.com/)
+具体安装步骤参见 [安装 Chrome](./deployment-chrome.md)。
 
 ### 步骤二：安装字体
 
@@ -457,7 +437,11 @@ pdf 导出需要用到一些字体，请安装以下字体：
 - 楷体
 - 黑体
 
-请参考下面的文档完成字体安装： [如何给 Linux 安装新的字体](https://blog.csdn.net/ouyangzhenxin/article/details/82387632)。
+将字体文件放入服务器的 `/usr/share/fonts` 目录中，然后执行以下命令：
+
+```bash
+fc-cache
+```
 
 ### 步骤三：修改 Nginx 配置
 
