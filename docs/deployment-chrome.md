@@ -296,34 +296,51 @@ Google Chrome 96.0.4664.110
 
 ### 4.1. 制作 yum 离线源
 
-Chrome 的依赖包比较多，手动查找依赖包太麻烦，推荐使用`downloadonly`对依赖包进行管理。
+1. Chrome 的依赖包比较多，手动查找依赖包太麻烦，推荐使用`downloadonly`对依赖包进行管理。
 
 ```shell
 # 安装downloadonly
 yum install yum-plugin-downloadonly
 
 # 创建空文件夹做为Chrome的依赖包存放路径
-mkdir -p /data/chorme-rpm
+mkdir -p /root/offline-packages
 
 # 下载Chrome的依赖
-yum install --downloadonly --downloaddir=/data/chorme-rpm  google-chrome-stable_current_x86_64.rpm
+yum install --downloadonly --downloaddir=/root/offline-packages  google-chrome-stable_current_x86_64.rpm
 
 # 如果服务器上没有安装wget，需要添加wget离线包
-yum install --downloadonly --downloaddir=/data/chorme-rpm  wget
+yum install --downloadonly --downloaddir=/root/offline-packages  wget
 
 # 将Chrome的安装包添加到文件中
-mv google-chrome-stable_current_x86_64.rpm /data/chorme-rpm
+mv google-chrome-stable_current_x86_64.rpm /root/offline-packages
 ```
 
-完成之后我们将得到一个完整的 Chrome 离线安装包文件夹。
+2. 将`/roo/offline-packages`制作成压缩包
+
+```bash
+cd /root
+tar -czvf /root/offline-packages.tar.gz offline-packages
+```
+
+将离线包 offline-packages.tar.gz 拷贝到 U 盘中，复制到内网环境服务器的 /root 目录中
 
 ### 4.2. 在内网环境中使用离线源
 
-将之前我们制作的离线安装文件夹上传到服务器中作为离线安装的源文件。
+解压缩 `offline-packages.tar.gz`：
+
+```bash
+cd /root
+tar -zxvf offline-packages.tar.gz
+```
 
 ### 4.3. 安装 Chrome
 
-1. 进入离线安装的文件夹。
+1. 解压缩 `offline-packages.tar.gz`：
+
+```bash
+cd /root
+tar -zxvf offline-packages.tar.gz
+```
 
 2. 执行下面命令进行离线安装。
 
@@ -334,5 +351,6 @@ sudo rpm -ivh --force *.rpm
 3. 脚本执行完成之后验证。
 
 ```shell
-google-chrome --version
+$ google-chrome --version
+Google Chrome 96.0.4664.110
 ```
