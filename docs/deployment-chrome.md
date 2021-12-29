@@ -345,6 +345,7 @@ tar -zxvf offline-packages.tar.gz
 2. 执行下面命令进行离线安装。
 
 ```shell
+cd offline-packages
 sudo rpm -ivh --force *.rpm
 ```
 
