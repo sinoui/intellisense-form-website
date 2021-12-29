@@ -218,6 +218,43 @@ Google Chrome 96.0.4664.110
 
 ### 4.1. 制作 yum 离线源
 
+Chrome 的依赖包比较多，手动查找依赖包太麻烦，推荐使用`downloadonly`对依赖包进行管理。
+
+```shell
+# 安装downloadonly
+yum install yum-plugin-downloadonly
+
+# 创建空文件夹做为Chrome的依赖包存放路径
+mkdir -p /data/chorme-rpm
+
+# 下载Chrome的依赖
+yum install --downloadonly --downloaddir=/data/chorme-rpm  google-chrome-stable_current_x86_64.rpm
+
+# 如果服务器上没有安装wget，需要添加wget离线包
+yum install --downloadonly --downloaddir=/data/chorme-rpm  wget
+
+# 将Chrome的安装包添加到文件中
+mv google-chrome-stable_current_x86_64.rpm /data/chorme-rpm
+```
+
+完成之后我们将得到一个完整的 Chrome 离线安装包文件夹。
+
 ### 4.2. 在内网环境中使用离线源
 
+将之前我们制作的离线安装文件夹上传到服务器中作为离线安装的源文件。
+
 ### 4.3. 安装 Chrome
+
+1. 进入离线安装的文件夹。
+
+2. 执行下面命令进行离线安装。
+
+```shell
+sudo rpm -ivh --force *.rpm
+```
+
+3. 脚本执行完成之后验证。
+
+```shell
+google-chrome --version
+```
