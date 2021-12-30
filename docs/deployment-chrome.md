@@ -315,7 +315,7 @@ yum install --downloadonly --downloaddir=/root/offline-packages  wget
 mv google-chrome-stable_current_x86_64.rpm /root/offline-packages
 ```
 
-2. 将`/roo/offline-packages`制作成压缩包
+2. 将`/root/offline-packages`制作成压缩包
 
 ```bash
 cd /root
