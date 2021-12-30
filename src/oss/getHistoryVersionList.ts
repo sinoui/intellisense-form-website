@@ -10,7 +10,10 @@ import type { ReleaseItem } from "./types";
  * @returns 如果是前端对象，则返回 true；否则返回 false
  */
 function isFrontendObject(object: ReleaseItem) {
-  return object.name.endsWith(".zip") || object.name.endsWith(".tar.gz");
+  return (
+    (object.name.endsWith(".zip") || object.name.endsWith(".tar.gz")) &&
+    object.name.indexOf("dynamic-font-server") === -1
+  );
 }
 
 /**
