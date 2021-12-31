@@ -61,4 +61,4 @@ location ~ /intellisense-form.*\.(gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf|ttf|ttc
 2. 普通 location 之间的匹配顺序：按最大前缀匹配。如 location /a/{}，location /a/b/ {},请求 http://a/b/c.html 匹配的是 location /a/b/ {}。
 3. 正则 location 之间的匹配顺序：按配置文件中的物理顺序匹配，只要匹配到一条正则，就不再考虑后面的。
 4. 若普通 location 匹配到 精确匹配= 或 非正则匹配 ^~, 则不再进行后续的正则匹配。
-5. 普通 location 与正则 location 之间的匹配结果选择： 普通 location 先匹配，匹配到了结果，只是一个临时结果；会继续正则 location 的匹配，如果匹配到正则，则用匹配到的正则结果；如果没有匹配到正则，则继续用普通匹配的那个结果。
+5. 普通 location 与正则 location 之间的匹配结果选择： 普通 location 先匹配，匹配到之后，会作为一个临时结果；然后继续正则 location 的匹配，如果匹配到正则，则用匹配到的正则结果；如果没有匹配到正则，则继续用普通匹配的那个结果。
