@@ -3,14 +3,14 @@ id: deployment
 title: 部署智能表单
 ---
 
-import BundleLink from "../src/oss/BundleLink";
-import DownloadBundleShell from "../src/oss/DownloadBundleShell";
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import ConfigTools from "../src/config-tools";
-import StartBackendShell from "../src/oss/StartBackendShell";
-import DeploymentFileStructure from "../src/oss/DeploymentFileStructure";
-import RunBackendInKylin from "../src/oss/RunBackendInKylin";
+import BundleLink from '../src/oss/BundleLink';
+import DownloadBundleShell from '../src/oss/DownloadBundleShell';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import ConfigTools from '../src/config-tools';
+import StartBackendShell from '../src/oss/StartBackendShell';
+import DeploymentFileStructure from '../src/oss/DeploymentFileStructure';
+import RunBackendInKylin from '../src/oss/RunBackendInKylin';
 
 目前的智能表单版本推荐与 sinomatrix 组合在一起使用，本文将会介绍智能表单的[部署架构图](#部署架构图)，让您了解智能表单的组成部分。然后一一讲解如何部署每个组成部分。
 
@@ -124,6 +124,11 @@ $ mkdir -p /apps/sino-intellisense-form/dynamic-font-server
 下载并解压缩<BundleLink type="font" isAlpha>字体服务发布包</BundleLink>，如下所示：
 
 <DownloadBundleShell type="font" />
+
+:::info 提示
+
+字体服务升级，解压服务包后执行提升文件执行权限的时候，注意脚本的执行路径是在`/apps/sino-intellisense-form/dynamic-font-server`下。
+:::
 
 ## 第三步：部署智能表单前端
 
