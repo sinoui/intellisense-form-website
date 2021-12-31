@@ -3,14 +3,14 @@ id: deployment
 title: 部署智能表单
 ---
 
-import BundleLink from "../src/oss/BundleLink";
-import DownloadBundleShell from "../src/oss/DownloadBundleShell";
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import ConfigTools from "../src/config-tools";
-import StartBackendShell from "../src/oss/StartBackendShell";
-import DeploymentFileStructure from "../src/oss/DeploymentFileStructure";
-import RunBackendInKylin from "../src/oss/RunBackendInKylin";
+import BundleLink from '../src/oss/BundleLink';
+import DownloadBundleShell from '../src/oss/DownloadBundleShell';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import ConfigTools from '../src/config-tools';
+import StartBackendShell from '../src/oss/StartBackendShell';
+import DeploymentFileStructure from '../src/oss/DeploymentFileStructure';
+import RunBackendInKylin from '../src/oss/RunBackendInKylin';
 
 目前的智能表单版本推荐与 sinomatrix 组合在一起使用，本文将会介绍智能表单的[部署架构图](#部署架构图)，让您了解智能表单的组成部分。然后一一讲解如何部署每个组成部分。
 
@@ -84,9 +84,22 @@ Nginx 主要承担两个职责：
 - Nginx
 - Mongodb 3.0+ [mongodb 安装步骤](./deployment-mongodb.md)
 - nodejs [nodejs 安装步骤](./deployment-nodejs.md)
-- sino-matrix 1.6.31+
+- sino-matrix 1.6.37+
   - [sino-matrix 部署手册](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/home)
-  - [sino-matrix 版本变更记录](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。
+  - [sino-matrix 版本变更记录（从这里可以找到 sinomatrix 部署包）](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。
+
+:::warning 注意
+
+在准备好SinoMatrix环境后，需要在SinoMatrix数据库中执行以下sql，切记在部署生产环境时不要忘记此步骤：
+```sql
+use sinoepuias;
+# 设置业务角色不受限部门级别
+update sys_sub_rd_info set CREATE_FLOWROLE_TYPE = '0' where SUB_ID = '67250';
+# 设置关闭表单发布审核
+update sys_config_info set PROPVAL='0' where PROPID='sinoepFormAudit';
+```
+:::
+
 
 ## 第二步：下载智能表单部署资源
 
@@ -124,6 +137,11 @@ $ mkdir -p /apps/sino-intellisense-form/dynamic-font-server
 下载并解压缩<BundleLink type="font" isAlpha>字体服务发布包</BundleLink>，如下所示：
 
 <DownloadBundleShell type="font" />
+
+:::info 提示
+
+字体服务升级，解压服务包后执行提升文件执行权限的时候，注意脚本的执行路径是在`/apps/sino-intellisense-form/dynamic-font-server`下。
+:::
 
 ## 第三步：部署智能表单前端
 
