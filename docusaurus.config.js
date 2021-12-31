@@ -30,6 +30,7 @@ module.exports = {
   plugins: [
     "./src/plugins/node-polyfills-plugin.js",
     "./src/plugins/web-worker-plugin.js",
+    "./src/plugins/omit-license-plugin.js",
   ],
   presets: [
     [

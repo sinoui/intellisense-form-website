@@ -10,6 +10,7 @@ module.exports = {
         //"sinomatrix-docker-intellisenseform",
         "deployment-mongodb",
         "deployment-nodejs",
+        "deployment-chrome",
       ],
       应用程序配置: [
         "config-custom",
@@ -21,6 +22,7 @@ module.exports = {
         "config-version",
         "config-external-intro",
         "config-remove-test-data",
+        "config-move-form-to-application",
         "config-user-info",
       ],
       插件开发: [
@@ -37,6 +39,7 @@ module.exports = {
             "guide-global-ui",
             "guide-form-style",
             "guide-i18n",
+            "guide-validate",
             "guide-summary",
           ],
           高级教程: [
@@ -69,6 +72,8 @@ module.exports = {
       ],
       常见问题: ["deployment-faq", "feature-faq"],
       版本变更记录: [
+        // "changelog-v1.13.0",
+        "changelog-v1.13.0-beta.1",
         "changelog-v1.13.0-beta.0",
         "changelog-v1.13.0-alpha.8",
         "changelog-v1.13.0-alpha.1",

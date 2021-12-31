@@ -30,9 +30,48 @@ title: v1.13.0
   }
 ```
 
+**_智能表单监听表单值变化（插件支持）的方式从 1.13.0 版本开始有了全新的方式，不再兼容以前的版本，项目中有涉及到此特性的部分需要做对应的调整。_**具体方式如下：
+
+值关联：
+
+```ts
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.listenFormChange(
+  "612df55ac9327f1383eb4bbb", // 指定此监听对某个表单可用
+  (prevValue, nextValue) => {
+    // 如果产品单价或者数量值发生变化，则重新计算
+    if (
+      nextValue.price !== prevValue.price ||
+      nextValue.count !== prevValue.count
+    ) {
+      nextValue.total = nextValue.price * nextValue.count;
+    }
+  }
+);
+```
+
+异步值关联：
+
+我们在实际应用中，有些值的计算需要从后端获取。 比如一个绩效考核表单，我们需要监听人员姓名(userName)的变化，然后从后端读取员工编号(workerId)的值， 此时我们可以使用 listenFormChangeAsync 来监听并处理异步值关联。具体代码如下：
+
+```ts
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.listenFormChangeAsync(
+  "612df55ac9327f1383eb4bbb",
+  async (prevValue, nextValue) => {
+    // 如果userName发生变化，则重新获取workerId的值
+    if (nextValue.userName !== prevValue.userName) {
+      nextValue.workerId = await getWorkIdByUserName(nextValue.userName);
+    }
+  }
+);
+```
+
 ## 3. sinomatrix 依赖变更
 
-因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.31](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
 
 ## 4. 主要特性
 

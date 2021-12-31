@@ -3,14 +3,14 @@ id: deployment
 title: 部署智能表单
 ---
 
-import BundleLink from "../src/oss/BundleLink";
-import DownloadBundleShell from "../src/oss/DownloadBundleShell";
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import ConfigTools from "../src/config-tools";
-import StartBackendShell from "../src/oss/StartBackendShell";
-import DeploymentFileStructure from "../src/oss/DeploymentFileStructure";
-import RunBackendInKylin from "../src/oss/RunBackendInKylin";
+import BundleLink from '../src/oss/BundleLink';
+import DownloadBundleShell from '../src/oss/DownloadBundleShell';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import ConfigTools from '../src/config-tools';
+import StartBackendShell from '../src/oss/StartBackendShell';
+import DeploymentFileStructure from '../src/oss/DeploymentFileStructure';
+import RunBackendInKylin from '../src/oss/RunBackendInKylin';
 
 目前的智能表单版本推荐与 sinomatrix 组合在一起使用，本文将会介绍智能表单的[部署架构图](#部署架构图)，让您了解智能表单的组成部分。然后一一讲解如何部署每个组成部分。
 
@@ -84,9 +84,9 @@ Nginx 主要承担两个职责：
 - Nginx
 - Mongodb 3.0+ [mongodb 安装步骤](./deployment-mongodb.md)
 - nodejs [nodejs 安装步骤](./deployment-nodejs.md)
-- sino-matrix 1.6.31+
+- sino-matrix 1.6.37+
   - [sino-matrix 部署手册](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/home)
-  - [sino-matrix 版本变更记录](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。
+  - [sino-matrix 版本变更记录（从这里可以找到 sinomatrix 部署包）](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。
 
 :::warning 注意
 
@@ -137,6 +137,11 @@ $ mkdir -p /apps/sino-intellisense-form/dynamic-font-server
 下载并解压缩<BundleLink type="font" isAlpha>字体服务发布包</BundleLink>，如下所示：
 
 <DownloadBundleShell type="font" />
+
+:::info 提示
+
+字体服务升级，解压服务包后执行提升文件执行权限的时候，注意脚本的执行路径是在`/apps/sino-intellisense-form/dynamic-font-server`下。
+:::
 
 ## 第三步：部署智能表单前端
 
@@ -421,7 +426,42 @@ unzip config.zip -d /apps/sino-intellisense-form/backend/config
 
 ## 第五步：部署字体服务
 
-### 步骤一：修改 Nginx 配置
+:::tip 提示
+
+字体服务不是必须安装的，只有在以下情况下我们才需要部署字体服务：
+
+1. 需要使用表单打印的 pdf 导出功能
+2. 需要支持 IE 11 浏览器
+3. 下载表单打印 pdf 文件缓存，需要加速
+
+:::
+
+### 步骤一：下载并安装 chrome
+
+:::tip 提示
+
+如果在 windows 操作系统中部署智能表单，则可以跳过此步骤。
+
+:::
+
+具体安装步骤参见 [安装 Chrome](./deployment-chrome.md)。
+
+### 步骤二：安装字体
+
+pdf 导出需要用到一些字体，请安装以下字体：
+
+- 仿宋\_GB2312
+- 宋体
+- 楷体
+- 黑体
+
+将字体文件放入服务器的 `/usr/share/fonts` 目录中，然后执行以下命令：
+
+```bash
+fc-cache
+```
+
+### 步骤三：修改 Nginx 配置
 
 在第三步中提到的 nginx 配置文件中添加关于字体服务的配置，具体内容如下：
 
@@ -451,7 +491,7 @@ unzip config.zip -d /apps/sino-intellisense-form/backend/config
 nginx -s reload
 ```
 
-### 步骤二：启动字体服务
+### 步骤四：启动字体服务
 
 进入 `/apps/sino-intellisense-form/dynamic-font-server`文件夹，执行以下启动命令：
 
@@ -466,6 +506,14 @@ $ npm run server-start
 
 ```shell
 ps -ef | grep node
+```
+
+重新启动服务的命令如下：
+
+```bash
+$ cd /apps/sino-intellinse-form/dynamic-font-server
+# 重新启动字体服务
+$ npm run server-restart
 ```
 
 ## 第六步：在您的业务系统中嵌入智能表单页面
