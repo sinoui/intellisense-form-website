@@ -24,6 +24,7 @@ module.exports = {
         "config-remove-test-data",
         "config-move-form-to-application",
         "config-user-info",
+        "nginx-location",
       ],
       插件开发: [
         "plugin-index",
