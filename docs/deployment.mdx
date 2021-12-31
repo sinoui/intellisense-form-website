@@ -3,14 +3,14 @@ id: deployment
 title: 部署智能表单
 ---
 
-import BundleLink from '../src/oss/BundleLink';
-import DownloadBundleShell from '../src/oss/DownloadBundleShell';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import ConfigTools from '../src/config-tools';
-import StartBackendShell from '../src/oss/StartBackendShell';
-import DeploymentFileStructure from '../src/oss/DeploymentFileStructure';
-import RunBackendInKylin from '../src/oss/RunBackendInKylin';
+import BundleLink from "../src/oss/BundleLink";
+import DownloadBundleShell from "../src/oss/DownloadBundleShell";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import ConfigTools from "../src/config-tools";
+import StartBackendShell from "../src/oss/StartBackendShell";
+import DeploymentFileStructure from "../src/oss/DeploymentFileStructure";
+import RunBackendInKylin from "../src/oss/RunBackendInKylin";
 
 目前的智能表单版本推荐与 sinomatrix 组合在一起使用，本文将会介绍智能表单的[部署架构图](#部署架构图)，让您了解智能表单的组成部分。然后一一讲解如何部署每个组成部分。
 
@@ -90,7 +90,8 @@ Nginx 主要承担两个职责：
 
 :::warning 注意
 
-在准备好SinoMatrix环境后，需要在SinoMatrix数据库中执行以下sql，切记在部署生产环境时不要忘记此步骤：
+在准备好 SinoMatrix 环境后，需要在 SinoMatrix 数据库中执行以下 sql，切记在部署生产环境时不要忘记此步骤：
+
 ```sql
 use sinoepuias;
 # 设置业务角色不受限部门级别
@@ -98,8 +99,8 @@ update sys_sub_rd_info set CREATE_FLOWROLE_TYPE = '0' where SUB_ID = '67250';
 # 设置关闭表单发布审核
 update sys_config_info set PROPVAL='0' where PROPID='sinoepFormAudit';
 ```
-:::
 
+:::
 
 ## 第二步：下载智能表单部署资源
 
@@ -204,7 +205,7 @@ http {
     }
 
     # 配置主题入口文件不做缓存
-    location ~ .\*/remote-entry.js$ {
+    location ~ .*/remote-entry.js$ {
       add_header Cache-Control no-store;
     }
 
@@ -324,7 +325,7 @@ http {
     }
 
     # 配置主题入口文件不做缓存
-    location ~ .\*/remote-entry.js$ {
+    location ~ .*/remote-entry.js$ {
       add_header Cache-Control no-store;
     }
 
