@@ -88,6 +88,20 @@ Nginx 主要承担两个职责：
   - [sino-matrix 部署手册](http://sinomatrix.gitee.io/sino-matrix-website/docs/deploy/prod/home)
   - [sino-matrix 版本变更记录（从这里可以找到 sinomatrix 部署包）](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。
 
+:::warning 注意
+
+在准备好 SinoMatrix 环境后，需要在 SinoMatrix 数据库中执行以下 sql，切记在部署生产环境时不要忘记此步骤：
+
+```sql
+use sinoepuias;
+# 设置业务角色不受限部门级别
+update sys_sub_rd_info set CREATE_FLOWROLE_TYPE = '0' where SUB_ID = '67250';
+# 设置关闭表单发布审核
+update sys_config_info set PROPVAL='0' where PROPID='sinoepFormAudit';
+```
+
+:::
+
 ## 第二步：下载智能表单部署资源
 
 我们需要下载智能表单资源，并解压缩到服务器的任意目录中（如果是 Linux 服务器，需要注意文件访问权限）。例如，将文件放入 `/apps/sino-intellisense-form` 目录中。经过下载和解压缩，最终会形成下面的文件结构：
@@ -124,6 +138,11 @@ $ mkdir -p /apps/sino-intellisense-form/dynamic-font-server
 下载并解压缩<BundleLink type="font" isAlpha>字体服务发布包</BundleLink>，如下所示：
 
 <DownloadBundleShell type="font" />
+
+:::info 提示
+
+字体服务升级，解压服务包后执行提升文件执行权限的时候，注意脚本的执行路径是在`/apps/sino-intellisense-form/dynamic-font-server`下。
+:::
 
 ## 第三步：部署智能表单前端
 
@@ -186,7 +205,7 @@ http {
     }
 
     # 配置主题入口文件不做缓存
-    location ~ .\*/remote-entry.js$ {
+    location ~ .*/remote-entry.js$ {
       add_header Cache-Control no-store;
     }
 
@@ -306,7 +325,7 @@ http {
     }
 
     # 配置主题入口文件不做缓存
-    location ~ .\*/remote-entry.js$ {
+    location ~ .*/remote-entry.js$ {
       add_header Cache-Control no-store;
     }
 
