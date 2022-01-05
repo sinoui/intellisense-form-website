@@ -157,24 +157,24 @@ POST [扩展资源的链接，您可以自行设计链接路径，如http://192.
 
 如果处理成功，返回成功的响应码即可，响应体有无都可以。
 
-## configs.system-id 配置项
+## configs.systemId 配置项
 
 此配置项用来配置表单资源挂载的根资源的 id，即 sino-matrix 平台系统管理中的子系统的 id。默认的配置如下：
 
 ```yaml title="application.yml"
 configs:
-  system-id: 67250
+  systemId: 67250
 ```
 
 在新搭建的 sino-matrix 中，默认会包含一个 `平台产品集成示例` 子系统，如下图所示：
 
 ![](assets/config-resource-publish/view-default-system-config.png)
 
-如果您希望将表单挂载到您的业务子系统之下，可以通过 `configs.system-id` 来配置，如下所示：
+如果您希望将表单挂载到您的业务子系统之下，可以通过 `configs.systemId` 来配置，如下所示：
 
 ```yaml title="application.yml"
 configs:
-  system-id: 12345
+  systemId: 12345
 ```
 
 ## 发布的资源可以在 sino-matrix 系统管理中查看
