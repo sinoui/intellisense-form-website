@@ -130,3 +130,26 @@ The server encountered an unexpected condition that prevented it from fulfilling
 ```
 
 这样的日志一般是因为我们将 `平台产品集成示例` 子系统清除导致的。我们可以创建一个新的子系统，然后在智能表单中重新配置一下子系统即可，配置请见：[configs.systemId 配置项](config-resource-publish.md#configssystemid-配置项)。
+
+## 6. 待办列表查询不到数据
+### 问题描述
+待办列表中无数据：
+
+![](./assets/development-faq/daiban-nodata-1.png)
+
+但是查询列表中已经有数据：
+
+![](./assets/development-faq/daiban-nodata-2.png)
+
+### 问题原因
+
+由于项目组使用的是mysql数据库，但工作流设计器中系统参数默认配置的数据库是oracle。
+
+### 解决办法
+
+将数据库修改为mysql即可解决上述问题，修改步骤如下：
+
+![](./assets/development-faq/daiban-nodata-3.png)
+![](./assets/development-faq/daiban-nodata-4.png)
+![](./assets/development-faq/daiban-nodata-5.png)
+![](./assets/development-faq/daiban-nodata-6.png)
