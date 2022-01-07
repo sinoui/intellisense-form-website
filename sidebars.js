@@ -79,6 +79,7 @@ module.exports = {
         "changelog-v1.13.0-alpha.8",
         "changelog-v1.13.0-alpha.1",
         "changelog-v1.13.0-alpha.0",
+        "changelog-v1.12.8",
         "changelog-v1.12.5",
         "changelog-v1.12.4",
         "changelog-v1.12.3",
