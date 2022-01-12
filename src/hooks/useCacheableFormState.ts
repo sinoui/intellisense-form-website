@@ -3,7 +3,12 @@ import deepmerge from "deepmerge";
 import { useEffect, useState } from "react";
 import { debounceTime } from "rxjs/operators";
 
+const isNode = typeof window === "undefined";
+
 function readCache(name: string, defaultValue: Record<string, any>) {
+  if (isNode) {
+    return null;
+  }
   const content = localStorage[name];
   if (content != null) {
     try {
