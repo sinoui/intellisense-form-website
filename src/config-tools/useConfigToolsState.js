@@ -1,8 +1,3 @@
-import { useEffect, useState } from "react";
-import { debounceTime } from "rxjs/operators";
-import { useFormState } from "@sinoui/rx-form-state";
-import deepmerge from "deepmerge";
-
 /**
  * 默认的配置
  *
@@ -36,36 +31,8 @@ export const defaultConfig = {
 
 const CACHE_KEY = "BACKEND_CONFIG";
 
-function readCache() {
-  const content = localStorage[CACHE_KEY];
-  if (content != null) {
-    try {
-      const result = JSON.parse(content);
-      return deepmerge(defaultConfig, result);
-    } catch (e) {
-      return undefined;
-    }
-  }
-}
-
-function saveCache(state) {
-  const content = JSON.stringify(state);
-  localStorage[CACHE_KEY] = content;
-}
-
 function useConfigToolsState() {
-  const [defaultState] = useState(() => readCache() ?? defaultConfig);
-  const formState = useFormState(defaultState);
-
-  useEffect(() => {
-    const subscription = formState.values$
-      .pipe(debounceTime(200))
-      .subscribe(saveCache);
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  return formState;
+  return useCacheableFormState(CACHE_KEY, defaultConfig);
 }
 
 export default useConfigToolsState;
