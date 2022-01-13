@@ -89,7 +89,11 @@ module.exports = {
         "changelog-v1.12.1",
         "changelog-v1.12.0",
       ],
-      表单配置教程: ["custom-print-template", "custom-form-app"],
+      表单配置教程: [
+        "custom-print-template",
+        "custom-form-app",
+        "todo-integrate",
+      ],
     },
   ],
 };
