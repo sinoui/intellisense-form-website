@@ -1,3 +1,4 @@
+import { compare } from "semver";
 import getLatestVersion from "./getLatestVersion";
 import getReleaseList from "./getReleaseList";
 import type { ReleaseItem } from "./types";
@@ -44,7 +45,7 @@ export default async function getHistoryVersionList(
 ) {
   const latestVersion = await getLatestVersion();
   const list = await getReleaseList();
-  const filterListByType = list
+  return list
     .filter((item) =>
       type === "frontend"
         ? isFrontendObject(item)
@@ -54,7 +55,5 @@ export default async function getHistoryVersionList(
     )
     .filter((item) => !item.isAlpha)
     .filter((item) => item.name.indexOf(latestVersion[type].version) === -1)
-    .reverse();
-
-  return filterListByType;
+    .sort((item1, item2) => compare(item1.version, item2.version));
 }
