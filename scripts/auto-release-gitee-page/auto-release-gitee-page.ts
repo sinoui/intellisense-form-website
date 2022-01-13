@@ -4,7 +4,9 @@ import getAutoReleaseGiteePageOptions from "./get-auto-release-gitee-page-option
 import getBrowserExecutablePath from "./get-browser-executable-path";
 
 async function login(page: puppeteer.Page, userName: string, password: string) {
-  await page.goto("https://gitee.com/login");
+  await page.goto("https://gitee.com/login", {
+    waitUntil: "domcontentloaded",
+  });
   await page.type("#user_login", userName);
   await page.type("#user_password", password);
 
@@ -17,7 +19,9 @@ async function login(page: puppeteer.Page, userName: string, password: string) {
 }
 
 async function tryRelease(page: puppeteer.Page) {
-  await page.goto("https://gitee.com/sinoui/intellisense-form-website/pages");
+  await page.goto("https://gitee.com/sinoui/intellisense-form-website/pages", {
+    waitUntil: "domcontentloaded",
+  });
   const updateButton = await page.$(".button.update_deploy");
 
   if (updateButton) {
