@@ -77,8 +77,12 @@ export default async function autoReleaseGiteePage(
   if (await tryRelease(page)) {
     console.log("已发布 gitee page");
 
-    page.close();
-    browserObj.close();
+    try {
+      page.close();
+      browserObj.close();
+    } catch {
+      console.error("关闭浏览器失败，请自行关闭浏览器");
+    }
   } else {
     console.log("gitee page 发布失败，请查明原因");
   }
