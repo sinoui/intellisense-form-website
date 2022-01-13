@@ -55,5 +55,5 @@ export default async function getHistoryVersionList(
     )
     .filter((item) => !item.isAlpha)
     .filter((item) => item.name.indexOf(latestVersion[type].version) === -1)
-    .sort((item1, item2) => compare(item1.version, item2.version));
+    .sort((item1, item2) => -compare(item1.version, item2.version));
 }
