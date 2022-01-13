@@ -10,7 +10,7 @@ async function login(page: puppeteer.Page, userName: string, password: string) {
 
   await Promise.all([
     page.waitForNavigation({
-      timeout: 5000,
+      timeout: 500000,
     }),
     page.click("input.large"),
   ]);
