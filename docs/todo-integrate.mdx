@@ -25,10 +25,10 @@ title: 待办详情页集成
 
 参数说明：
 
-- `<网关ip:ports>` —— 能访问智能表单的地址
-- `formId` —— 对应`FLOW_WRITE`表中的`FORMURL`字段
-- `recordId` —— 对应`FLOW_WRITE`表中的`DOCID`字段
-- `workItemId` —— 对应`FLOW_WRITE`表中的`ID`字段
+- `<网关ip:ports>` -- 能访问智能表单的地址
+- `formId` -- 对应`FLOW_WRITE`表中的`FORMURL`字段
+- `recordId` -- 对应`FLOW_WRITE`表中的`DOCID`字段
+- `workItemId` -- 对应`FLOW_WRITE`表中的`ID`字段
 
 ### 集成效果
 
@@ -54,7 +54,7 @@ title: 待办详情页集成
 
 ![在应用首页打开详情页](./assets/todo-integrate/detail-in-app-home.png)
 
-## 关闭详情页刷新待办列表
+## 流程办理成功刷新待办列表
 
 当我们在详情页处理完数据之后（比如发送、撤回、退回等），通常需要刷新待办列表。我们是以 window.postMessage()方法向业务系统发送消息，业务系统监听到该消息后认为操作成功，继而进行后续处理（比如关闭弹窗、刷新列表等）。示例代码如下：
 
