@@ -81,6 +81,7 @@ module.exports = {
         "changelog-v1.13.0-alpha.8",
         "changelog-v1.13.0-alpha.1",
         "changelog-v1.13.0-alpha.0",
+        "changelog-v1.12.10",
         "changelog-v1.12.9",
         "changelog-v1.12.8",
         "changelog-v1.12.5",
@@ -90,7 +91,11 @@ module.exports = {
         "changelog-v1.12.1",
         "changelog-v1.12.0",
       ],
-      表单配置教程: ["custom-print-template", "custom-form-app"],
+      表单配置教程: [
+        "custom-print-template",
+        "custom-form-app",
+        "todo-integrate",
+      ],
     },
   ],
 };
