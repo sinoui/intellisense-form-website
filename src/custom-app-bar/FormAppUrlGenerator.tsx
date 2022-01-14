@@ -69,7 +69,7 @@ const FormAppUrlGenerator: React.FC = () => {
               />
             </FormItem>
           </Column>
-          <Column md={8} xs={24}>
+          <Column md={12} xs={24}>
             <FormItem
               name="appId"
               required
@@ -83,12 +83,17 @@ const FormAppUrlGenerator: React.FC = () => {
               <TextInput placeholder="请输入应用id，例如：61dd5330981d24212360db83" />
             </FormItem>
           </Column>
-          <Column md={8} xs={24}>
-            <FormItem name="subtitle" label="副标题">
+          <Column md={12} xs={24}>
+            <FormItem name="title" label="应用标题（title）">
               <TextInput />
             </FormItem>
           </Column>
-          <Column md={8} xs={24}>
+          <Column md={12} xs={24}>
+            <FormItem name="subtitle" label="副标题（subtitle）">
+              <TextInput />
+            </FormItem>
+          </Column>
+          <Column md={12} xs={24}>
             <FormItem
               name="appBarBgColor"
               label="顶部工具栏背景色"
@@ -111,6 +116,7 @@ const FormAppUrlGenerator: React.FC = () => {
               <TextInput />
             </FormItem>
           </Column>
+
           <Column xs={24}>
             <FormItem name="logo" label="徽标链接（logo）">
               <TextInput />

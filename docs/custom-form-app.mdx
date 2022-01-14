@@ -101,7 +101,7 @@ http://<网关ip:port>/intellisense-form/app/:appId/home
 
 应用头部由以下部分组成：
 
-- 应用标题（`title`） - 即应用名称
+- 应用标题（`title`） - 默认为应用名称，支持自定义
 - 副标题（`subtitle`）
 - 徽标（`logo`）
 - 背景（`bg`）
@@ -111,10 +111,11 @@ http://<网关ip:port>/intellisense-form/app/:appId/home
 
 ![](assets/custom-form-app/app-bar-section.png)
 
-其中，可以通过参数定制的是 `副标题`、`徽标` 和 `背景`。有以下请求参数用来定制这些区域：
+其中，可以通过参数定制的是`应用标题`、 `副标题`、`徽标` 和 `背景`。有以下请求参数用来定制这些区域：
 
 | 请求参数名称  | 作用                                                  | 示例                                                                                                      |
 | ------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| title         | 主标题，默认为应用标题，支持自定义                    | 人员信息采集                                                                                              |
 | subtitle      | 副标题，例如平台名称、系统名称等                      | 智能表单演示系统                                                                                          |
 | logo          | 包含徽标的图片链接                                    | https://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/docs/logo.png                                  |
 | appBarBgUrl   | 顶部应用栏的背景图链接                                | https://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/docs/bg.png                                    |
@@ -122,6 +123,19 @@ http://<网关ip:port>/intellisense-form/app/:appId/home
 | titleImg      | 同时包含徽标和副标题的图片链接                        |                                                                                                           |
 | titleYPos     | 标题垂直位置，在 titleImg 存在时起作用。单位为 `px`。 | 默认值：16                                                                                                |
 | titleXPos     | 标题水平位置，在 titleImg 存在时起作用。单位为 `px`。 | 默认值：64                                                                                                |
+
+### 定制应用标题
+
+> 通过`title`请求参数指定应用标题。
+
+默认情况下应用标题的字体样式为 `22px 微软雅黑`。您可以通过[样式定制](custom-css-pc.md)更改副标题的字体和尺寸：
+
+```css
+.sinoform-app-bar-title {
+  font-family: 宋体 !important;
+  font-size: 28px !important;
+}
+```
 
 ### 定制徽标
 
