@@ -404,3 +404,41 @@ values
 推荐您使用 [jsqlparser](https://github.com/JSQLParser/JSqlParser) 库解析 SQL。
 
 :::
+
+#### 特例：撤办和恢复流程
+
+> v1.12.11
+
+撤办和恢复流程时，发出同步待办已办 SQL 语句是 `UPDATE` 语句，如下所示：
+
+撤办的示例数据：
+
+```json
+{
+  "read": [
+    "update FLOW_READ set STATTAG='0' where RECORDID='61dfe597ec2eb92c3cdd23da'"
+  ],
+  "write": [
+    "update FLOW_WRITE set STATTAG='0' where RECORDID='61dfe597ec2eb92c3cdd23da'"
+  ],
+  "formId": "表单id",
+  "appId": "应用id",
+  "formDesignId": "表单设计id"
+}
+```
+
+恢复流程的示例数据：
+
+```json
+{
+  "read": [
+    "update FLOW_READ set STATTAG='1' where RECORDID='61dfe597ec2eb92c3cdd23da'"
+  ],
+  "write": [
+    "update FLOW_WRITE set STATTAG='1' where RECORDID='61dfe597ec2eb92c3cdd23da'"
+  ],
+  "formId": "表单id",
+  "appId": "应用id",
+  "formDesignId": "表单设计id"
+}
+```
