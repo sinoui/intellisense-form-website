@@ -56,15 +56,15 @@ POST [接收待办、已办数据的扩展链接，您可以自行设计链接�
 
 ```json
 {
-  "read": ["delete sql", "insert sql"],
-  "write": ["delete sql", "insert sql"],
+  "read": ["删除已办的SQL语句", "新增已办的SQL语句"],
+  "write": ["删除待办的SQL语句", "新增待办的SQL语句"],
   "formId": "表单id",
   "appId": "应用id",
   "formDesignId": "表单设计id"
 }
 ```
 
-其中 `read` 和 `write` 字段的值是来自工作流引擎在提交流程时返回的同步待办和已办的 SQL 语句，`read` 字段值是用来同步已办数据的 SQL，`write` 字段值是用来同步待办数据的 SQL。
+其中 `read` 和 `write` 字段的值是来自工作流引擎在提交流程时返回的同步待办和已办的 SQL 语句（由零个或者一个删除 SQL 语句和多个新增 SQL 语句组成），`read` 字段值是用来同步已办数据的 SQL，`write` 字段值是用来同步待办数据的 SQL。
 
 SQL 示例如下：
 
@@ -77,7 +77,7 @@ SQL 示例如下：
   ]}>
 <TabItem value="deleteRead">
 
-```sql title="删除已办数据的SQL (read[0])"
+```sql title="删除已办的SQL语句"
 delete from
   FLOW_READ
 where
@@ -90,7 +90,7 @@ where
 </TabItem>
 <TabItem value="insertRead">
 
-```sql title="新增已办数据的SQL (read[1])"
+```sql title="新增已办的SQL语句"
 insert into
   FLOW_READ (
     HANDDONEURL,
@@ -176,7 +176,7 @@ values
 </TabItem>
 <TabItem value="deleteWrite">
 
-```sql title="删除待办数据的SQL (write[0])"
+```sql title="删除待办的SQL语句"
 delete from
   FLOW_WRITE
 where
@@ -186,7 +186,7 @@ where
 </TabItem>
 <TabItem value="insertWrite">
 
-```sql title="新增待办数据的SQL (write[1])"
+```sql title="新增待办的SQL语句"
 insert into
   FLOW_WRITE(
     SYS_ID,
@@ -308,96 +308,96 @@ values
 
 新增已办 SQL 中的关键字段说明：
 
-| 字段名        | 示意值                           | 含义                   |
-| ------------- | -------------------------------- | ---------------------- |
-| ID            | ca9a13f16b26439b9fab8fc0bcc380c4 | 已办主键ID             |
-| TITLE         | 456456456456456456456            | 标题                   |
-| FILETYPEID    | 3396254c845548bdbbd1cd55973ac6f5 | 流程ID                 |
-| FILETYPENAME  | 测试办结时间和起草部门名         | 流程名称               |
-| WORKFLOWID    | 3396254c845548bdbbd1cd55973ac6f5 | 流程唯一ID             |
-| WORKFLOWNAME  | 测试办结时间和起草部门名         | 流程名称+版本名称      |
-| RECORDID      | 619b8f49ec2ee8ac2f5b32ef         | 流转ID                 |
-| CREATETIME    | 2021-12-10 08:33:53              | 启动时间               |
-| USERID        | 1                                | 办理人用户ID           |
-| DEPTID        | 18043                            | 办理人所在的部门ID     |
-| ORGANISEID    | 18043                            | 办理人所在的组织体系ID |
-| READTIME      | 2021-12-10 08:33:53              | 办理时间               |
-| READFLAG      | 1                                | 办理标志               |
-| UNIQUEID      | 4f96523e1dc04339b8ed432effc76b3e | 全局流转唯一ID         |
-| PARA          |                                  | 业务属性值的集合       |
-| DRAFTDEPT     | 18043                            | 拟稿人所在的部门ID     |
-| DRAFTUSER     | 1                                | 拟稿人的用户ID         |
-| STATTAG       | 1                                | 状态标识               |
-| HANDDONEURL   |                                  | 已办URL                |
-| DOCID         | 619b8f49ec2ee8ac2f5b32ef         | 业务记录主键值         |
-| FORMURL       | 619b32c3c9327f42e98a1882         | 表单ID                 |
-| SORTID        | 4f96523e1dc04339b8ed432effc76b3e | 流程分类ID             |
-| SUPERFILETYPE |                                  | 父流程ID               |
-| SYS_ID        | 67250                            | 系统                   |
-| ACCINFO       |                                  | 待办授权信息           |
-| GIVEACCUSER   |                                  | 授权人用 户ID          |
-| ACCDEPTID     |                                  | 被授权人所在部门ID     |
-| ACCFLAG       |                                  | 是否授权               |
-| USERNAME      | admin                            | 办理人用户名称         |
-| DEPTNAME      | 系统管理部                       | 办理人部门名称         |
-| ATTR          | intellisenseForm                 | 业务属性               |
-| LOGID         | 46aef7122a6d4dddb5c34a35173ad82d | 日志ID                 |
+| 字段名        | 示意值                           | 含义                    |
+| ------------- | -------------------------------- | ----------------------- |
+| ID            | ca9a13f16b26439b9fab8fc0bcc380c4 | 已办主键 ID             |
+| TITLE         | 456456456456456456456            | 标题                    |
+| FILETYPEID    | 3396254c845548bdbbd1cd55973ac6f5 | 流程 ID                 |
+| FILETYPENAME  | 测试办结时间和起草部门名         | 流程名称                |
+| WORKFLOWID    | 3396254c845548bdbbd1cd55973ac6f5 | 流程唯一 ID             |
+| WORKFLOWNAME  | 测试办结时间和起草部门名         | 流程名称+版本名称       |
+| RECORDID      | 619b8f49ec2ee8ac2f5b32ef         | 流转 ID                 |
+| CREATETIME    | 2021-12-10 08:33:53              | 启动时间                |
+| USERID        | 1                                | 办理人用户 ID           |
+| DEPTID        | 18043                            | 办理人所在的部门 ID     |
+| ORGANISEID    | 18043                            | 办理人所在的组织体系 ID |
+| READTIME      | 2021-12-10 08:33:53              | 办理时间                |
+| READFLAG      | 1                                | 办理标志                |
+| UNIQUEID      | 4f96523e1dc04339b8ed432effc76b3e | 全局流转唯一 ID         |
+| PARA          |                                  | 业务属性值的集合        |
+| DRAFTDEPT     | 18043                            | 拟稿人所在的部门 ID     |
+| DRAFTUSER     | 1                                | 拟稿人的用户 ID         |
+| STATTAG       | 1                                | 状态标识                |
+| HANDDONEURL   |                                  | 已办 URL                |
+| DOCID         | 619b8f49ec2ee8ac2f5b32ef         | 业务记录主键值          |
+| FORMURL       | 619b32c3c9327f42e98a1882         | 表单 ID                 |
+| SORTID        | 4f96523e1dc04339b8ed432effc76b3e | 流程分类 ID             |
+| SUPERFILETYPE |                                  | 父流程 ID               |
+| SYS_ID        | 67250                            | 系统                    |
+| ACCINFO       |                                  | 待办授权信息            |
+| GIVEACCUSER   |                                  | 授权人用 户 ID          |
+| ACCDEPTID     |                                  | 被授权人所在部门 ID     |
+| ACCFLAG       |                                  | 是否授权                |
+| USERNAME      | admin                            | 办理人用户名称          |
+| DEPTNAME      | 系统管理部                       | 办理人部门名称          |
+| ATTR          | intellisenseForm                 | 业务属性                |
+| LOGID         | 46aef7122a6d4dddb5c34a35173ad82d | 日志 ID                 |
 
 新增待办 SQL 中的关键字段说明：
 
-| 字段名             | 示意值                                           | 含义                                                         |
-| ------------------ | ------------------------------------------------ | ------------------------------------------------------------ |
-| ID                 | 4f8d967525d744a08db02a3c00ab3234                 | 主键ID值                                                     |
-| WORKFLOWINFOID     | c49bbb22c698423eb7874e479aad9ee7                 | 关联的流转实例ID                                             |
-| TITLE              | 456456456456456456456                            | 标题                                                         |
-| RECORDID           | 619b8f49ec2ee8ac2f5b32ef                         | 流转ID                                                       |
-| FILETYPEID         | 3396254c845548bdbbd1cd55973ac6f5                 | 流程ID                                                       |
-| FILETYPENAME       | 测试办结时间和起草部门名                         | 流程名称                                                     |
-| WORKFLOWID         | 3396254c845548bdbbd1cd55973ac6f5                 | 流程唯一ID                                                   |
-| WORKFLOWNAME       | 测试办结时间和起草部门名                         | 流程名称+版本名称                                            |
-| USERID             | 4028d00e6f16845c016f79dda0c20231                 | 参与者用户ID                                                 |
-| DEPTID             | 4028d00e6ec96438016ec97b4b10000b                 | 参与者所在的部门ID                                           |
-| ORGANISEID         | 4028d00e6ec42073016ec4629a490001                 | 参与者所在的组织体系ID                                       |
-| RECEIVETIME        | 2021-12-10 08:33:53                              | 接收时间                                                     |
-| SIGNTIME           |                                                  | 签收时间                                                     |
-| SIGNTAG            | 0                                                | 签收标志  1-签收 0-未签收                                    |
-| LIMITTIME          |                                                  | 待办逾期时间                                                 |
-| PREUSERID          | 1                                                | 前继参与者用户ID                                             |
-| PREDEPTID          | 18043                                            | 前继参与者所在部门ID                                         |
-| PREORGANISEID      | 18043                                            | 前继参与者所在组织体系ID                                     |
-| CREATETIME         | 2021-12-10 08:33:53                              | 启动时间                                                     |
-| PARA               |                                                  | 业务数据  格式：变量名=值, 变量名=值                         |
-| DRAFTUSER          | 1                                                | 拟稿人用户ID                                                 |
-| DRAFTDEPT          | 18043                                            | 拟稿人所在部门ID                                             |
-| ACCDEPTID          |                                                  | 被授权人所在部门ID                                           |
-| ACCINFO            |                                                  | 授权描述信息                                                 |
-| GIVEACCUSER        |                                                  | 授权人用户ID                                                 |
-| WFLEVEID           | a272b4b1-470f-468e-a229-7d8675a08ec7             | 当前待办节点ID                                               |
-| STATTAG            | 1                                                | 状态标识  1-在办 0-撤办                                      |
-| PREWFLEVELID       | 63d85a21-d42f-4640-bc55-63e2aaf96378             | 前继办理节点ID                                               |
-| SUPERFILETYPE      |                                                  | 父流程ID                                                     |
-| ACCFLAG            | 0                                                | 是否代办授权标志  1-授权 0-未授权                            |
-| ATTR               | intellisenseForm                                 | 业务属性  存放缓急、密级等业务属性。出待办列表可以按此业务属性排序 |
-| ATTR1              |                                                  | 业务属性1                                                    |
-| ATTR2              |                                                  | 业务属性2                                                    |
-| FORMURL            | 619b32c3c9327f42e98a1882                         | 表单ID                                                       |
-| LOGID              | b7a9b0fa987649b5aac3ca600069a5b4                 | 关联的日志ID                                                 |
-| WAITDOURL          | /intellisense-form/619b32c3c9327f42e98a1882/todo | 待办URL                                                      |
-| DOCID              | 619b8f49ec2ee8ac2f5b32ef                         | 业务记录主键ID值                                             |
-| SUPERWORKFLOW      |                                                  | 父流程唯一ID                                                 |
-| SORTID             | 4f96523e1dc04339b8ed432effc76b3e                 | 全局流转的唯一ID                                             |
-| WORKFLOWINFOID_INT |                                                  | 主键的整型值（只有为数字串，此字段才会有值）                 |
-| OPSTATE            | 0                                                | 路由状态                                                     |
-| USERNAME           | 汪芳                                             | 当前待办人的用户名                                           |
-| DEPTNAME           | 公文处/金融保险部/演示部门                       | 当前待办人所在部门名称                                       |
-| SYS_ID             | 67250                                            | 应用系统id                                                   |
-| PREUSERNAME        | admin                                            | 前继办理用户名                                               |
-| WFLEVENAME         | 审批节点                                         | 当前待办节点名                                               |
-| DRAFTUSERNAME      | admin                                            | 起草人                                                       |
-| DRAFTDEPTNAME      | 系统管理部                                       | 起草人所在部门名称                                           |
-| PREWFLEVENAME      | 开始节点                                         | 前继办理节点名                                               |
-| PREDEPTNAME        | 系统管理部                                       | 前继办理人所在部门名称                                       |
-| DRAFTWFLEVEID      | 63d85a21-d42f-4640-bc55-63e2aaf96378             | 起草节点ID                                                   |
+| 字段名             | 示意值                                           | 含义                                                              |
+| ------------------ | ------------------------------------------------ | ----------------------------------------------------------------- |
+| ID                 | 4f8d967525d744a08db02a3c00ab3234                 | 主键 ID 值                                                        |
+| WORKFLOWINFOID     | c49bbb22c698423eb7874e479aad9ee7                 | 关联的流转实例 ID                                                 |
+| TITLE              | 456456456456456456456                            | 标题                                                              |
+| RECORDID           | 619b8f49ec2ee8ac2f5b32ef                         | 流转 ID                                                           |
+| FILETYPEID         | 3396254c845548bdbbd1cd55973ac6f5                 | 流程 ID                                                           |
+| FILETYPENAME       | 测试办结时间和起草部门名                         | 流程名称                                                          |
+| WORKFLOWID         | 3396254c845548bdbbd1cd55973ac6f5                 | 流程唯一 ID                                                       |
+| WORKFLOWNAME       | 测试办结时间和起草部门名                         | 流程名称+版本名称                                                 |
+| USERID             | 4028d00e6f16845c016f79dda0c20231                 | 参与者用户 ID                                                     |
+| DEPTID             | 4028d00e6ec96438016ec97b4b10000b                 | 参与者所在的部门 ID                                               |
+| ORGANISEID         | 4028d00e6ec42073016ec4629a490001                 | 参与者所在的组织体系 ID                                           |
+| RECEIVETIME        | 2021-12-10 08:33:53                              | 接收时间                                                          |
+| SIGNTIME           |                                                  | 签收时间                                                          |
+| SIGNTAG            | 0                                                | 签收标志 1-签收 0-未签收                                          |
+| LIMITTIME          |                                                  | 待办逾期时间                                                      |
+| PREUSERID          | 1                                                | 前继参与者用户 ID                                                 |
+| PREDEPTID          | 18043                                            | 前继参与者所在部门 ID                                             |
+| PREORGANISEID      | 18043                                            | 前继参与者所在组织体系 ID                                         |
+| CREATETIME         | 2021-12-10 08:33:53                              | 启动时间                                                          |
+| PARA               |                                                  | 业务数据 格式：变量名=值, 变量名=值                               |
+| DRAFTUSER          | 1                                                | 拟稿人用户 ID                                                     |
+| DRAFTDEPT          | 18043                                            | 拟稿人所在部门 ID                                                 |
+| ACCDEPTID          |                                                  | 被授权人所在部门 ID                                               |
+| ACCINFO            |                                                  | 授权描述信息                                                      |
+| GIVEACCUSER        |                                                  | 授权人用户 ID                                                     |
+| WFLEVEID           | a272b4b1-470f-468e-a229-7d8675a08ec7             | 当前待办节点 ID                                                   |
+| STATTAG            | 1                                                | 状态标识 1-在办 0-撤办                                            |
+| PREWFLEVELID       | 63d85a21-d42f-4640-bc55-63e2aaf96378             | 前继办理节点 ID                                                   |
+| SUPERFILETYPE      |                                                  | 父流程 ID                                                         |
+| ACCFLAG            | 0                                                | 是否代办授权标志 1-授权 0-未授权                                  |
+| ATTR               | intellisenseForm                                 | 业务属性 存放缓急、密级等业务属性。出待办列表可以按此业务属性排序 |
+| ATTR1              |                                                  | 业务属性 1                                                        |
+| ATTR2              |                                                  | 业务属性 2                                                        |
+| FORMURL            | 619b32c3c9327f42e98a1882                         | 表单 ID                                                           |
+| LOGID              | b7a9b0fa987649b5aac3ca600069a5b4                 | 关联的日志 ID                                                     |
+| WAITDOURL          | /intellisense-form/619b32c3c9327f42e98a1882/todo | 待办 URL                                                          |
+| DOCID              | 619b8f49ec2ee8ac2f5b32ef                         | 业务记录主键 ID 值                                                |
+| SUPERWORKFLOW      |                                                  | 父流程唯一 ID                                                     |
+| SORTID             | 4f96523e1dc04339b8ed432effc76b3e                 | 全局流转的唯一 ID                                                 |
+| WORKFLOWINFOID_INT |                                                  | 主键的整型值（只有为数字串，此字段才会有值）                      |
+| OPSTATE            | 0                                                | 路由状态                                                          |
+| USERNAME           | 汪芳                                             | 当前待办人的用户名                                                |
+| DEPTNAME           | 公文处/金融保险部/演示部门                       | 当前待办人所在部门名称                                            |
+| SYS_ID             | 67250                                            | 应用系统 id                                                       |
+| PREUSERNAME        | admin                                            | 前继办理用户名                                                    |
+| WFLEVENAME         | 审批节点                                         | 当前待办节点名                                                    |
+| DRAFTUSERNAME      | admin                                            | 起草人                                                            |
+| DRAFTDEPTNAME      | 系统管理部                                       | 起草人所在部门名称                                                |
+| PREWFLEVENAME      | 开始节点                                         | 前继办理节点名                                                    |
+| PREDEPTNAME        | 系统管理部                                       | 前继办理人所在部门名称                                            |
+| DRAFTWFLEVEID      | 63d85a21-d42f-4640-bc55-63e2aaf96378             | 起草节点 ID                                                       |
 
 :::info 推荐
 
