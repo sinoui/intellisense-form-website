@@ -1,5 +1,5 @@
-import "./setupGlobalBuffer";
-import NodeRSA from "node-rsa";
+import RSA from "wasm-rsa";
+import { Buffer } from "buffer";
 import genKeyPair from "./gen-key-pair";
 
 /**
@@ -11,7 +11,7 @@ const Handlers = {
   encrypto,
 };
 
-onmessage = (event) => {
+onmessage = async (event) => {
   const { data } = event;
   const type = data?.type;
   const id = data?.id;
@@ -19,7 +19,7 @@ onmessage = (event) => {
 
   if (handler) {
     try {
-      const response = handler(data.request);
+      const response = await handler(data.request);
       postMessage({
         type,
         id,
@@ -41,8 +41,8 @@ let globalPublicKey = "";
 /**
  * 生成密钥对
  */
-function innerGenKeyPair() {
-  const keypair = genKeyPair();
+async function innerGenKeyPair() {
+  const keypair = await genKeyPair();
   globalPublicKey = keypair.publicKey;
   return keypair;
 }
@@ -62,17 +62,16 @@ function getPublicKey() {
  * @param request
  * @returns
  */
-function encrypto(request) {
+async function encrypto(request) {
   const { publicKeyString, text } = request;
 
-  const publicKey = new NodeRSA(publicKeyString, "pkcs8-public-pem", {
-    environment: "browser",
-    encryptionScheme: {
-      scheme: "pkcs1",
-      padding: 256,
-    },
-  });
+  const rsa = await RSA();
 
-  const encrypted = publicKey.encrypt(text, "base64");
-  return encrypted;
+  rsa.createRSAPublicFromPEM(publicKeyString);
+
+  const endataHex = rsa.publicEncrypt(text);
+  // wasm-rsa 加密后的密文采用 hex 编码，需要转成 base64 编码
+  const endata = Buffer.from(endataHex, "hex");
+  const endataBase64 = endata.toString("base64");
+  return endataBase64;
 }

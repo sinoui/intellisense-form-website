@@ -1,19 +1,20 @@
-import NodeRSA from "node-rsa";
+import RSA from 'wasm-rsa';
 
 /**
  * 生成密钥对
  */
-const genKeyPair = () => {
-  const key = new NodeRSA({
-    environment: "browser",
-    encryptionScheme: {
-      scheme: "pkcs1",
-      padding: 256,
-    },
-  });
+const genKeyPair = async () => {
+  const rsa = await RSA();
+  const startTime = performance.now();
+  const bits = 2048;
 
-  const privateKeyString = key.exportKey("pkcs8-private-pem");
-  const publicKeyString = key.exportKey("pkcs8-public-pem");
+  const privateKey = rsa.generateRSAPrivate(bits);
+  rsa.createRSAPublic(privateKey.n, privateKey.e);
+  
+  const privateKeyString = rsa.privateKeyToPEM();
+  const publicKeyString = rsa.publicKeyToPEM();
+
+  console.log(`生成秘钥用时：${performance.now() - startTime} ms`);
 
   return {
     privateKey: privateKeyString,

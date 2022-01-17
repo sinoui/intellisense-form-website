@@ -28,21 +28,15 @@ module.exports = {
     },
   },
   plugins: [
-    "./src/plugins/node-polyfills-plugin.js",
-    "./src/plugins/web-worker-plugin.js",
-    "./src/plugins/omit-license-plugin.js",
+    "./plugins/enable-wasm-plugin.js",
+    "./plugins/omit-license-plugin.js",
   ],
   presets: [
     [
       "@docusaurus/preset-classic",
       {
         docs: {
-          // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: "introduction",
           sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
-          editUrl:
-            "https://github.com/facebook/docusaurus/edit/master/website/",
         },
 
         theme: {

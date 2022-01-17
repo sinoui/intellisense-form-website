@@ -1,7 +1,5 @@
-import Worker from "./rsa-tools.worker";
-
 const isInBrowser = !!global.Worker;
-const worker = isInBrowser ? new Worker() : null;
+const worker = isInBrowser ? new Worker(new URL('./rsa-tools.worker', import.meta.url)) : null;
 
 let idSeed = 1;
 
