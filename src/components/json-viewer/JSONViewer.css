@@ -1,0 +1,57 @@
+.sinoui-json-viewer {
+  margin-bottom: var(--ifm-leading);
+  border-radius: var(--ifm-global-radius);
+  box-shadow: var(--ifm-global-shadow-lw);
+  overflow: hidden;
+  position: relative;
+}
+
+.sinoui-json-viewer__title {
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  font-size: var(--ifm-code-font-size);
+  font-weight: 500;
+  padding: 0.75rem var(--ifm-pre-padding);
+}
+
+.copy-to-clipboard-container .copy-icon {
+  margin-top: 4px;
+}
+
+.react-json-view {
+  font-size: 15.2px;
+
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace !important;
+}
+
+.react-json-view .object-key-val {
+  padding: 0px 5px !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] .react-json-view .variable-row,
+html[data-theme="dark"] .react-json-view .object-key-val {
+  border-left-color: rgb(248, 248, 242, 0.12) !important;
+}
+
+.react-json-view .copy-to-clipboard-container {
+  position: relative;
+  top: 6px;
+}
+
+.sinoui-json-viewer__copy-button {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--ifm-global-radius);
+  color: var(--ifm-color-white);
+  opacity: 0;
+  user-select: none;
+  padding: 0.4rem 0.5rem;
+  position: absolute;
+  right: calc(var(--ifm-pre-padding) / 2);
+  top: calc(var(--ifm-pre-padding) / 2 + 48px);
+  transition: opacity 200ms ease-in-out;
+}
+
+.sinoui-json-viewer:hover .sinoui-json-viewer__copy-button {
+  opacity: 1;
+}
