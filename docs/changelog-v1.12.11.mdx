@@ -26,8 +26,10 @@ import BundleList from "../src/components/bundle-list";
 - improve：移动端草稿页、详情页标题随应用名称变化
 - improve(移动端)：添加请求参数 `hideAppBar`，用于控制不显示草稿页、详情页上的工具栏。如：`http://127.0.0.1:8080/detail-page?hideAppBar`
 - improve(移动端)：添加请求参数`title`，用于定制详情页和草稿页的页面标题。如：`http://127.0.0.1:8080/detail-page?title=应用标题`
-- feat： 流程控制公式支持填报人角色作为控制条件。
+- feat：流程控制公式支持填报人角色作为控制条件。
 - improve(flow-control-expression): 新增 `is`、`is null`、`is not null`、`is empty` 和 `is not empty` 语法支持，改善 null 或者空字符串、空数组的判定。（见[流程控制公式新增语法](#流程控制公式新增语法)）
+- fix(workflow): 修复工作流撤办、恢复流程、退回操作没有同步待办已办的缺陷
+- fix(config): 修复导入应用后，应用菜单不可见的缺陷
 
 ### 流程控制公式支持【填报人角色】作为控制条件
 
