@@ -153,3 +153,20 @@ The server encountered an unexpected condition that prevented it from fulfilling
 ![](./assets/development-faq/daiban-nodata-4.png)
 ![](./assets/development-faq/daiban-nodata-5.png)
 ![](./assets/development-faq/daiban-nodata-6.png)
+
+
+## 7. 待办/已办 列表页数据加载失败
+### 问题描述
+待办列表页报错：
+
+![](./assets/development-faq/daiban-getDataError-1.png)
+
+### 问题原因
+工作流服务地址配置错误，报错日志如下：
+
+![](./assets/development-faq/daiban-getDataError-2.png)
+
+### 解决办法
+
+- 检查工作流服务是否正常运行
+- 检查只能表单后端application.xml配置项sinoform.workflow-server-uri是否配置错误
