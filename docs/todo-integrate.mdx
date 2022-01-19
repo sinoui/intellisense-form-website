@@ -54,6 +54,12 @@ title: 待办详情页集成
 
 ![在应用首页打开详情页](./assets/todo-integrate/detail-in-app-home.png)
 
+### 页面关闭
+
+使用此种集成方式，如果想在流程处理完成后，直接关闭打开的新窗口，可以直接在打开窗口的 url 中添加`autoClose`参数，这样发送完成后，读秒关闭提示弹窗的同时会自动关闭此窗口。
+
+`http://<网关ip:port>/intellisense-form/form-app/:formId/home/todo-list?recordId=${表单数据id}&workItemId=${流程待办id}&autoClose=true#detail-page`
+
 ## 流程办理成功刷新待办列表
 
 当我们在详情页处理完数据之后（比如发送、撤回、退回等），通常需要刷新待办列表。我们是以 window.postMessage()方法向业务系统发送消息，业务系统监听到该消息后认为操作成功，继而进行后续处理（比如关闭弹窗、刷新列表等）。示例代码如下：

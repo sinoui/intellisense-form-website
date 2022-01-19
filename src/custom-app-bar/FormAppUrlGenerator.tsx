@@ -19,6 +19,7 @@ const omitEmptyKeys = (obj: Record<string, any>) => {
 const FormAppUrl = () => {
   const baseUrl = useFieldValue<string>("baseUrl");
   const appId = useFieldValue<string>("appId");
+  const title = useFieldValue<string>("title");
   const subtitle = useFieldValue<string>("subtitle");
   const appBarBgColor = useFieldValue<string>("appBarBgColor");
   const appBarBgUrl = useFieldValue<string>("appBarBgUrl");
@@ -28,6 +29,7 @@ const FormAppUrl = () => {
   const titleYPos = useFieldValue<string>("titleYPos");
 
   const params = {
+    title,
     subtitle,
     appBarBgColor,
     appBarBgUrl,
