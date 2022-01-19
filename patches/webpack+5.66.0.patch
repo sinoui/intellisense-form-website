@@ -1,0 +1,13 @@
+diff --git a/node_modules/webpack/lib/web/FetchCompileAsyncWasmPlugin.js b/node_modules/webpack/lib/web/FetchCompileAsyncWasmPlugin.js
+index 00ca8dd..863c9a1 100644
+--- a/node_modules/webpack/lib/web/FetchCompileAsyncWasmPlugin.js
++++ b/node_modules/webpack/lib/web/FetchCompileAsyncWasmPlugin.js
+@@ -50,7 +50,7 @@ class FetchCompileAsyncWasmPlugin {
+ 							chunk,
+ 							new AsyncWasmLoadingRuntimeModule({
+ 								generateLoadBinaryCode,
+-								supportsStreaming: true
++								supportsStreaming: false
+ 							})
+ 						);
+ 					});

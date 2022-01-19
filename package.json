@@ -11,7 +11,7 @@
     "test": "jest",
     "auto-release-gitee-page": "ts-node --project scripts/tsconfig.json ./scripts/index.ts auto-release-gitee-page",
     "release": "yarn deploy && yarn auto-release-gitee-page",
-    "postinstall": "yarn yarn-deduplicate"
+    "postinstall": "patch-package && yarn yarn-deduplicate"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-beta.14",
@@ -60,6 +60,8 @@
     "cross-env": "^7.0.3",
     "inquirer": "^8.2.0",
     "jest": "^27.1.0",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "puppeteer-core": "^13.0.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4",
@@ -78,6 +80,7 @@
     ]
   },
   "resolutions": {
-    "rxjs": "^7.3.0"
+    "rxjs": "^7.3.0",
+    "webpack": "5.66.0"
   }
 }
