@@ -82,8 +82,8 @@ export default async function autoReleaseGiteePage(
     console.log("已发布 gitee page");
 
     try {
-      page.close();
-      browserObj.close();
+      await page.close();
+      await browserObj.close();
     } catch {
       console.error("关闭浏览器失败，请自行关闭浏览器");
     }
