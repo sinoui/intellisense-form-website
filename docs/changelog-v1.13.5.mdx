@@ -1,0 +1,44 @@
+---
+id: changelog-v1.13.5
+title: v1.13.5
+---
+
+import BundleList from "../src/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2022.1.20
+
+<BundleList version="1.13.5" frontend="1.13.5" backend="1.13.5" font="1.13.0" />
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.13.5。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 升级内容
+
+- fix(workflow): 修复无部门全路径名称时，表单负责人获取到的人员信息无部门名称的缺陷
+- fix(fields): 修复用户选择组件产生的默认值中没有部门 id 和部门名称的缺陷
+- fix(workflow): 修复因待办数据中无 deptName，导致详情页打开失败的缺陷
+
+### 启用表单字段负责人导致流程中的待办打开详情页失败
+
+触发这种现象的条件如下：
+
+必备条件：
+
+- 必须启用表单字段负责人
+
+二选一条件：
+
+- 条件一：表单字段负责人选择拟稿人（v1.13.0 版本之后无此问题）
+- 条件二：表单字段负责人选择了用户选择表单项，且此用户选择字段设置了默认值（拟稿人或者自定义均可）
+
+v1.12.13 版本从下面两个方面处理问题：
+
+- 确保启用表单字段负责人，待办数据中有 deptName 值（deptName 值为空会导致后端解析异常）
+- 确保就算 deptName 值为空，也能正常打开详情页
