@@ -3,6 +3,8 @@ id: config-resource-publish
 title: 资源发布配置
 ---
 
+import JSONViewer from "../src/components/json-viewer";
+
 智能表单本身不维护页面资源和资源的访问权限，而是依托于 sino-matrix 平台或者其他平台来实现的资源发布。
 
 :::info 提示
@@ -208,3 +210,173 @@ configs:
 如果您发现表单资源的权限不正确，可以从上面的页面中查看一下授权是否正确。
 
 :::
+
+## 资源发布接口定制
+
+智能表单默认与 sinomatrix 统一授权服务集成，完成资源与授权管理。如果要接入第三方资源管理服务，请逐个实现以下接口。
+
+### 新增资源
+
+新增资源的接口如下：
+
+```http
+POST http://<统一授权服务地址>/uias/resource/saveResource
+```
+
+新增的资源数据以 `application/json` 格式的请求体提交。请求体数据格式如下：
+
+```json
+{
+  "author": "1",
+  "name": "未命名应用",
+  "subId": "67250",
+  "order": "after",
+  "superId": "0",
+  "resourceId": "4028d00e7d6f8e31017e67ea681a064b"
+}
+```
+
+对象中的属性说明如下表所示：
+
+| 属性名     | 说明                      |
+| ---------- | ------------------------- |
+| author     | 创建资源的用户 id         |
+| name       | 新增资源名称              |
+| subId      | 业务系统 id               |
+| order      | 新增资源所处的位置。      |
+| superId    | 父级资源的 id。           |
+| resourceId | 新增资源位置的锚点资源 id |
+
+其中 `order` 有三个值，分别是：`after`、`before` 和 `child`，`child` 是默认值。`order` 为 `after` 时，表示新增资源的位置是在锚点资源（由 `resourceId` 指定）之后。`order` 为 `before` 时，表示新增资源的位置是在锚点资源之前。`order` 为 `child` 时，表示新增资源的位置是在父级资源（由 `superId` 指定）之下。
+
+响应数据格式如下：
+
+```json title="新增资源的成功响应" {3}
+{
+  "status": "1",
+  "resourceId": "4028d00e7d6f8e31017e67ea681a064b",
+  "msg": "接口响应成功"
+}
+```
+
+其中 `resourceId` 属性为新增资源的 id。
+
+```json title="新增资源的失败响应"
+{
+  "status": "0",
+  "msg": "新增资源失败"
+}
+```
+
+第三方资源服务接口配置项：
+
+```yaml
+urls:
+  get-save-resource-url: /custom-save-resource
+```
+
+### 获取业务系统的所有资源
+
+接口如下：
+
+```http
+GET http://<统一授权服务地址>/resource/getAllById?subId=67250
+```
+
+其中请求参数 `subId` 为业务系统 id。
+
+响应数据如下：
+
+<JSONViewer
+  title="获取业务系统的所有资源的成功响应"
+  src={{
+    status: "1",
+    resourceInfo: [
+      {
+        resourceId: "4028d00e7d6f8e31017e6583d3d705b8",
+        resourcePid: "0",
+        resourceName: "公文",
+      },
+      {
+        resourceId: "8028d00e7d6f8e31017e6583d3d705b1",
+        resourcePid: "4028d00e7d6f8e31017e6583d3d705b8",
+        resourceName: "发文",
+      },
+      {
+        resourceId: "1028d00e7d6f8e31017e6583d3d705b1",
+        resourcePid: "4028d00e7d6f8e31017e6583d3d705b8",
+        resourceName: "收文",
+      },
+      {
+        resourceId: "5028d50e7d6f8e31017e6583d3d705b5",
+        resourcePid: "0",
+        resourceName: "会议",
+      },
+    ],
+  }}
+/>
+
+资源对象属性如下：
+
+| 属性名称     | 说明      |
+| ------------ | --------- |
+| resourceId   | 资源 id   |
+| resourcePid  | 父资源 id |
+| resourceName | 资源名称  |
+
+<JSONViewer
+  title="获取业务系统的所有资源的成功响应"
+  src={{
+    status: "0",
+    msg: "获取资源失败",
+  }}
+/>
+
+第三方资源服务接口配置项：
+
+```yaml
+urls:
+  get-send-resource-url: /custom-get-subsystem-resources
+```
+
+### 更新资源
+
+接口如下：
+
+```http
+POST http://<统一授权服务地址>/uias/resource/updateResource
+```
+
+更新的资源数据以 `application/json` 格式的请求体提交。请求体数据格式如下：
+
+```json
+{
+  "resourceId": "4028d00e7d6f8e31017e67ea681a064b",
+  "resourceName": "新的资源名称",
+  "subId": "67250"
+}
+```
+
+响应数据如下：
+
+```json title="更新资源的成功响应"
+{
+  "resourceId": "4028d00e7d6f8e31017e67ea681a064b",
+  "status": "1",
+  "msg": "接口响应成功"
+}
+```
+
+```json title="更新资源的失败响应"
+{
+  "status": "0",
+  "msg": "接口响应失败"
+}
+```
+
+第三方资源服务接口配置项：
+
+```yaml
+urls:
+  update-resource-url: /custom-update-resource
+```
