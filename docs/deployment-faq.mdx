@@ -129,10 +129,12 @@ The server encountered an unexpected condition that prevented it from fulfilling
 	com.sinosoft.authorization.module.system.itsubs.service.SysSubRdInfoServiceImpl.getShareRoleSubBySubId(SysSubRdInfoServiceImpl.java:272)
 ```
 
-这样的日志一般是因为我们将 `平台产品集成示例` 子系统清除导致的。我们可以创建一个新的子系统，然后在智能表单中重新配置一下子系统即可，配置请见：[configs.systemId 配置项](config-resource-publish.md#configssystemid-配置项)。
+这样的日志一般是因为我们将 `平台产品集成示例` 子系统清除导致的。我们可以创建一个新的子系统，然后在智能表单中重新配置一下子系统即可，配置请见：[configs.systemId 配置项](config-resource-publish.mdx#configssystemid-配置项)。
 
 ## 6. 待办列表查询不到数据
+
 ### 问题描述
+
 待办列表中无数据：
 
 ![](./assets/development-faq/daiban-nodata-1.png)
@@ -143,25 +145,27 @@ The server encountered an unexpected condition that prevented it from fulfilling
 
 ### 问题原因
 
-由于项目组使用的是mysql数据库，但工作流设计器中系统参数默认配置的数据库是oracle。
+由于项目组使用的是 mysql 数据库，但工作流设计器中系统参数默认配置的数据库是 oracle。
 
 ### 解决办法
 
-将数据库修改为mysql即可解决上述问题，修改步骤如下：
+将数据库修改为 mysql 即可解决上述问题，修改步骤如下：
 
 ![](./assets/development-faq/daiban-nodata-3.png)
 ![](./assets/development-faq/daiban-nodata-4.png)
 ![](./assets/development-faq/daiban-nodata-5.png)
 ![](./assets/development-faq/daiban-nodata-6.png)
 
-
 ## 7. 待办/已办 列表页数据加载失败
+
 ### 问题描述
+
 待办列表页报错：
 
 ![](./assets/development-faq/daiban-getDataError-1.png)
 
 ### 问题原因
+
 工作流服务地址配置错误，报错日志如下：
 
 ![](./assets/development-faq/daiban-getDataError-2.png)
@@ -169,4 +173,4 @@ The server encountered an unexpected condition that prevented it from fulfilling
 ### 解决办法
 
 - 检查工作流服务是否正常运行
-- 检查只能表单后端application.xml配置项sinoform.workflow-server-uri是否配置错误
+- 检查只能表单后端 application.xml 配置项 sinoform.workflow-server-uri 是否配置错误
