@@ -4,6 +4,8 @@ title: 用户信息
 ---
 
 import Api from "../src/api-doc";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 本文介绍如何定制智能表单获取登录用户信息。要点如下：
 
@@ -286,3 +288,162 @@ GET http://<智能表单访问地址>/apis/intellisense-form/userInfo
 | deptInfo     | 用户所属部门所有祖先部门 id（包含自身所属部门），即部门路径，从小到大排序，如 `处室一`、`分公司`、`集团`  | [get-all-super-dept-by-id](#1-5-获取指定部门的所有上级部门接口) 中的 `deptid`                                                            |
 | deptInfoName | 用户所属部门所有祖先部门名称（包含自身所属部门），即部门路径，从小到大排序，如 `处室一`、`分公司`、`集团` | [get-all-super-dept-by-id](#1-5-获取指定部门的所有上级部门接口) 中的 `deptname`                                                          |
 | allDeptIds   | 用户所有在职部门 id                                                                                       | [get-all-dept-by-user-id](#1-3-获取用户所属部门信息接口) 中的 `deptid`                                                                   |
+
+## 4. 由业务系统控制当前会话用户
+
+业务系统可以通过可编程网关（如 spring cloud gateway）来告知智能表单当前会话用户（即登录用户）是谁，以及属于哪个部门（解决一人多岗的问题）。
+
+通过网关实现登录或者与第三方 SSO 集成后，获取到当前用户的 userId 和 deptId，然后通过 `sinoform-current-user-id` 和 `sinoform-current-dept-id` 请求头告知智能表单即可。
+
+可以通过过滤器来实现，例如：
+
+<Tabs>
+  <TabItem value="zuul" label="spring cloud zuul">
+
+```java
+package com.sinosoft.sinoformgateway.filters;
+
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_DECORATION_FILTER_ORDER;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
+
+import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+/**
+ * 将会话用户信息同步到智能表单的过滤器
+ */
+@Component
+@Slf4j
+public class AuthFilter extends ZuulFilter {
+  private static final String USER_ID_HEAD_NAME = "sinoform-current-user-id";
+  private static final String DEPT_ID_HEAD_NAME = "sinoform-current-dept-id";
+
+  @Override
+  public String filterType() {
+    return PRE_TYPE;
+  }
+
+  @Override
+  public int filterOrder() {
+    return PRE_DECORATION_FILTER_ORDER - 1; //在 PreDecoration 阶段之前执行
+  }
+
+  @Override
+  public boolean shouldFilter() {
+    return true; // 每个请求都执行此过滤器（项目组可以根据实际情况，添加一些过滤逻辑）
+  }
+
+  @Override
+  public Object run() {
+    // 将登录用户的userId和deptId通过请求头的方式同步到智能表单
+    RequestContext ctx = RequestContext.getCurrentContext();
+    HttpSession httpSession = ctx.getRequest().getSession();
+
+    getUserInfoFromSession(httpSession).ifPresent(userInfo -> {
+      ctx.addZuulRequestHeader(USER_ID_HEAD_NAME, userInfo.getUserId());
+      ctx.addZuulRequestHeader(DEPT_ID_HEAD_NAME, userInfo.getDeptId());
+    });
+
+    return null;
+  }
+
+  private Optional<UserInfo> getUserInfoFromSession(HttpSession session) {
+    Object userInfo = session.getAttribute("user");
+
+    if (userInfo != null) {
+      return Optional.of((UserInfo)userInfo);
+    }
+
+    return Optional.empty();
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="gateway" label="spring cloud gateway">
+
+```java
+package com.sinosoft.sinoformgatawaydemo.filters;
+
+import com.sinosoft.sinoformgatawaydemo.model.UserInfo;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebSession;
+import reactor.core.publisher.Mono;
+
+/**
+ * 同步会话用户信息的过滤器
+ */
+@Component
+@Slf4j
+public class AuthFilter implements GlobalFilter, Ordered {
+  private static final String USER_ID_HEAD_NAME = "sinoform-current-user-id";
+  private static final String DEPT_ID_HEAD_NAME = "sinoform-current-dept-id";
+
+  @Override
+  public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+    return exchange.getSession()
+        .map(this::getUserInfoFromSession)
+        .map(userInfoOptional ->
+            userInfoOptional
+                .map(userInfo -> addUserInfoHeaders(exchange, userInfo))
+                .orElse(exchange)
+        )
+        .flatMap(chain::filter);
+  }
+
+  /**
+   * 将用户信息添加到请求头中
+   * @param exchange 交换对象
+   * @param userInfo 用户信息
+   * @return 返回包含用户信息请求头的新的交换对象
+   */
+  public ServerWebExchange addUserInfoHeaders(ServerWebExchange exchange, UserInfo userInfo) {
+    ServerHttpRequest.Builder newRequestBuilder = exchange.getRequest().mutate();
+    ServerWebExchange.Builder newExchangeBuilder = exchange.mutate();
+
+    ServerHttpRequest newRequest = newRequestBuilder
+        .header(USER_ID_HEAD_NAME, userInfo.getUserId())
+        .header(DEPT_ID_HEAD_NAME, userInfo.getDeptId())
+        .build();
+
+    return newExchangeBuilder.request(newRequest).build();
+  }
+
+  /**
+   * 从 session 中获取用户信息
+   * @param webSession 会话对象
+   * @return 返回获取到的用户信息。如果没有用户信息，则返回空的Optional对象。
+   */
+  public Optional<UserInfo> getUserInfoFromSession(WebSession webSession) {
+    Object userInfo = webSession.getAttribute("user");
+    if (userInfo != null) {
+      return Optional.of((UserInfo)userInfo);
+    }
+    return Optional.empty();
+  }
+
+  @Override
+  public int getOrder() {
+    return 0;
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+之前推荐项目组直接在网关中拦截并实现 `/apis/intellisense-form/common/userInfo` 接口。如果采用过滤器方案，则不需要这么做，可以将网关中的此接口删除掉。
+
+注意：本示例是从 session 中获取当前用户信息的。项目组可以根据自身的情况，可以从不同的地方获取，例如第三方 SSO。
