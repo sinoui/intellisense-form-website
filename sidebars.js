@@ -11,6 +11,7 @@ module.exports = {
         "deployment-mongodb",
         "deployment-nodejs",
         "deployment-chrome",
+        "deployment-tomcat",
       ],
       应用程序配置: [
         "config-custom",
