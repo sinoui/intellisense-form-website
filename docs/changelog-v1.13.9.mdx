@@ -21,5 +21,7 @@ import BundleList from "../src/components/bundle-list";
 
 ## 4. 主要变更
 
-- fix: 修复导出excel时，多个附件没有换行展示
-- fix: 修复子表数据为空时，整条数据不展示的bug
+- fix: 修复导出 excel 时，多个附件没有换行展示
+- fix: 修复子表数据为空时，整条数据不展示的 bug
+- improve: 支持以单表单首页的方式显示应用中的表单（在单表单首页链接中添加 `forceUseFormPage` 请求参数即可，如 http://localhost:8080/intellisense-form/form-app/form-123/home/todo-list?forceUseFormPage；特别注意的如果希望推送的待办页打开的单表单首页，此待办列表页需要添加上 `forceUseFormPage` 参数）
+- fix: 修复子表单子项的 label 因为标题过长显示不全的 bug
