@@ -1,0 +1,29 @@
+---
+id: changelog-v1.13.8
+title: v1.13.8
+---
+
+import BundleList from "../src/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2022.2.10
+
+<BundleList version="1.13.8" frontend="1.13.8" backend="1.13.8" font="1.13.0" />
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.13.8。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- fix: 调整子表单滚动条的显示时机，使其只要超出页面显示区域就一直显示滚动条
+- feat: 查询列表和无流程列表支持展示子表单表单项，且【导出 excel】可以导出子表单数据
+- fix: 修复打印输出时输出意见不正确的 bug(不应该输出退回意见)
+- improve: 打印按钮名称改为“导出/打印”
+- improve: 一套主题详情页返回按钮添加“返回”文字
+- feat: 流程表单查询列表和非流程表单列表添加数据复用功能，规则为：当前登录人只能复用自己创建的数据
