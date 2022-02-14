@@ -68,6 +68,7 @@ module.exports = {
             "sinoform-sdk-event-starter",
             "sinoform-sdk-event-rudiments",
             "sinoform-sdk-event-data",
+            "sinoform-sdk-use-case",
           ],
         },
         "extend-interface",

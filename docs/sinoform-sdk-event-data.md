@@ -299,6 +299,8 @@ title: 数据结构
 
 ## FlowSendEvent - workFlowParam - workFlowResult
 
+workFlowParam 参数与发送流程参数相同，[发送流程参数](./config-workflow#发送流程)中有详细的参数介绍。
+
 ~~~json
 attr:业务属性
 attr1:业务属性
