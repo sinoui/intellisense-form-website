@@ -1,0 +1,88 @@
+---
+id: detail-page
+title: 详情页集成
+---
+
+本文档介绍移动端应用通过 webview 展示详情页的一些集成点。
+
+## 1. 详情页链接
+
+新建页面的链接：/intellisense-form-mobile/form/**:formId**/create
+
+待办、已办详情页的链接：/intellisense-form-mobile/form/**:formId**/detail?id=**表单数据 idid**&workItemId=**待办、已办事项 id**
+
+参数说明：
+
+| 参数名     | 描述                |
+| ---------- | ------------------- |
+| formId     | 表单配置 id         |
+| id         | 表单数据的 id       |
+| workItemId | 待办、已办事项的 id |
+
+## 2. 隐藏详情页 AppBar
+
+详情页默认会显示 AppBar。如果应用本身已经有 AppBar，那么就会出现双 AppBar 的问题。这种情况下，可以通过下面的方式隐藏掉详情页的 AppBar：
+
+在页面链接中添加 `hideAppBar` 请求参数即可，如下所示：
+
+- http://121.30.232.162:18880/intellisense-form-mobile/form/5f0c300ac9327f2f7b81c52c/detail?id=5f48b04fec2ee7cb94176e21&workItemId=1d917c69eeb84279b61bbbdbd1537c06&hideAppBar
+- http://121.30.232.162:18880/intellisense-form-mobile/form/5f0c300ac9327f2f7b81c52c/create?hideAppBar
+
+## 3. 设置 document title
+
+如果您的应用需要使用定制的详情页 title，可以通过 `title` 请求参数指定。
+
+## 4. 发送成功的回退
+
+因为详情页是通过 webview 嵌入的，所以点击详情页发送按钮，发送成功后的回退，需要与应用原生部分进行一次交互，告知需要关闭 webview。
+
+方案：webview 中嵌入 js 脚本，监听 window 自定义事件 **sinoform.CLOSE_WORKFLOW_SEND_SUCCESS_DIALOG_EVENT**，在监听器中调用原生方法，完成关闭 webview 的事情。
+
+以 Android WebView 为例说明：
+
+```javascript title="js 脚本"
+const EVENT_NAME = "sinoform.CLOSE_WORKFLOW_SEND_SUCCESS_DIALOG_EVENT";
+let isClosed = false;
+window.addEventListener(
+  EVENT_NAME,
+  () => {
+    if (!isClosed) {
+      // 防止重复发送的事件（例如多次点击关闭按钮）
+      isClosed = true;
+      // 调用 webview 注入的 js 方法，关闭 webview
+      window.app.closeWebView();
+    }
+  },
+  false
+);
+```
+
+```java title="android 原生应用部分"
+public class MyAppWebViewClient extends WebViewClient {
+
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        view.loadUrl(url);
+        return true;
+    }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        view.addJavascriptInterface(this, "app");
+        view.evaluateJavascript("将 js 脚本的内容放在这个地方");
+        super.onPageFinished(view, url);
+    }
+
+    @JavascriptInterface
+    public void closeWebView() {
+        //调用关闭 webView 的方法
+    }
+}
+```
+
+注意，需要启用 `WebView` 的 JavaScript，如下所示：
+
+```java
+// Enable Javascript
+webView.getSettings().setJavaScriptEnabled(true);
+```
