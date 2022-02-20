@@ -1,0 +1,261 @@
+---
+id: changelog-v1.13.11
+title: v1.13.11
+---
+
+import BundleList from "../src/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2022.2.20
+
+<BundleList
+  version="1.13.11"
+  frontend="1.13.11"
+  backend="1.13.9"
+  font="1.13.0"
+/>
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.13.11。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- improve(mobile): 新增退出应用回调函数扩展参数 `exitAppCallback`，以支持 WebView 嵌入表单页时退出应用的行为定制
+- improve(mobile): 在退出应用时通过 `window.postMessage` 发送 `sinoform.EXIT_APP` 消息，以改善 WebView 嵌入表单页时定制退出应用
+- improve(mobile): 新增 `openFileCallback` 扩展参数，以支持定制 WebView 中预览、下载文件的行为
+- improve(mobile): 新增 `extendScript` 扩展参数，添加扩展的脚本链接
+- fix(form-fields): 修复部分复杂数据结构的表单字段必填校验失效的缺陷，包括单选按钮组、复选框组、部门选择、人员选择
+- fix(flow-chart): 修复移动端切换页签时流程图提示框不消失的缺陷
+- fix(flow-chart): 修复小尺寸流程图居中显示错误
+
+### 在页面上添加扩展脚本
+
+智能表单支持在页面上添加扩展脚本。有两种方式：请求参数和修改 index.html 文件。
+
+#### 方式一：请求参数方式
+
+可以通过请求参数 extendScript 添加扩展脚本。例如加载微信 jssdk 和 uni-app jssdk 以及自己写的扩展脚本：
+
+- https://res.wx.qq.com/open/js/jweixin-1.3.2.js
+- https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js
+- /custom-js-extend
+
+我们可以通过类似下面的代码来生成打开表单详情页的链接：
+
+```javascript
+const extendScripts = [
+  "https://res.wx.qq.com/open/js/jweixin-1.3.2.js",
+  "https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js",
+  "/custom-js-extend",
+];
+const baseDetailPageUrl =
+  "http://localhost:8082/intellisense-form-mobile/form/617103b0c9327f69ff45912b/detail?id=6171041bec2e2b2da2fefb95&workItemId=fe325768e2cd418e90b16eb5a36804e8";
+const detailPageUrl = `${baseDetailPageUrl}&${extendScripts.map(
+  (url) => `extendScript=${url}`
+)}`;
+```
+
+建议采用类似 [qs](https://www.npmjs.com/package/qs) 这样的库来创建详情页链接，例如：
+
+```javascript
+const extendScripts = [
+  "https://res.wx.qq.com/open/js/jweixin-1.3.2.js",
+  "https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js",
+  "/custom-js-extend",
+];
+const id = "6171041bec2e2b2da2fefb95";
+const workItemId = "fe325768e2cd418e90b16eb5a36804e8";
+const formId = "617103b0c9327f69ff45912b";
+const params = {
+  extendScript: extendScripts,
+  id,
+  workItemId,
+};
+const detailPageUrl = `http://localhost:8082/intellisense-form-mobile/form/${formId}/detail?${qs.stringify(
+  params
+)}`;
+```
+
+> 建议只指定一个扩展脚本链接，可以在扩展脚本加载其他的扩展脚本，例如下面的扩展脚本：
+>
+> ```javascript
+> function loadScript(url) {
+>   const scriptElement = document.createElement("script");
+>   scriptElement.type = "text/javascript";
+>   scriptElement.src = url;
+>   document.body.appendChild(scriptElement);
+> }
+>
+> loadScript("https://res.wx.qq.com/open/js/jweixin-1.3.2.js");
+> loadScript(
+>   "https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"
+> );
+> ```
+
+#### 方式二：修改 index.html 文件的方式
+
+在智能表单前端包的根目录下包含了 `index.html` 文件，可以收到调整，添加 `<script/>` 标签。或者可以在网关级别上（如 spring cloud gateway、spring cloud zuul、nginx）动态添加 `<script/>` 标签。
+
+### 指定扩展参数
+
+智能表单有很多扩展参数，app 可以通过该这些扩展参数来控制页面中一些行为。目前支持两种方式来指定扩展参数，即请求参数和扩展脚本。
+
+#### 请求参数
+
+在 WebView 中打开的页面链接上添加请求参数的方式，可以指定扩展参数。以 `exitAppCallback` 扩展参数说明：
+
+```javascript
+const exitAppCallback = "wx.miniProgram.navigateBack()";
+const detailPageUrl = `http://localhost:8082/intellisense-form-mobile/form/617103b0c9327f69ff45912b/detail?id=6171041bec2e2b2da2fefb95&workItemId=fe325768e2cd418e90b16eb5a36804e8&exitAppCallback=${encodeURIComponent(
+  exitAppCallback
+)}`;
+```
+
+#### 扩展脚本
+
+为了不让页面链接太长，可以使用扩展脚本的方式来实现
+
+智能表单支持通过在链接中添加**请求参数**来指定扩展参数，如 `exitAppCallback` 和 `openFileCallback` 请求参数。现在也支持在扩展脚本中直接指定扩展参数，如下所示：
+
+```javascript
+// 指定退出应用的回调代码
+localStorage.setItem("exitAppCallback", "wx.miniProgram.navigateBack()");
+// 指定打开文件的回调代码
+localStorage.setItem("openFileCallback", "openFile");
+
+// 打开文件的方法
+function openFile(file) {
+  // 见下文的介绍
+}
+```
+
+### WebView 中嵌入表单页的退出
+
+WebView 中嵌入表单页，在某些操作之后（例如发送成功后）需要从表单页退回到原生页面时，可以采用以下两种方式（需要应用中的 WebView 支持哪种方式）：
+
+#### 方式一：使用回调函数的方式
+
+> 本方式适合可以自定义 JavaScript 方法或者已经提供了退回 JavaScript 方法的 WebView。包括：
+>
+> 自定义退回 JavaScript 方法：
+>
+> - Android WebView
+> - ios WKWebView
+> - Flutter
+>
+> 已经提供退回 JavaScript 方法：
+>
+> - 微信小程序（包括通过 uni-app 开发的微信小程序）
+
+通过 `exitAppCallback` 扩展参数来指定退出应用的回调代码，例如：
+
+```javascript
+const exitAppCallback = "wx.miniProgram.navigateBack()";
+// 或者
+// const exitAppCallback = 'uni.navigateBack()';
+```
+
+以微信小程序并采用请求参数的方式为例：
+
+```javascript
+// 模板
+<web-view src="{{url}}" />;
+
+// 设置页面url和退回回调代码
+const pageUrl =
+  "http://localhost:8082/intellisense-form-mobile/form/617103b0c9327f69ff45912b/detail?id=6171041bec2e2b2da2fefb95&workItemId=fe325768e2cd418e90b16eb5a36804e8";
+const exitAppCallback = "wx.miniProgram.navigateBack()";
+// 或者
+// const exitAppCallback = 'uni.navigateBack()';
+this.setData({
+  // 注意：需要编码 exitAppCallback
+  url: `${pageUrl}&exitAppCallback=${encodeURIComponent(exitAppCallback)}`,
+});
+```
+
+### 方式二：使用 postMessage/onMessage 方式
+
+> 本方式仅适合支持 postMessage/onMessage 方式进行通信的 webview。例如：react-native-webview，uni native webview（注意 uni-app 的小程序端别采用这种方案）等。
+
+```javascript
+const pageUrl =
+  "http://localhost:8082/intellisense-form-mobile/form/617103b0c9327f69ff45912b/detail?id=6171041bec2e2b2da2fefb95&workItemId=fe325768e2cd418e90b16eb5a36804e8";
+<ReactNativeWebView
+  src={{ pageUrl }}
+  onMessage={(event) => {
+    console.log(event.nativeEvent.data); // 输出 sinoform.EXIT_APP
+  }}
+/>;
+```
+
+### WebView 中定制预览、下载文件
+
+如果希望控制附件上传中的文件、图片预览和下载行为，可以通过扩展参数 `openFileCallback` 来指定一个回调函数。例如在微信中查看图片：
+
+#### 请求参数方式示例
+
+```javascript
+// 模板
+<web-view src="{{url}}" />;
+
+// 设置页面url和退回回调代码
+const pageUrl =
+  "http://localhost:8082/intellisense-form-mobile/form/617103b0c9327f69ff45912b/detail?id=6171041bec2e2b2da2fefb95&workItemId=fe325768e2cd418e90b16eb5a36804e8";
+const openFileCallback = `(file) => {
+  const isImage = ['jpg', 'jpeg', 'png'].includes(file.suffix.toLowerCase());
+  if (isImage) {
+    wx.previewImage({
+      current: file.url,
+      urls: [file.url]
+    });
+    // 返回 true 表示阻止内置的打开文件的行为
+    return true;
+  }
+  return false;
+}`;
+this.setData({
+  // 注意：需要编码 openFileCallback
+  url: `${pageUrl}&exitAppCallback=${encodeURIComponent(openFileCallback)}`,
+});
+```
+
+openFile 回调函数接受 file 对象，file 对象的示例如下：
+
+```json
+{
+  "id": "6210ff4cc9327f686b300c8c",
+  "title": "平台组线上支持制度.pdf",
+  "fileLength": 96106,
+  "suffix": "pdf",
+  "status": "success",
+  "url": "/apis/intellisense-form/files/6210ff4cc9327f686b300c8c"
+}
+```
+
+#### 扩展脚本方式示例
+
+```javascript
+function openFile(file) {
+  const isImage = ["jpg", "jpeg", "png"].includes(file.suffix.toLowerCase());
+  if (isImage) {
+    wx.previewImage({
+      current: file.url,
+      urls: [file.url],
+    });
+
+    // 返回 true 表示阻止内置的打开文件的行为
+    return true;
+  }
+
+  return false;
+}
+
+// 设定打开文件扩展参数
+localStorage.setItem("openFileCallback", "openFile");
+```
