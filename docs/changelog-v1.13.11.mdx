@@ -54,11 +54,12 @@ const extendScripts = [
   "https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js",
   "/custom-js-extend",
 ];
+const extendScriptParam = extendScripts
+  .map((url) => `extendScript=${encodeURIComponent(url)}`)
+  .join("&");
 const baseDetailPageUrl =
   "http://localhost:8082/intellisense-form-mobile/form/617103b0c9327f69ff45912b/detail?id=6171041bec2e2b2da2fefb95&workItemId=fe325768e2cd418e90b16eb5a36804e8";
-const detailPageUrl = `${baseDetailPageUrl}&${extendScripts.map(
-  (url) => `extendScript=${url}`
-)}`;
+const detailPageUrl = `${baseDetailPageUrl}&${extendScriptParam}`;
 ```
 
 建议采用类似 [qs](https://www.npmjs.com/package/qs) 这样的库来创建详情页链接，例如：
