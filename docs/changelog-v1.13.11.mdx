@@ -26,10 +26,10 @@ import BundleList from "../src/components/bundle-list";
 
 ## 4. 主要变更
 
-- improve(mobile): 新增退出应用回调函数扩展参数 `exitAppCallback`，以支持 WebView 嵌入表单页时退出应用的行为定制
+- improve(mobile): 新增退出应用回调函数[扩展参数](#指定扩展参数) `exitAppCallback`，以支持 WebView 嵌入表单页时退出应用的行为定制
 - improve(mobile): 在退出应用时通过 `window.postMessage` 发送 `sinoform.EXIT_APP` 消息，以改善 WebView 嵌入表单页时定制退出应用
-- improve(mobile): 新增 `openFileCallback` 扩展参数，以支持定制 WebView 中预览、下载文件的行为
-- improve(mobile): 新增 `extendScript` 扩展参数，添加扩展的脚本链接
+- improve(mobile): 新增 `openFileCallback` [扩展参数](#指定扩展参数)，以支持定制 WebView 中预览、下载文件的行为
+- improve(mobile): 新增 `extendScript` [扩展参数](#指定扩展参数)，添加扩展的脚本链接
 - fix(form-fields): 修复部分复杂数据结构的表单字段必填校验失效的缺陷，包括单选按钮组、复选框组、部门选择、人员选择
 - fix(flow-chart): 修复移动端切换页签时流程图提示框不消失的缺陷
 - fix(flow-chart): 修复小尺寸流程图居中显示错误
