@@ -26,6 +26,7 @@ module.exports = {
         "config-move-form-to-application",
         "config-user-info",
         "nginx-location",
+        "config-license",
       ],
       插件开发: [
         "plugin-index",
