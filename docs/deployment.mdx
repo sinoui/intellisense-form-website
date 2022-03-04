@@ -175,6 +175,9 @@ http {
   server {
     listen 80;
 
+    # 解决文件上传大小限制
+    client_max_body_size 0;
+
     # 指定智能表单静态资源的根路径
     root /apps/sino-intellisense-form/frontend;
 
@@ -241,7 +244,7 @@ http {
   </TabItem>
   <TabItem value="2">
 
-```nginx title="nginx.conf" {45-47,55,69-81,84-86,89-93,96-100,103-107,110-112}
+```nginx title="nginx.conf" {45-47,58,72-84,87-89,92-96,99-103,106-110,113-115}
 # nginx 启动时使用的用户
 user root;
 # 工作进程数，在生产环境中建议配置为 4
@@ -294,6 +297,9 @@ http {
     # 启用 80 端口
     listen 80;
     server_name localhost;
+
+    # 解决文件上传大小限制
+    client_max_body_size 0;
 
     # 指定智能表单静态资源的根路径
     root /apps/sino-intellisense-form/frontend;
