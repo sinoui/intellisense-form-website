@@ -99,9 +99,9 @@ public ResponseEntity<JSONObject> uploadFile(HttpServletRequest request) {
 
 ```java
 @GetMapping("/test/download/files/{fileId}")
-public ResponseEntity<Object> serveFile(@PathVariable("fileId") String fileId)
+public ResponseEntity<Object> downloadFile(@PathVariable("fileId") String fileId)
     // 获取文件信息（自定义FileInfo）
-    FileInfo fileInfo = getFileInputStream(fileId);
+    FileInfo fileInfo = getFileInfo(fileId);
     // 文件名
     String fileName = fileInfo.getFilename();
     // 文件流
