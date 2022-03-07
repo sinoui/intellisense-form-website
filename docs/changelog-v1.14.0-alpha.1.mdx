@@ -3,7 +3,7 @@ id: changelog-v1.14.0-alpha.1
 title: v1.14.0-alpha.1
 ---
 
-import BundleList from "../src/components/bundle-list";
+import BundleList from '../src/components/bundle-list';
 
 ## 1. 发布情况
 
@@ -27,6 +27,12 @@ import BundleList from "../src/components/bundle-list";
 ## 4. 主要变更
 
 - feat: 下拉框支持过滤选项
+
+  :::info
+  破坏性变更提醒：多选时开启选项过滤，下拉框中的值会以 tag 标签的方式展示
+  ![](./assets/option-filter-select.png)
+  :::
+
 - chore: 弹窗子表单无数据，显示列表表头
 - fix: 修复弹窗子表单配置面板列表项名称与表单项的标题不一致的 bug
 - fix: 修复无流程列表自定义列数据错误的 bug
