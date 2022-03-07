@@ -27,6 +27,7 @@ module.exports = {
         "config-user-info",
         "nginx-location",
         "config-license",
+        "config-file-store",
       ],
       插件开发: [
         "plugin-index",
