@@ -44,7 +44,7 @@ export default class CustomQueryButton extends SinoFormElement {
 组件样式：
 
 ```css title="src/plugins/list-page-button-query/style.css"
-.custom-save-button {
+.custom-button {
   color: #fff;
   background-color: #2196f3;
   font-size: 0.875rem;
@@ -143,7 +143,7 @@ export default class InRowButton extends SinoFormElement {
 组件样式：
 
 ```css title="src/plugins/list-page-button-in-row/style.css"
-.custom-save-button {
+.custom-button {
   color: #fff;
   background-color: #2196f3;
   font-size: 0.875rem;
