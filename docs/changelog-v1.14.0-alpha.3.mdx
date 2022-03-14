@@ -18,12 +18,7 @@ import BundleList from '../src/components/bundle-list';
 
 ## 2. 平滑升级
 
-可以从任何 v1.14.0-alpha.2 以前的版本平滑升级到 v1.14.0-alpha.3。
-
-若您已部署 v1.14.0-alpha.2 后端，请先在智能表单数据库中执行以下 sql 并提交后，再启动 v1.14.0-alpha.3 版本的智能表单后端：
-```sql
-DELETE FROM VERSION_TASK_LOG WHERE VERSION='1.14.0' AND DESCRIPTION LIKE '%FLOW%';
-```
+可以从任何版本平滑升级到 v1.14.0-alpha.3。
 
 ## 3. sinomatrix 依赖变更
 
