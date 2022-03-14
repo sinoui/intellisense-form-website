@@ -73,7 +73,7 @@ module.exports = {
         },
         "extend-interface",
       ],
-      常见问题: ["deployment-faq", "feature-faq"],
+      常见问题: ["deployment-faq", "feature-faq", "issue"],
       版本变更记录: [
         "changelog-v1.14.0-alpha.0",
         "changelog-v1.13.12",

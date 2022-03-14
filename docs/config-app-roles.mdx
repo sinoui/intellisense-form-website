@@ -1,0 +1,159 @@
+---
+id: config-app-roles
+title: 应用角色配置
+---
+
+import JSONViewer from "../src/components/json-viewer";
+
+表单应用可以开启应用角色功能。应用角色功能需要有角色管理和授权服务与之对接。默认与 sinomatrix 统一授权系统中的角色管理和授权服务集成。第三方系统集成应完成下列接口的定制。
+
+## 查询用户在指定岗位下的业务角色接口
+
+> 支持版本：1.13.7
+
+接口如下：
+
+```http
+POST http://<统一授权服务地址>/uias/resource/getFlowRoles?para=<JSON数据>
+```
+
+其中 `para` 请求参数是一个 JSON 对象字符串，形如：
+
+<JSONViewer
+  title="para 请求参数值示例"
+  src={{
+    userId: "4028d19468ef07680168ef3c8ac10001",
+    deptId: "18043",
+    subId: "67250",
+  }}
+/>
+
+JSON 对象中的属性说明如下：
+
+| 属性名 | 说明      |
+| ------ | --------- |
+| userId | 用户 id   |
+| deptId | 部门 id   |
+| subId  | 子系统 id |
+
+返回的响应如下：
+
+<JSONViewer
+  title="成功的响应"
+  src={{
+    status: "1",
+    rolesInfo: [
+      {
+        rolesId: "role1",
+        rolesName: "角色1",
+      },
+      {
+        rolesId: "role2",
+        rolesName: "角色2",
+      },
+    ],
+  }}
+/>
+
+<JSONViewer
+  title="失败的响应"
+  src={{
+    status: "-1",
+    msg: "获取角色失败",
+  }}
+/>
+
+第三方服务接口配置项：
+
+```yaml title="application.yml"
+urls:
+  get-flow-roles-by-user-id-and-dept-id-url: /custom-get-flow-roles-by-user-id-and-dept-id
+```
+
+## 授权业务角色接口
+
+> 支持版本： 1.13.7
+
+接口如下：
+
+```http
+GET http://<统一授权地址>/uias/resource/saveFroleUserList?uid=<用户id>&deptId=<部门id>&subId=<子系统id>&froleid=<业务角色id>&auther=<操作人id>
+```
+
+请求参数说明：
+
+| 请求参数名称 | 说明                          |
+| ------------ | ----------------------------- |
+| uid          | 用户 id。被授权人的用户编号。 |
+| deptId       | 部门 id。被授权人的部门编号。 |
+| subId        | 子系统 id。                   |
+| froleid      | 业务角色 id                   |
+| auther       | 操作授权的人员 id             |
+
+响应数据如下：
+
+<JSONViewer
+  title="成功的响应"
+  src={{
+    status: "1",
+  }}
+/>
+
+<JSONViewer
+  title="失败的响应"
+  src={{
+    status: "-1",
+    msg: "角色授权失败",
+  }}
+/>
+
+第三方服务接口配置项：
+
+```yaml title="application.yml"
+urls:
+  auth-user-role-url: /custom-auth-user-role-url
+```
+
+## 取消授权业务角色接口
+
+> 支持版本： 1.13.7
+
+接口如下：
+
+```http
+GET http://<统一授权服务地址>/uias/resource/deleteFTypeUser?uid=<用户id>&deptId=<部门id>&subId=<子系统id>&froleid=<业务角色id>&auther=<操作人id>
+```
+
+请求参数说明：
+
+| 请求参数名称 | 说明                          |
+| ------------ | ----------------------------- |
+| uid          | 用户 id。被授权人的用户编号。 |
+| deptId       | 部门 id。被授权人的部门编号。 |
+| subId        | 子系统 id。                   |
+| froleid      | 业务角色 id                   |
+| auther       | 操作授权的人员 id             |
+
+响应数据如下：
+
+<JSONViewer
+  title="成功的响应"
+  src={{
+    status: "1",
+  }}
+/>
+
+<JSONViewer
+  title="失败的响应"
+  src={{
+    status: "-1",
+    msg: "取消角色授权失败",
+  }}
+/>
+
+第三方服务接口配置项：
+
+```yaml title="application.yml"
+urls:
+  un-auth-user-role-url: /custom-un-auth-user-role-url
+```
