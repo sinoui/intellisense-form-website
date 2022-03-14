@@ -1,24 +1,24 @@
 ---
-id: changelog-v1.13.12
-title: v1.13.12
+id: changelog-v1.14.0-alpha.3
+title: v1.14.0-alpha.3
 ---
 
 import BundleList from '../src/components/bundle-list';
 
 ## 1. 发布情况
 
-发布日期：2022.2.21
+发布日期：2022.3.14
 
 <BundleList
-  version="1.13.12"
-  frontend="1.13.12"
-  backend="1.13.12"
+  version="1.14.0-alpha.3"
+  frontend="1.14.0-alpha.2"
+  backend="1.14.0-alpha.3"
   font="1.13.0"
 />
 
 ## 2. 平滑升级
 
-可以从任何版本平滑升级到 v1.13.12。
+可以从任何版本平滑升级到 v1.14.0-alpha.3。
 
 ## 3. sinomatrix 依赖变更
 
@@ -26,13 +26,5 @@ import BundleList from '../src/components/bundle-list';
 
 ## 4. 主要变更
 
-- fix: 修复设置的部门管理员能看到别人的草稿数据的问题
-- improve: 数据管理员默认可以递归查看所有子部门的表单数据
-- fix: 修复获取 workflowid 方法中部门匹配失败导致的无法起草的问题
-
-若需要设置数据管理员不递归查询所有子部门的表单数据，则在`application.yml`添加如下配置即可：
-
-```yml
-sinoform:
-  query-recursion-dept: false
-```
+- fix: 修改flow_read与flow_write表名为sinoform_flow_read与sinoform_flow_write
+- feat: 添加迁移仪表盘的功能

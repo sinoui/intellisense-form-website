@@ -6,11 +6,11 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "cross-env USE_SSH=true docusaurus deploy",
+    "deploy": " cross-env USE_SSH=true docusaurus deploy",
     "write-translations": "docusaurus write-translations",
     "test": "jest",
     "auto-release-gitee-page": "ts-node --project scripts/tsconfig.json ./scripts/index.ts auto-release-gitee-page",
-    "release": "yarn deploy && yarn auto-release-gitee-page",
+    "release": "yarn build && yarn deploy && yarn auto-release-gitee-page",
     "postinstall": "patch-package && yarn yarn-deduplicate"
   },
   "dependencies": {

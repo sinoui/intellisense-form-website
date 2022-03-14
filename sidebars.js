@@ -26,6 +26,8 @@ module.exports = {
         "config-move-form-to-application",
         "config-user-info",
         "nginx-location",
+        "config-license",
+        "config-file-store",
       ],
       插件开发: [
         "plugin-index",
@@ -42,6 +44,7 @@ module.exports = {
             "guide-form-style",
             "guide-i18n",
             "guide-validate",
+            "guide-list-page-config",
             "guide-summary",
           ],
           高级教程: [
@@ -75,6 +78,9 @@ module.exports = {
       ],
       常见问题: ["deployment-faq", "feature-faq", "issue"],
       版本变更记录: [
+        "changelog-v1.14.0-alpha.3",
+        "changelog-v1.14.0-alpha.2",
+        "changelog-v1.14.0-alpha.1",
         "changelog-v1.14.0-alpha.0",
         "changelog-v1.13.12",
         "changelog-v1.13.11",
@@ -111,6 +117,7 @@ module.exports = {
         "custom-print-template",
         "custom-form-app",
         "todo-integrate",
+        "custom-icon-for-app",
       ],
     },
     {
