@@ -78,6 +78,7 @@ module.exports = {
       ],
       常见问题: ["deployment-faq", "feature-faq"],
       版本变更记录: [
+        "changelog-v1.14.0-alpha.3",
         "changelog-v1.14.0-alpha.2",
         "changelog-v1.14.0-alpha.1",
         "changelog-v1.14.0-alpha.0",
