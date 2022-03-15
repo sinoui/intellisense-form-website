@@ -31,6 +31,26 @@ AppSetting.i18n = {
   'theme2.detailPage.flow.idea.visible': true,
   // 管理首页列表的展现形式
   'manager.homelist': 'table',
+  // 工作流操作面板"可选参与者"标题
+  'theme1.workflow.operator.range.title': '可选审批人',
+  // 工作流操作面板"已选参与者"标题
+  'theme1.workflow.operator.selected.title': '已选审批人',
+  // 发送按钮名称
+  'flow.button.submit.name': '发送';
+  // 保存按钮名称
+  'flow.button.save.name': '保存';
+  // 退回按钮名称
+  'flow.button.back.name': '退回';
+  // 退回起草人按钮名称
+  'flow.button.sendBackDraft.name': '退回起草人';
+  // 办结按钮名称
+  'flow.button.end.name': '办结';
+  // 收回按钮名称
+  'flow.button.takeback.name': '收回';
+  // 撤办按钮名称
+  'flow.button.cancelBack.name': '撤办';
+  // 恢复流程按钮名称
+  'flow.button.regainFlow.name': '恢复流程';
 };
 ```
 

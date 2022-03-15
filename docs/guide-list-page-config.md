@@ -72,6 +72,7 @@ AppSetting.listPageConfig.addButton({
   type: 'ALL_PAGE',
   render: React.lazy(() => import('./plugins/list-page-button-query')),
   formId: '*',
+  pos: 'left',
 });
 ```
 
@@ -86,6 +87,7 @@ AppSetting.listPageConfig.addButton({
   - ALL_PAGE: 所有列表都支持
 - render: 按钮的渲染组件
 - formId: 表单设计 id，用于控制按钮需要在哪个表单的列表界面展示，如果为\*，则所有的表单都适用
+- pos: 可取值 left 、right，默认 right。用于控制按钮居左还是居右显示
 
 最后可以在演示系统中查看效果。点击新的保存按钮，会在控制台输出 `按钮被点击了`。
 
