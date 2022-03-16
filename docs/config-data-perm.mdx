@@ -50,3 +50,9 @@ xxxx局
 如果想精确控制单个表单的部门管理员，那么可以在`表单发布`设置页中配置部门管理员，如下所示：
 
 ![配置部门管理员](assets/config-data-perm/set-dept-admin.png)
+
+## 特别注意
+
+`sinoform.dept-leader-roles` 配置项只会给指定角色的人员赋予数据权限，而不能自动给这些角色添加上访问查询页的导航权限。如果需要配置导航权限，可以指定 “设置数据查看人员”，如下图所示：
+
+![](assets/config-data-perm/set-data-viewer.png)
