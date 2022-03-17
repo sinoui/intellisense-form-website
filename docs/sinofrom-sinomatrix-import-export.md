@@ -3,7 +3,13 @@ id: sinofrom-sinomatrix-import-export
 title: 智能表单配置数据整体迁移
 ---
 
-## 智能表单配置信息迁移
+本文档详细描述了智能表单相关数据的整体迁移方案，总共包括以下 4 个部分：
+- 智能表单的表单配置信息迁移
+- 智能表单的表单数据表的表结构迁移
+- 统一授权配置迁移
+- 工作流配置迁移
+
+## 智能表单 - 表单配置信息迁移
 
 智能表单的配置信息存放在 mongodb 中，本数据迁移方案使用到 mongodump 与 mongorestore 工具，若没有安装此工具请自行到[官网](https://www.mongodb.com/try/download/database-tools)根据自己的操作系统版本进行下载。
 
@@ -40,7 +46,7 @@ $ cd mongorestore工具目录
 $ ./mongorestore --db=form /root/sinoform-data/form
 ```
 
-## 智能表单数据表结构迁移
+## 智能表单 - 数据表表结构迁移
 
 ### 导出
 

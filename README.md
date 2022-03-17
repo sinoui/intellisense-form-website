@@ -52,7 +52,7 @@ $ yarn release
 通过下面的命令行即可发布文档：
 
 ```shell
-yarn cross-env GIT_USER=<你的gitee账号> USE_SSH=true docusaurus deploy
+yarn cross-env GIT_USER=yanyuxin USE_SSH=true docusaurus deploy
 ```
 
 也可以在环境变量中配置 `GIT_USER` 值。配置完成后，即可通过下面的简单命令发布文档：
