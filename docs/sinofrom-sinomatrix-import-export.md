@@ -9,11 +9,13 @@ title: 智能表单配置数据整体迁移
 - 统一授权配置迁移
 - 工作流配置迁移
 
-## 智能表单 - 表单配置信息迁移
+有关本文档中涉及的表的具体含义及关联关系，可参考[统一授权及工作流数据关系说明](https://sino-matrix.oss-cn-beijing.aliyuncs.com/handbook/%E7%BB%9F%E4%B8%80%E6%8E%88%E6%9D%83%E5%8F%8A%E5%B7%A5%E4%BD%9C%E6%B5%81%E6%95%B0%E6%8D%AE%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E.pdf);
+
+## 1. 智能表单 - 表单配置信息迁移
 
 智能表单的配置信息存放在 mongodb 中，本数据迁移方案使用到 mongodump 与 mongorestore 工具，若没有安装此工具请自行到[官网](https://www.mongodb.com/try/download/database-tools)根据自己的操作系统版本进行下载。
 
-### 导出
+### 1.1 导出
 
 在需要导出数据的智能表单 `mongodb` 所在服务器上使用 `mongodump` 命令导出智能表单配置信息：
 
@@ -33,7 +35,7 @@ $ cd /root/sinoform-data
 $ tar zcvf form.tar.gz form
 ```
 
-### 导入
+### 1.2 导入
 
 将导出的 `form.tar.gz` 上传至需要导入数据的 mongodb 所在服务器的 `/root/sinoform-data` 目录中，执行以下命令进行导入：
 
@@ -46,13 +48,19 @@ $ cd mongorestore工具目录
 $ ./mongorestore --db=form /root/sinoform-data/form
 ```
 
-## 智能表单 - 数据表表结构迁移
+## 2. 智能表单 - 数据表表结构迁移
 
-### 导出
+### 2.1 导出
 
 在浏览器地址框中输入智能表单数据表结构导出的接口 `http://智能表单ip:端口/apis/intellisense-form/formData/export-table` ，访问该接口可得到一个 `sinoform_create_table.sql` 文件，此文件即为当前智能表单使用的所有数据表表结构的建表语句。
 
-### 导入示例（mysql）
+:::info 提示
+
+使用以上导出接口需要将智能表单后端升级到 1.14.0 及以上版本。
+
+:::
+
+### 2.2 导入示例（mysql）
 
 创建智能表单数据库、用户及授权：
 
@@ -76,9 +84,9 @@ mysql> exit;
 $ mysql -u form -p FORM < /root/sinoform-data/sinoform_create_table.sql
 ```
 
-## 工作流配置迁移
+## 3. 工作流配置迁移
 
-### 导出表信息
+### 3.1 导出表信息
 
 需要导出`表结构`及`数据`的表：
 
@@ -156,7 +164,7 @@ $ mysql -u form -p FORM < /root/sinoform-data/sinoform_create_table.sql
 |    FLOW_WRITE_OVERTIME     | （待办过期提醒表原则上工作流不维护） |
 |      TBL_BUSINESSLOCK      |              （加锁表）              |
 
-### 导出示例（mysql）
+### 3.2 导出示例（mysql）
 
 登录 mysql 数据库所在服务器，执行以下命令导出数据：
 
@@ -167,7 +175,7 @@ $ mysqldump -u root -p EPCLOUD --ignore-table=EPCLOUD.FLOW_IDEA --ignore-table=E
 $ mysqldump -d EPCLOUD --tables FLOW_IDEA  FLOW_IDEASIGN_TEMP FLOW_READ FLOW_RACC_READ FLOW_SCCREDIT FLOW_SCCREDIT_BACKUP FLOW_SCCREDIT_SORT FLOW_SIGN FLOW_SIGN_IN FLOW_WFLOG FLOW_WORKFLOWINFO FLOW_WRITE_ACTION FLOW_WORKFLOWINFO_BACKUP FLOW_WORKFLOWINFO_OVERTIME FLOW_WORKFLOWINFO_SNAP FLOW_WRITE FLOW_WRITE_BACKUP FLOW_WRITE_OVERTIME TBL_BUSINESSLOCK > flow_data.sql
 ```
 
-### 导入示例（mysql）
+### 3.3 导入示例（mysql）
 
 创建工作流数据库、用户及授权：
 
@@ -190,9 +198,9 @@ $ mysql -u epcloud -p EPCLOUD < /root/sinoform-data/flow_data.sql
 $ mysql -u epcloud -p EPCLOUD < /root/sinoform-data/flow_config.sql
 ```
 
-## 统一授权配置迁移
+## 4. 统一授权配置迁移
 
-### 导出表信息
+### 4.1 导出表信息
 
 需要导出`表结构`及`数据`的表：
 
@@ -220,8 +228,6 @@ $ mysql -u epcloud -p EPCLOUD < /root/sinoform-data/flow_config.sql
 |     sys_flow_role      |         业务角色表         |
 |     sys_flow_user      |         用户信息表         |
 |   sys_flow_user_ext    |       用户信息扩展表       |
-|   sys_flow_user_temp   |       用户信息临时表       |
-| sys_flow_user_temp_ext |     用户扩展信息临时表     |
 |    sys_frole_sub_p     | 系统授权打包业务角色关联表 |
 |     sys_group_info     |         群组信息表         |
 |    sys_group_sub_p     |   系统授权打包群组关联表   |
@@ -260,20 +266,22 @@ $ mysql -u epcloud -p EPCLOUD < /root/sinoform-data/flow_config.sql
 |     sylg_result     |    日志信息查询表    |
 |      sylg_temp      |    需清洗的日志表    |
 |    sys_audit_log    |    请求记录日志表    |
+|   sys_flow_user_temp   |       用户信息临时表       |
+| sys_flow_user_temp_ext |     用户扩展信息临时表     |
 
-### 导出示例 （mysql）
+### 4.2 导出示例 （mysql）
 
 登录 mysql 数据库所在服务器，执行以下命令导出数据：
 
 ```shell
 # 导出统一授权配置的表结构及配置数据
-$ mysqldump -u root -p SINOEPUIAS --ignore-table=SINOEPUIAS.AUDITLOG --ignore-table=SINOEPUIAS.CA_BIND_HISTORY --ignore-table=SINOEPUIAS.INIT_DEPT_USER_DATA --ignore-table=SINOEPUIAS.MESSAGE --ignore-table=SINOEPUIAS.SYLG_EVENT --ignore-table=SINOEPUIAS.SYLG_RESULT --ignore-table=SINOEPUIAS.SYLG_TEMP --ignore-table=SINOEPUIAS.SYS_AUDIT_LOG > uias_config.sql
+$ mysqldump -u root -p SINOEPUIAS --ignore-table=SINOEPUIAS.AUDITLOG --ignore-table=SINOEPUIAS.CA_BIND_HISTORY --ignore-table=SINOEPUIAS.INIT_DEPT_USER_DATA --ignore-table=SINOEPUIAS.MESSAGE --ignore-table=SINOEPUIAS.SYLG_EVENT --ignore-table=SINOEPUIAS.SYLG_RESULT --ignore-table=SINOEPUIAS.SYLG_TEMP --ignore-table=SINOEPUIAS.SYS_AUDIT_LOG --ignore-table=SINOEPUIAS.SYS_FLOW_USER_TEMP --ignore-table=SINOEPUIAS.SYS_FLOW_USER_TEMP_EXT > uias_config.sql
 
 # 导出记录表（仅导出表结构）
-$ mysqldump -d SINOEPUIAS --tables AUDITLOG CA_BIND_HISTORY INIT_DEPT_USER_DATA MESSAGE SYLG_EVENT SYLG_RESULT SYLG_TEMP SYS_AUDIT_LOG > uias_data.sql
+$ mysqldump -d SINOEPUIAS --tables AUDITLOG CA_BIND_HISTORY INIT_DEPT_USER_DATA MESSAGE SYLG_EVENT SYLG_RESULT SYLG_TEMP SYS_AUDIT_LOG SYS_FLOW_USER_TEMP SYS_FLOW_USER_TEMP_EXT > uias_data.sql
 ```
 
-### 导入示例（mysql）
+### 4.3 导入示例（mysql）
 
 创建统一授权数据库、用户及授权：
 

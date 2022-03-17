@@ -3,6 +3,11 @@ id: config-file-store
 title: 文件存储定制
 ---
 
+
+## 首发版本
+
+#### **`1.14.0`**
+
 ## 文件存储到 mongodb
 
 无需配置，智能表单默认将文件存储至mongodb。

@@ -28,6 +28,7 @@ module.exports = {
         "nginx-location",
         "config-license",
         "config-file-store",
+        "sinofrom-sinomatrix-import-export",
       ],
       插件开发: [
         "plugin-index",
@@ -131,6 +132,5 @@ module.exports = {
         },
       ],
     },
-    "sinofrom-sinomatrix-import-export",
   ],
 };
