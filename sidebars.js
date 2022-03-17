@@ -131,5 +131,6 @@ module.exports = {
         },
       ],
     },
+    "sinofrom-sinomatrix-import-export",
   ],
 };
