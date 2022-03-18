@@ -28,6 +28,7 @@ module.exports = {
         "nginx-location",
         "config-license",
         "config-file-store",
+        "sinofrom-sinomatrix-import-export",
       ],
       插件开发: [
         "plugin-index",
@@ -78,6 +79,7 @@ module.exports = {
       ],
       常见问题: ["deployment-faq", "feature-faq", "issue"],
       版本变更记录: [
+        "changelog-v1.14.0",
         "changelog-v1.14.0-alpha.3",
         "changelog-v1.14.0-alpha.2",
         "changelog-v1.14.0-alpha.1",
@@ -119,6 +121,7 @@ module.exports = {
         "custom-form-app",
         "todo-integrate",
         "custom-icon-for-app",
+        "expression-rules",
       ],
     },
     {

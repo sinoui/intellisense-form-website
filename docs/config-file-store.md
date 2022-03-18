@@ -3,6 +3,11 @@ id: config-file-store
 title: 文件存储定制
 ---
 
+
+## 首发版本
+
+#### **`1.14.0`**
+
 ## 文件存储到 mongodb
 
 无需配置，智能表单默认将文件存储至mongodb。
@@ -19,6 +24,22 @@ sinoform:
     secret-key: sinoform  # 密码
     bucket: test  # 存储桶名称
     endpoint: http://172.28.174.5:9000/  # 存储地址
+    skip-cert-verify: false   # 是否跳过证书验证，默认为 true，http地址可以去掉该配置
+    # 证书从，若 skip-cert-verify 配置为 true ，需要配置该证书；若 skip-cert-verify 配置为 false ，可去掉该配置
+    ca-cert: |-
+      -----BEGIN CERTIFICATE-----
+      MIICDDCCAXUCAQEwDQYJKoZIhvcNAQELBQAwWDELMAkGA1UEBhMCQVUxEzARBgNV
+      BAgMClNvbWUtU3RhdGUxITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0
+      ZDERMA8GA1UEAwwIc2lub2Zvcm0wHhcNMjIwMzE4MDQxMTMxWhcNMjMwMzE4MDQx
+      MTMxWjBFMQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UE
+      CgwYSW50ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIGfMA0GCSqGSIb3DQEBAQUAA4GN
+      ADCBiQKBgQDO1z8WWrhjFzeyjOjlup0M9/S1Lx/kAFOspK6wU4QJ8V3j8mqNST2i
+      wKccfymiC9CkYZ+PliPDybgLGnqPXB37NaTM/ZRh1IB6AeibyiiEmj9OQjggwpbl
+      u1uPAS4cnybjo8pUITShFkRW13Omnmjvn4Yr9FlOAwDuwiSkUGUfhwIDAQABMA0G
+      CSqGSIb3DQEBCwUAA4GBAI88sDF3Z/FTtyOKJ209nGbLX2VBKheT0AegD9cnnmBf
+      BsxPz/H4x5IJagzHLvTEt91jgHPSAgBRcPNMM27J1bdhjMlivmG674aYnX26vt19
+      lIml/PVNOAQNt0laMNqlr+dI9/FDdB32vJVP0Rw5NI8wDV81+gi/9P+AaEZGLlX7
+      -----END CERTIFICATE-----
 ```
 
 ## 文件存储到 本地/共享目录/共享存储
