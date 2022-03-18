@@ -121,6 +121,7 @@ module.exports = {
         "custom-form-app",
         "todo-integrate",
         "custom-icon-for-app",
+        "expression-rules",
       ],
     },
     {
