@@ -56,7 +56,12 @@ const getReleaseList = async (): Promise<ReleaseItem[]> => {
   }
 
   const client = await getClient();
-  const { objects } = await client.list(null, {});
+  const { objects } = await client.list(
+    {
+      "max-keys": 1000,
+    },
+    {}
+  );
   return objects
     .map((obj) => ({
       version: getObjectVersion(obj),
