@@ -12,6 +12,7 @@ title: License 证书配置
 修改智能表单后端应用的 `application.yml` 配置文件，添加如下配置：
 ```yaml
 sinoform:
+  license-verify: true
   license-path: /apps/sino-intellisense-form/license.dat
 ```
 
