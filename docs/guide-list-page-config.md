@@ -1,6 +1,6 @@
 ---
 id: guide-list-page-config
-title: 列表页定制
+title: 列表页按钮定制
 ---
 
 目前系统中的列表类型：
@@ -89,12 +89,12 @@ AppSetting.listPageConfig.addButton({
 - formId: 表单设计 id，用于控制按钮需要在哪个表单的列表界面展示，如果为\*，则所有的表单都适用
 - pos: 可取值 left 、right，默认 right。用于控制按钮居左还是居右显示
 
-最后可以在演示系统中查看效果。点击新的保存按钮，会在控制台输出 `按钮被点击了`。
+最后可以在演示系统中查看效果。点击新的按钮，会在控制台输出 `按钮被点击了`。
 
 列表级的按钮接收下面这些属性参数
 
 - formId: 表单的设计 id
-- currentUser: 当前登陆人信息
+- currentUser: 当前登录人信息
 - formDesignSetting: 表单设计信息
 - dataSource: 分页查询的操作对象
 
@@ -102,7 +102,7 @@ AppSetting.listPageConfig.addButton({
 
 ```typescript title="src/plugins/list-page-button-query/CustomQueryButton.ts"
 onClick(){
-  const {dataSource} = this.props;
+  const { dataSource } = this.props;
   dataSource.reload();
 }
 ```
@@ -135,7 +135,7 @@ export default class InRowButton extends SinoFormElement {
   }
 
   override render() {
-    this.innerHTML = `<button class="custom-button">列表按钮</button>`;
+    this.innerHTML = `<button class="custom-button">行内按钮</button>`;
 
     $('.custom-button', this).on('click', this.onClick.bind(this));
   }
@@ -178,6 +178,15 @@ AppSetting.listPageConfig.addInRowButton({
 
 `addInRowButton`中参数的定义与`addButton`方法一致
 
-当行数据级别的按钮支持如下参数
+单行数据级别的按钮支持如下参数
 
 - rowData: 当前行对应的数据
+
+完善行内按钮的点击事件，打印当前行数据
+
+```typescript title="src/plugins/list-page-button-in-row/InRowButton.ts"
+onClick() {
+  const { rowData } = this.props;
+  console.log(rowData);
+}
+```
