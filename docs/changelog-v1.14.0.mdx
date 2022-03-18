@@ -32,8 +32,17 @@ import BundleList from "../src/components/bundle-list";
 - feat: 支持将应用中的分组提升为独立的应用
 - feat: 列表页支持定制查询条件
 - feat: 列表页支持按钮定制
+- feat: 支持文件存储定制 包括mongodb、nfs、s3(http/https)与http-api [使用说明](./config-file-store)
+- feat: 添加 license 证书验证 [license 配置说明](./config-license)
+- feat: 新增导出智能表单表结构的接口 `GET http://智能表单ip:端口/apis/intellisense-form/formData/export-table`
+- feat: 支持开始节点直接到结束节点的流程
 - chore: 调整弹窗子表单在移动端的渲染方式
 - fix: 修复子表单标签设置不显示，但是实际仍显示的 bug
+- fix: 修复设置的部门管理员能看到别人的草稿数据的问题
+- fix: 修复子表单中表单项变化导致表单保存数据失败的问题
+- fix: 修复同时办情况下办理失败的问题
+- fix: 修复迁移仪表盘失败的问题
+- fix: 修复删除表单列表中的分组后系统集成列表中还存在该资源的问题
 
 ### 支持表单上填写意见控件
 
