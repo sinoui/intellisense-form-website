@@ -25,7 +25,7 @@ sinoform:
     bucket: test  # 存储桶名称
     endpoint: http://172.28.174.5:9000/  # 存储地址
     skip-cert-verify: false   # 是否跳过证书验证，默认为 true，http地址可以去掉该配置
-    # 证书从，若 skip-cert-verify 配置为 true ，需要配置该证书；若 skip-cert-verify 配置为 false ，可去掉该配置
+    # 证书配置，若 skip-cert-verify 配置为 false ，需要配置该证书；若 skip-cert-verify 配置为 true ，可去掉该配置
     ca-cert: |-
       -----BEGIN CERTIFICATE-----
       MIICDDCCAXUCAQEwDQYJKoZIhvcNAQELBQAwWDELMAkGA1UEBhMCQVUxEzARBgNV
