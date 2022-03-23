@@ -480,3 +480,21 @@ public class AuthFilter implements GlobalFilter, Ordered {
 sinoform:
   dept-id-cookie-name: custom-current-dept-id
 ```
+
+### 5.3. 查看 cookie 值
+
+当你在集成时发现没有达到预期效果，那么需要查看一下 cookie 值是否正确。
+
+:::success 提示
+
+当集成遇到问题，需要平台组协助时，请截取下面两张图并发给平台组同事。
+
+:::
+
+可以打开 Chrome devtools，切换到应用页签，查看 cookie 值。如下图所示：
+
+![](assets/custom-user-info/view-cookie-in-app.png)
+
+或者切换到网络页签，找到 /userInfo 接口，从请求头中查看 cookie 值。如下图所示：
+
+![](assets/custom-user-info/view-cookie-network.png)
