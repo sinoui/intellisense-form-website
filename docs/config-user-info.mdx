@@ -447,3 +447,36 @@ public class AuthFilter implements GlobalFilter, Ordered {
 之前推荐项目组直接在网关中拦截并实现 `/apis/intellisense-form/common/userInfo` 接口。如果采用过滤器方案，则不需要这么做，可以将网关中的此接口删除掉。
 
 注意：本示例是从 session 中获取当前用户信息的。项目组可以根据自身的情况，可以从不同的地方获取，例如第三方 SSO。
+
+## 5. 切换当前用户所属部门
+
+如果一个用户属于多个部门，那么可以通过以下两种方式告知智能表单当前用户的所属部门，以支持一人多岗切换：
+
+- 方式一：通过 `sinoform-current-dept-id` 请求头告知智能表单（适合网关模式）
+- 方式二：通过 `sinoform-current-dept-id` cookie 告知智能表单（适合共同使用 sinomatrix sso 的情况，前提是：业务系统与智能表单是同域名）
+
+[第 4 章节](#4-由业务系统控制当前会话用户)已经说明了方式一。本章节重点讲解方式二。
+
+### 5.1. `sinoform-current-dept-id` cookie
+
+> 最低版本要求：
+>
+> - 1.13.15
+> - 1.14.1
+
+在业务系统切换当前用户所属部门时，可以将部门信息写入到 `sinoform-current-dept-id` cookie 中，因为智能表单与业务系统是同域名的，所以智能表单也能接收到此 cookie。
+
+:::warning 重要提示
+
+此方式只适合智能表单和业务系统在同一个域名下的情况。
+
+:::
+
+### 5.2. 更换 `sinoform-current-dept-id` cookie 名称
+
+当前用户所属部门 cookie 名称默认为 `sinoform-current-dept-id`，可以通过下面的配置项更改此默认名称：
+
+```yaml title="application.yaml"
+sinoform:
+  dept-id-cookie-name: custom-current-dept-id
+```
