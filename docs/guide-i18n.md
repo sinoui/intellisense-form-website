@@ -51,6 +51,12 @@ AppSetting.i18n = {
   'flow.button.cancelBack.name': '撤办';
   // 恢复流程按钮名称
   'flow.button.regainFlow.name': '恢复流程';
+  // 主题一详情页流程日志
+  'theme1.detailPage.panel.flowlog.title':'审批记录';
+  // 主题一详情页返回按钮控制
+  'theme1.detailPage.form.close.button': true;
+  // 待办列表为空时提示信息
+  'todoList.table.noData.content': '暂无数据';
 };
 ```
 
