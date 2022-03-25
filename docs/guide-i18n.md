@@ -75,6 +75,7 @@ import './plugins/i18n';
 ```typescript
 AppSetting.i18n = {
   'theme2.detailPage.flow.image.title': '流程图',
+  'theme1.detailPage.panel.flowlog.title':'审批记录';
 };
 ```
 
@@ -85,6 +86,7 @@ AppSetting.i18n = {
 ```typescript
 AppSetting.i18n = {
   'theme2.detailPage.flow.status.visible': false,
+  'theme1.detailPage.form.close.button': true;
 };
 ```
 
