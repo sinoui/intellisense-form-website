@@ -125,6 +125,7 @@ module.exports = {
         "custom-icon-for-app",
         "expression-rules",
         "interpolation-expression",
+        "custom-list-guide",
       ],
     },
     {
