@@ -66,6 +66,27 @@ $.and(
 
 ![编辑查询条件](./assets/query_edit_editor.png)
 
+### 可用于查询的字段
+
+- 表单字段的标识（即 fieldName）
+  - 不是所有的表单项都支持查询，下面类型的表单项不支持查询
+    - 布局字段
+    - 意见表单项
+    - 附件上传
+    - 日期区间
+  - 子表单或弹窗子表单中的子表单项作为查询字段需要带上父表单项的标识。比如，如果我们要使用子表单 field_1 下的表单项 field_2 做为查询字段，那么完整的查询字段应该是`field_1.field_2`
+- 固定的查询字段
+  - id。表单 id
+  - formdesignid。表单设计 id
+  - userId。创建人 id
+  - userName。创建人名称
+  - deptId。创建人部门 id
+  - deptName。创建人部门名称
+  - deptNameAll。创建人部门全路径
+  - status。表单流转状态
+  - createTime。表单创建时间
+  - workflowid。流程 id
+
 ### 支持的查询操作符
 
 #### equal
