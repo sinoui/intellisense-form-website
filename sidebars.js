@@ -29,6 +29,7 @@ module.exports = {
         'config-license',
         'config-file-store',
         'sinofrom-sinomatrix-import-export',
+        'sinoform-import',
       ],
       插件开发: [
         'plugin-index',
@@ -79,6 +80,7 @@ module.exports = {
       ],
       常见问题: ['deployment-faq', 'feature-faq', 'issue'],
       版本变更记录: [
+        'changelog-v1.14.4',
         'changelog-v1.14.3',
         'changelog-v1.14.2',
         'changelog-v1.14.1',
