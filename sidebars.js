@@ -131,6 +131,7 @@ module.exports = {
         'expression-rules',
         'interpolation-expression',
         'custom-list-guide',
+        'export-excel',
       ],
     },
     {
