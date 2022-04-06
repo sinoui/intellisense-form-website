@@ -132,6 +132,7 @@ module.exports = {
         'interpolation-expression',
         'custom-list-guide',
         'export-excel',
+        'dictionary-manager',
       ],
     },
     {
