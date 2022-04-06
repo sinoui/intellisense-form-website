@@ -294,3 +294,23 @@ Caused by: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Da
 alter table SYS_ROLE_SYST
     modify WORKID varchar(100) null;
 ```
+
+### 1.3. 下一办理人较多情况，工作流流转失败
+
+#### 问题描述
+
+当下一流程指定的办理人较多时，发送流程提示`流程提交失败`。
+
+#### 报错信息
+
+智能表单后端日志中的报错信息如下：
+
+![](./assets/feature-faq/to-flow-error-1.png)
+
+#### 解决方案
+
+找到工作流服务 workflow 的 tomcat，修改 tomcat 的 server.xml 配置文件，在工作流端口对应的 Connector 标签添加属性配置 `maxHttpHeaderSize="102400"`，例如：
+
+![](./assets/feature-faq/to-flow-error-2.png)
+
+修改完配置后，重启工作流服务的 tomcat。
