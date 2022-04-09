@@ -1,0 +1,36 @@
+---
+id: changelog-v1.15.0-alpha.0
+title: v1.15.0-alpha.0
+---
+
+import BundleList from '../src/components/bundle-list';
+
+## 1. 发布情况
+
+发布日期：2022.4.9
+
+<BundleList
+  version="1.15.0-alpha.0"
+  frontend="1.15.0-alpha.0"
+  backend="1.15.0-alpha.0"
+  font="1.13.0"
+/>
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.15.0-alpha.0。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- fix: 修复说明文字类型的表单项之间切换，字段属性中富文本内容没有更新的 bug
+- feat: 主题一详情页表单标题支持通过 i18N 的方式隐藏，名称为`theme1.detailPage.form.title.hidden`
+- feat: 意见表单项支持通过插件来控制可见性
+- feat: 分组标签添加调色板，可以通过调色板来设置分组标签的背景色
+- feat: 弹窗子表单支持通过自定义 CSS 的方式修改其 UI 样式
+- feat: 查询列表和无流程列表支持默认查询条件定制
+- feat: 支持数字类型字段的查询和排序
+- improve: 功能改进：表单导入、应用导入时一些边界情况的处理

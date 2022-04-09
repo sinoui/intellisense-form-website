@@ -1,0 +1,135 @@
+---
+id: guide-list-page-columns-config
+title: 列表页展示项定制
+---
+
+这篇文章我们主要讲述如何通过插件动态的定制我们的列表中需要展示的列表项
+
+需求：
+
+查询表单中存在一个查询条件类型值是借用时，需要增添一行列表借用状态，当此借用状态满足条件借出后到期且未归还，显示为红色图标，否则显示绿色图标
+
+## 如何在插件项目中使用
+
+### 声明配置文件
+
+```typescript title="src/plugins/extend/listPageConfig.tsx"
+import React from 'react';
+import appSetting from '@sinoform/app-setting';
+import Lens from '@sinoui/icons/Lens';
+
+// 校验查询条件中类型是否为借用
+const checkSearchParams = (searchParams: any) => {
+  if (!searchParams.queryCriteriaItems) return false;
+
+  const queryCriteriaItems = JSON.parse(searchParams.queryCriteriaItems);
+
+  return queryCriteriaItems.some(
+    (item) => item.id === 'field_1' && item.value === '借用'
+  );
+};
+
+appSetting.listPageConfig.renderColumns({
+  type: 'ALL_PAGE',
+  formId: '*',
+  render: (columns: any, searchParams: any, currentUser: any) => {
+    // 类型为借用时，添加借用状态列
+    if (checkSearchParams(searchParams)) {
+      return [
+        ...columns.slice(0, columns.length - 1),
+        {
+          dataIndex: 'field_2',
+          title: '借用状态',
+          render: (value: any) => {
+            return value === '借出后到期且未归还' ? (
+              <Lens color="red" />
+            ) : (
+              <Lens color="green" />
+            );
+          },
+        },
+        ...columns.slice(columns.length - 1),
+      ];
+    }
+    return columns;
+  },
+});
+```
+
+** renderColumns 参数说明 **
+
+````typescript
+interface ListPageColumnConfig {
+  /**
+   * 指定页面的类型
+   *
+   * 固定支持的列表类型
+   * ```
+   * // 适用于草稿列表
+   * DRAFT_LIST_PAGE
+   *
+   * // 适用于待办列表
+   * TODO_LIST_PAGE
+   *
+   * // 适用于已办列表
+   * DONE_LIST_PAGE
+   *
+   * // 适用于查询列表
+   * SEARCH_LIST_PAGE
+   *
+   * // 适用于无流程列表
+   * NOFLOW_LIST_PAGE
+   *
+   * // 适用于所有列表
+   * ALL_PAGE
+   * ```
+   */
+  type: string;
+  /**
+   *  指定哪个表单中需要添加选择列，如果值为'*'表示适用于所有的表单
+   */
+  formId: string;
+
+  /**
+   * 生成新的列表项配置
+   *
+   * @param columns       初始的列表项配置
+   * @param searchParams  查询条件
+   * @param currentUser   当前用户
+   */
+  render(
+    columns: TableColumnType[],
+    searchParams: any,
+    currentUser: UserInfo
+  ): TableColumnType[];
+}
+````
+
+** 表单项配置说明 **
+
+```typescript
+interface TableColumnType {
+  /**
+   * 主键
+   */
+  key?: string;
+  /**
+   * 表头名称
+   */
+  title?: React.ReactNode;
+  /**
+   * 列数据在数据项中对应的路径
+   */
+  dataIndex?: string;
+  /**
+   * 渲染单元格
+   */
+  render?: (cellValue: any, rowData: any, index: number) => React.ReactNode;
+}
+```
+
+### 在插件入口文件中引入配置，使其生效
+
+```typescript title='src/index.ts'
+import './plugins/extend/listPageConfig.tsx';
+```
