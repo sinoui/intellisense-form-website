@@ -72,6 +72,30 @@ export default function ExportButton({ dataSource, formDesignSetting }: any) {
 }
 ```
 
+3. 将导出按钮注册到 appSetting 中
+
+```typescript title="src/plugins/export-excel-button/index.ts"
+import appSetting from '@sinoform/app-setting';
+
+appSetting.listPageConfig.addSelectable({
+  type: 'ALL_PAGE',
+  formId: '*',
+});
+
+appSetting.listPageConfig.addButton({
+  type: 'ALL_PAGE',
+  formId: '*',
+  render: React.lazy(() => import('./ExportButton')),
+  pos: 'left',
+});
+```
+
+4. 在插件入口文件中引入配置，使其生效
+
+```typescript title="src/index.ts"
+import './plugins/export-excel-button';
+```
+
 ## 模板的要求
 
 导出辅助方法目前只读取 Excel 模板第一个 sheet 页的内容，并根据内容生成对应的列表数据。
