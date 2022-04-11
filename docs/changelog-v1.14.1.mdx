@@ -27,3 +27,20 @@ import BundleList from '../src/components/bundle-list';
 - improve: 支持主题一表单详情页返回按钮定制，原关闭按钮改为右上角显示 X 关闭按钮。[i18n 配置](guide-i18n/#控制组件是否显示)
 - fix: 修复切换为带文字描述的日期格式后，限定日期范围失败的 bug
 - improve: 待办列表支持展示`前一办理人单位`；已办列表支持显示`当前办理人`、`当前办理人单位`
+
+### wasm 文件缓存
+
+我们使用了@swc/wasm-web 来处理默认查询条件的解析，该库需要加载 wasm 文件。我们可以通过调整 nginx.conf 配置，对此文件进行缓存，优化性能。
+
+```nginx title="nginx.conf"
+# 缓存智能表单静态资源
+location ~ /intellisense-form.*\.(wasm|gif|jpg|jpeg|png|bmp|swf|js|css|md|pdf|ttf|ttc|eot|woff2|woff|svg)$ {
+  expires 365d;
+}
+```
+
+配置修改完成之后需要重新加载配置文件，使其生效。
+
+```bash
+nginx -s reload
+```
