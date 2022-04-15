@@ -1,5 +1,5 @@
 import React from "react";
-import { useColorMode } from "@docusaurus/theme-common";
+import useThemeContext from "@theme/hooks/useThemeContext";
 import FileTree from "../components/file-tree/FileTree";
 import FileTreeNode from "../components/file-tree/FileTreeNode";
 import useLatestPackage from "./useLatestPackage";
@@ -26,8 +26,8 @@ const stylesheet = {
  * 推荐的部署文件结构
  */
 const DeploymentFileStructure = () => {
-  const { colorMode } = useColorMode();
-  const styles = stylesheet[colorMode];
+  const { isDarkTheme } = useThemeContext();
+  const styles = stylesheet[isDarkTheme ? "dark" : "light"];
   const result = useLatestPackage("backend");
   return (
     <div className="codeBlockContainer_node_modules-@docusaurus-theme-classic-lib-next-theme-CodeBlock-styles-module">

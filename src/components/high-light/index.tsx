@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import { useColorMode } from "@docusaurus/theme-common";
+import usePrismTheme from "@theme/hooks/usePrismTheme";
 import PrismHighlight, { defaultProps, Language } from "prism-react-renderer";
 
 interface Props {
@@ -25,10 +24,7 @@ const HighLight: React.FC<Props> = ({ language, code, children }) => {
     setMounted(true);
   }, []);
 
-  const { siteConfig } = useDocusaurusContext();
-  const { colorMode } = useColorMode();
-  const prismTheme =
-    siteConfig.themeConfig.prism[colorMode === "dark" ? "darkTheme" : "theme"];
+  const prismTheme = usePrismTheme();
 
   return (
     <PrismHighlight
