@@ -14,8 +14,8 @@
     "postinstall": "patch-package && yarn yarn-deduplicate"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.14",
-    "@docusaurus/preset-classic": "2.0.0-beta.14",
+    "@docusaurus/core": "2.0.0-beta.18",
+    "@docusaurus/preset-classic": "2.0.0-beta.18",
     "@mdx-js/react": "^1.6.21",
     "@sinoui/core": "^1.1.1",
     "@sinoui/message": "^2.1.0",
@@ -45,8 +45,8 @@
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
-    "@docusaurus/module-type-aliases": "^2.0.0-beta.14",
-    "@docusaurus/types": "^2.0.0-beta.14",
+    "@docusaurus/module-type-aliases": "^2.0.0-beta.18",
+    "@docusaurus/types": "^2.0.0-beta.18",
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/ali-oss": "^6.0.10",
     "@types/inquirer": "^8.1.3",

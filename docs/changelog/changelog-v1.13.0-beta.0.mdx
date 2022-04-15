@@ -1,0 +1,38 @@
+---
+id: changelog-v1.13.0-beta.0
+title: v1.13.0-beta.0
+---
+
+import BundleLink from "@/oss/BundleLink";
+import DownloadBundleShell from "@/oss/DownloadBundleShell";
+import FontBundleLink from "@/oss/FontBundleLink";
+
+## 1. 发布情况
+
+发布日期：2021.12.20
+
+前端包：[sino-intellisense-form-v1.13.0-beta.0.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-beta.0/sino-intellisense-form-v1.13.0-beta.0.zip)
+
+后端包：[sino-intellisense-form-v1.13.0-beta.0.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-beta.0/sino-intellisense-form-v1.13.0-beta.0.jar)
+
+字体服务包：[dynamic-font-server-v1.13.0-alpha.7.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.7/dynamic-font-server-v1.13.0-alpha.7.zip)
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.13.0-beta.0。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要特性
+
+后端：
+
+- fix: 修复待办已打开后还能收回的问题
+- fix: 修复查询列表导出不能排序且字段值错误
+
+前端：
+
+- fix: 导出 Excel 接口参数添加排序字段
+- improve: 附件下载的方式调整，解决 ie 浏览器上下载的文件名称自动添加下载路径的问题

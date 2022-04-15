@@ -30,6 +30,7 @@ module.exports = {
   plugins: [
     "./plugins/enable-wasm-plugin.js",
     "./plugins/omit-license-plugin.js",
+    "./plugins/root-resolve-plugin.js",
   ],
   presets: [
     [
@@ -37,6 +38,16 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
+          async sidebarItemsGenerator({
+            defaultSidebarItemsGenerator,
+            ...args
+          }) {
+            const sidebarItems = await defaultSidebarItemsGenerator(args);
+            if (sidebarItems[0]?.id?.startsWith("changelog/")) {
+              return sidebarItems.reverse();
+            }
+            return sidebarItems;
+          },
         },
 
         theme: {

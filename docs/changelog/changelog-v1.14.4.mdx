@@ -1,0 +1,40 @@
+---
+id: changelog-v1.14.4
+title: v1.14.4
+---
+
+import BundleList from "@/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2022.4.2
+
+<BundleList version="1.14.4" frontend="1.14.4" backend="1.14.4" font="1.13.0" />
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.14.4。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- feat: 添加文件导入功能 [模板说明](./sinoform-import)
+- feat: 增加数据变更日志功能
+- fix: 修复 1.14.3 版本引入的 待办列表数据打不开问题
+- fix: 修复表单发布后不能及时查询到相关资源的问题 [缺陷链接](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I4ZK7B)
+- feat: 表单意见中的签章字段支持自定义显示格式
+- feat: 查询列表默认中默认显示相关子表单数据条数[需求链接](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I4YT2X)
+- feat: 边框模式下表单域控件支持方角显示
+- feat: 分组标签支持使用 Chip 标签的形式渲染
+- improve: 表单项标签水平方向布局时，是否显示“：”支持定制
+- improve(use-pagination-table): 列表中的字段排序支持取消排序（第一次点击为升序，再次点击为降序，第三次点击取消排序）
+- fix: 修复修改已发布表单的配置项之后，只保存不发布，起草数据时报无法匹配流程的 bug
+- fix: 修复表单复制全部时，没有复制定制化列表配置的问题
+- feat: 数据字典添加分级管理员。分级管理员界面路由：`/intellisense-form/dictionary/fh`
+- feat: 表单详情页中添加操作日志
+- improve: 表单查询条件为下拉选择时，在页面中也以下拉选择的形式展现[需求链接](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I4XPBG)
+- fix: 修复选择人员控件父部门设置“不包含子部门”时，同时勾选一个子部门，子部门人员不显示的问题[缺陷链接](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I4ZJWR)
+- feat: 添加导出 Excel 的辅助方法。[定制导出按钮](export-excel)

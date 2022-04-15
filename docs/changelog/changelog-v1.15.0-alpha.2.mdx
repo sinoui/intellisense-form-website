@@ -1,0 +1,33 @@
+---
+id: changelog-v1.15.0-alpha.2
+title: v1.15.0-alpha.2
+---
+
+import BundleList from "@/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2022.4.14
+
+<BundleList
+  version="1.15.0-alpha.2"
+  frontend="1.15.0-alpha.2"
+  backend="1.15.0-alpha.2"
+  font="1.13.0"
+/>
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.15.0-alpha.2。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- feat: 流程设计界面节点的位置统一保存为整数，避免导入表单配置时浮点型数据转换错误的问题
+- fix: 修复在同步工作流数据到本地时，获取办理人信息失败导致的本地数据不正确问题
+- fix: 修复子表单改名发布后，保存数据报错的问题
+- feat: 用户信息中，添加电话号码
+- feat: 查看数据管理员设置为部门时，当前部门的所有人员均可查看全部数据，包括子部门的人员

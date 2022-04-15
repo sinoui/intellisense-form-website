@@ -1,0 +1,39 @@
+---
+id: changelog-v1.13.0-beta.1
+title: v1.13.0-beta.1
+---
+
+import BundleLink from "@/oss/BundleLink";
+import DownloadBundleShell from "@/oss/DownloadBundleShell";
+import FontBundleLink from "@/oss/FontBundleLink";
+
+## 1. 发布情况
+
+发布日期：2021.12.21
+
+前端包：[sino-intellisense-form-v1.13.0-beta.1.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-beta.1/sino-intellisense-form-v1.13.0-beta.1.zip)
+
+后端包：[sino-intellisense-form-v1.13.0-beta.1.jar](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-beta.1/sino-intellisense-form-v1.13.0-beta.1.jar)
+
+字体服务包：[dynamic-font-server-v1.13.0-alpha.7.zip](http://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/v1.13.0-alpha.7/dynamic-font-server-v1.13.0-alpha.7.zip)
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.13.0-beta.1。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要特性
+
+后端：
+
+- fix: 修复列表导出时，复杂数据结构的表单项导出数据不正确的 bug(比如：单选框、复选框)
+
+前端：
+
+- fix: 修复系统集成资源拖拽到下一级菜单时，显示不正确的 bug
+- fix: 修复默认主题非弹窗详情页未出现打印按钮的缺陷
+- feat: 默认模板中多行文本的高度调整为：单元格默认高度 \* 多行文本的最小行数
+- fix: 修复附件下载文件损坏的 bug

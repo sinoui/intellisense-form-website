@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useThemeContext from "@theme/hooks/useThemeContext";
+import { useColorMode } from "@docusaurus/theme-common";
 import ReactJSON, { CollapsedFieldProps } from "react-json-view";
 import copy from "copy-text-to-clipboard";
 import githubTheme from "./json-viewer-theme-github";
@@ -23,8 +23,8 @@ const JSONViewerBrowser: React.FC<Props> = ({
   shouldCollapse,
   enableClipboardNode = false,
 }) => {
-  const { isDarkTheme } = useThemeContext();
-  const theme = isDarkTheme ? draculaTheme : githubTheme;
+  const { colorMode } = useColorMode();
+  const theme = colorMode === "dark" ? draculaTheme : githubTheme;
   const code = JSON.stringify(src);
 
   const [showCopied, setShowCopied] = useState(false);
