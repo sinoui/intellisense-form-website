@@ -1,0 +1,31 @@
+---
+id: changelog-v1.15.0-alpha.6
+title: v1.15.0-alpha.6
+---
+
+import BundleList from "@/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2022.4.15
+
+<BundleList
+  version="1.15.0-alpha.6"
+  frontend="1.15.0-alpha.6"
+  backend="1.15.0-alpha.5"
+  font="1.13.0"
+/>
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.15.0-alpha.6。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- feat: 支持表单项标签对齐方式定制，包括右对齐、左对齐和两端对齐
+- feat: 表单项标签两端对齐支持设定对齐字宽
+- feat: 新增扩展字段功能，使用扩展字段方式解决无流程表单查询权限和文件状态的控制，具体工单分别为：[I505LL](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I505LL)/[I50PA3](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I50PA3)
