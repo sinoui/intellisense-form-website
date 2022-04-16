@@ -7,7 +7,7 @@ import BundleList from "@/components/bundle-list";
 
 ## 1. 发布情况
 
-发布日期：2022.4.16
+发布日期：2022.4.17
 
 <BundleList
   version="1.15.0-alpha.7"
@@ -31,3 +31,12 @@ import BundleList from "@/components/bundle-list";
 - fix: 起草时保存多次，一直调用 post 接口的缺陷
 - fix: 修复默认查询条件为空或者解析失败导致查询页打开失败的缺陷
 - fix: 修复组件重绘产生新的默认值后，导致表单状态被重置的缺陷
+- fix: 导入表单与已存在表单都不存在时，才认为是新表
+- fix: 应用导出时，listpageid为空时，自动补充
+- fix: 应用导入不需要弹出资源选择框
+- fix: 修复导入应用时，没有处理应用中的分组的问题
+- fix: 后端业务数据保存失败，前端却提示保存成功
+- fix: 修复导入应用或表单时，由于流程id错误，导致的发布流程失败问题
+- fix: 修复保存表单数据时因缺少workflowid导致失败的缺陷
+- fix: 无上级部门的情况，无流程表单打开报错
+- chore: 统一日期选择、时间选择、日期时间选择的列尺
