@@ -1,0 +1,26 @@
+---
+id: changelog-v1.14.6
+title: v1.14.6
+---
+
+import BundleList from "@/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2022.4.18
+
+<BundleList version="1.14.6" frontend="1.14.6" backend="1.14.6" font="1.13.0" />
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.14.6。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- fix: 修复文件上传，安卓微信小程序指定文件类型为非全部时，安卓手机点击文件选择，没有反应。[I4VQVL](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I4VQVL)
+- fix: 修复部门管理员组件跨级选择时，由于 treeModel 问题导致的选中人员拼接错误的问题。[I52PNT](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I52PNT)
+- fix: 修复系统集成时，资源导航位置变更不准确的问题。[I52PL1](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I52PL1)
