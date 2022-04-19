@@ -1,0 +1,33 @@
+---
+id: changelog-v1.15.0-alpha.11
+title: v1.15.0-alpha.11
+---
+
+import BundleList from '@/components/bundle-list';
+
+## 1. 发布情况
+
+发布日期：2022.4.19
+
+<BundleList
+  version="1.15.0-alpha.11"
+  frontend="1.15.0-alpha.10"
+  backend="1.15.0-alpha.11"
+  font="1.13.0"
+/>
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.15.0-alpha.11。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- fix: 流程流转时没有formurl参数，导致统一待办数据显示不正确
+- fix: 无流程表单导入并发布后，看不到资源菜单
+- fix: 修复流程配置为 开始流程 直接到 结束流程时，流程流转失败
+- feat: 起草节点支持直接办结 [I532RI](https://gitee.com/sinoui/sino-intellisense-form-test/issues/I532RI)
+
