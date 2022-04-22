@@ -1,5 +1,12 @@
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const { compare } = require("semver");
+const path = require("path");
+
+function getVersionFromChangelogId(id) {
+  const fileName = path.basename(id);
+  return fileName.match(/.+?(\d+\.\d+\.\d+.*)/)?.[1];
+}
 
 module.exports = {
   title: "智能表单",
@@ -44,7 +51,14 @@ module.exports = {
           }) {
             const sidebarItems = await defaultSidebarItemsGenerator(args);
             if (sidebarItems[0]?.id?.startsWith("changelog/")) {
-              return sidebarItems.reverse();
+              console.log(sidebarItems);
+              return sidebarItems.sort(
+                (item1, item2) =>
+                  -compare(
+                    getVersionFromChangelogId(item1.id),
+                    getVersionFromChangelogId(item2.id)
+                  )
+              );
             }
             return sidebarItems;
           },
