@@ -1,0 +1,220 @@
+---
+id: form-k8s
+title: 部署智能表单
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 一、准备镜像
+
+> 如果是离线安装，需要完成这一步骤。如果是在线安装，则跳过这个步骤。
+
+### 1.1. 在外网电脑上准备镜像包
+
+智能表单应用镜像如下：
+
+- registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-web:latest
+- registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-backend:latest
+
+下载镜像的命令（下载镜像时先判定 CPU 架构）：
+
+<Tabs>
+<TabItem value="amd64" label="amd/x86">
+
+```bash
+docker pull --platform=amd64 registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-web:latest
+docker pull --platform=amd64 registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-backend:latest
+```
+
+</TabItem>
+<TabItem value="arm64" label="arm64">
+
+```bash
+docker pull --platform=arm64 registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-web:latest
+docker pull --platform=arm64 registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-backend:latest
+```
+
+</TabItem>
+</Tabs>
+
+然后生成镜像离线包：
+
+```bash
+docker save -o sinoform-latest.tar registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-web:latest registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-backend:latest
+```
+
+上面的命令行会生成 `sinoform-latest.tar` 镜像包文件。
+
+### 1.2. 在内网服务器上导入并上传镜像
+
+首先将 `sinoform-latest.tar` 文件拷贝到内网服务器上。然后导入并上传镜像到私有镜像仓库中：
+
+```bash
+nerdctl load < sinoform-latest.tar
+nerdctl push registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-web:latest
+nerdctl push registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-backend:latest
+```
+
+## 二、准备智能表单配置
+
+智能表单依赖 MongoDB 和关系型数据库才能运行。所以需要准备智能表单的配置。
+
+如果已经有了配置文件，那么可以通过下面的命令行生成智能表单 ConfigMap：
+
+```bash
+kubectl create configmap sinoform-backend-config --from-file=application.yaml
+```
+
+上面的命令行假定配置文件为 `application.yaml`。
+
+## 三、运行智能表单
+
+将下面的配置保存到 `sinoform-k8s.yaml` 文件中，并上传到服务器上：
+
+```yaml
+# 部署智能表单前端
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sinoformweb
+spec:
+  selector:
+    matchLabels:
+      app: sinoformweb
+  template:
+    metadata:
+      labels:
+        app: sinoformweb
+    spec:
+      containers:
+        - name: sinoformweb
+          image: registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-web:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+---
+# 智能表单前端服务（ClusterIP）
+apiVersion: v1
+kind: Service
+metadata:
+  name: sinoformweb
+spec:
+  selector:
+    app: sinoformweb
+  ports:
+    - port: 80
+      targetPort: 80
+---
+# 部署智能表单后端
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sinoform-backend
+spec:
+  selector:
+    matchLabels:
+      app: sinoform-backend
+  template:
+    metadata:
+      labels:
+        app: sinoform-backend
+    spec:
+      containers:
+        - name: sinoform-backend
+          image: registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-backend:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "4096Mi"
+              cpu: "2000m"
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            # 因为文件上传的缓存会放在 /tmp 目录中，所以/tmp目录需要挂载到镜像之外
+            - name: temp-storage
+              mountPath: /tmp
+            - mountPath: /app/config
+              name: config
+              subPath: application.yaml
+          env:
+            - name: SPRING_PROFILE_ACTIVE
+              value: prod
+      volumes:
+        - name: temp-storage
+          emptyDir: {}
+        - configMap:
+            name: sinoform-backend-config
+          name: config
+---
+# 智能表单后端服务（ClusterIP）
+apiVersion: v1
+kind: Service
+metadata:
+  name: sinoform-backend
+spec:
+  selector:
+    app: sinoform-backend
+  ports:
+    - port: 8080
+---
+# ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sinoform-ingress
+  labels:
+    name: sinoform-ingress
+  annotations:
+    # 去掉上传文件大小限制
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # 智能表单前端（PC端表单应用）
+          - path: "/intellisense-form"
+            pathType: Prefix
+            backend:
+              service:
+                name: sinoformweb
+                port:
+                  number: 80
+          # 智能表单前端（移动端表单应用）
+          - path: "/intellisense-form-mobile"
+            pathType: Prefix
+            backend:
+              service:
+                name: sinoformweb
+                port:
+                  number: 80
+          # 智能表单前端（表单管理）
+          - path: "/intellisense-form-manager"
+            pathType: Prefix
+            backend:
+              service:
+                name: sinoformweb
+                port:
+                  number: 80
+          # 智能表单后端
+          - path: "/apis/intellisense-form"
+            pathType: Prefix
+            backend:
+              service:
+                name: sinoform-backend
+                port:
+                  number: 8080
+```
+
+然后执行以下命令启动项目：
+
+```yaml
+kubectl apply -f sinoform-k8s.yaml
+```
+
+稍等片刻，即可访问智能表单应用：http://[ingress 地址:端口号]/intellisense-form 。
