@@ -138,9 +138,8 @@ spec:
             # 因为文件上传的缓存会放在 /tmp 目录中，所以/tmp目录需要挂载到镜像之外
             - name: temp-storage
               mountPath: /tmp
-            - mountPath: /app/config/application.yaml
+            - mountPath: /app/config
               name: config
-              subPath: application.yaml
           env:
             - name: SPRING_PROFILE_ACTIVE
               value: prod
