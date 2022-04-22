@@ -1,0 +1,40 @@
+---
+id: changelog-v1.15.0-alpha.12
+title: v1.15.0-alpha.12
+---
+
+import BundleList from '@/components/bundle-list';
+
+## 1. 发布情况
+
+发布日期：2022.4.20
+
+<BundleList
+  version="1.15.0-alpha.12"
+  frontend="1.15.0-alpha.12"
+  backend="1.15.0-alpha.11"
+  font="1.13.0"
+/>
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.15.0-alpha.12。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- fix: 修复节点上配置了表单字段负责人，但是没有指定负责人或者指定了负责人为顶级部门，流程无法发送的缺陷
+- fix: 修复部门管理员选择人数过多时，显示错乱的样式问题
+- fix: 修复点击层级很深的资源时，资源列表收缩的 bug
+- fix: 修复子表单中设置表单项必填之后，表单校验引起的页面空白的缺陷
+- improve: 优化数据联动功能的配置，扩展其逻辑比较支持“包含”
+- feat: 支持通过`field.select.allowClear:false`配置禁用下拉选择的清除按钮
+- feat: 支持通过插件方式定制表单项布局配置的选项
+- feat(app-core): 支持异步表单项默认值函数
+- feat(form-fields): 支持在创建表单数据时强制获取序号值（`autoGenSnWhenInit`） [#autoGenSnWhenInit]
+- feat(app-setting): 支持通过插件的方式自定义表单默认值生成规则 [#自定义表单默认值]
+- feat(form-fields): 支持二开的方式添加下拉框组件选项 [#自定义下拉框组件选项]
+- feat(form-fields): 部门选择组件支持选择按照部门级别定义“全组织机构”选择范围

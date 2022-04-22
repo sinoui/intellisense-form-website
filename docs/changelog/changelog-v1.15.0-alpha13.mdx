@@ -1,0 +1,37 @@
+---
+id: changelog-v1.15.0-alpha.13
+title: v1.15.0-alpha.13
+---
+
+import BundleList from '@/components/bundle-list';
+
+## 1. 发布情况
+
+发布日期：2022.4.22
+
+<BundleList
+  version="1.15.0-alpha.13"
+  frontend="1.15.0-alpha.13"
+  backend="1.15.0-alpha.11"
+  font="1.13.0"
+/>
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.15.0-alpha.13。
+
+## 3. sinomatrix 依赖变更
+
+因 sinomatrix 缺陷影响了智能表单之前版本（v1.12.0 版本之前的版本）提供的功能，sinomatrix 已经修复，所以需要同步升级 sinomatrix 到 [1.6.37](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- fix: 修复可见性控制公式和可编辑性控制公式在表单值变化时无效的缺陷
+- fix(form-fields): 修复扩展的下拉框选项不显示的缺陷
+- fix: 修复无流程表单起草按钮权限判定错误的 bug
+- fix: 修复弹窗子表单默认值未生效的 bug
+- feat: 序号新增生成时机的配置，控制可以在办结的同时自动生成序号
+- fix(form-fields): 修复表单属性设置标签两端对齐时，不起作用的 bug
+- feat: 添加监听弹窗子表单值变化的钩子
+- fix: 修复说明文字表达式不同步更新时，预览界面不显示内容的问题
+- fix: 修复因扩展字段标识与默认字段标识相同导致的表单无法保存的问题
