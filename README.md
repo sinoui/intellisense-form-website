@@ -54,7 +54,7 @@ origin  git@gitee.com:sinoui/intellisense-form-website.git (push)
 ### 解决SSH不生效
 
 1. 如果使用已经有的公钥，请尝试重新生成SSH公钥
-2. 如果重新生成的公钥仍然不生效，可尝试升级`GIT`版本，[下载window版本][https://gitforwindows.org/]。
+2. 如果重新生成的公钥仍然不生效，可尝试升级`GIT`版本，[下载window版本](https://gitforwindows.org/)。
 
 ## 部署文档（新）
 
