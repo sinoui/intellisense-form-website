@@ -51,7 +51,6 @@ module.exports = {
           }) {
             const sidebarItems = await defaultSidebarItemsGenerator(args);
             if (sidebarItems[0]?.id?.startsWith("changelog/")) {
-              console.log(sidebarItems);
               return sidebarItems.sort(
                 (item1, item2) =>
                   -compare(
