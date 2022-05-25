@@ -49,6 +49,7 @@ module.exports = {
             "guide-formfield",
             "guide-watch-form-values",
             "guide-control-button-click",
+            "guide-default-form-values",
             "guide-control-button-formitem",
             "guide-global-ui",
             "guide-form-style",
