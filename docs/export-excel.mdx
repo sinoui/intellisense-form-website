@@ -24,25 +24,24 @@ appSetting.listPageConfig.addSelectable({
 
 ```typescript title="src/plugins/export-excel-button/ExportButton.ts"
 import React from 'react';
-import { exportExcel } from '@sinoform/plugin-sinoform-helpers';
 
 export default function ExportButton() {
   return <button>导出Excel</button>;
 }
 ```
 
-我们通过`@sinoform/plugin-sinoform-helpers`提供的`exportExcel`辅助方法来实现导出 Excel 功能。此方法接收如下参数：
+我们通过`@sinoform/helper-export-excel`提供的`exportExcel`辅助方法来实现导出 Excel 功能。此方法接收如下参数：
 
 - template: 模板文件 Buffer 数据
 - data: 导出的 Excel 数据
 - title: 导出的 Excel 标题
 - formItems: 导出的表单字段配置
+- extraData: 额外数据，用于 excel 模板的插值表达式解析
 
 此案例我们以本地上传的文件来获取文件的 Buffer 数据，也可以通过后端接口读取远程数据。
 
 ```typescript title="src/plugins/export-excel-button/ExportButton.ts"
 import React from 'react';
-import { exportExcel } from '@sinoform/plugin-sinoform-helpers';
 
 export default function ExportButton({ dataSource, formDesignSetting }: any) {
   // 获取表单项配置
@@ -50,9 +49,13 @@ export default function ExportButton({ dataSource, formDesignSetting }: any) {
     formConfig: { items: formItems },
   } = formDesignSetting;
 
-  const handleChange = (e: any) => {
+  const handleChange = async (e: any) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const { default: exportExcel } = await import(
+      '@sinoform/helper-export-excel'
+    );
 
     const fr = new FileReader();
 
@@ -98,15 +101,23 @@ import './plugins/export-excel-button';
 
 ## 模板的要求
 
-导出辅助方法目前只读取 Excel 模板第一个 sheet 页的内容，并根据内容生成对应的列表数据。
+### 模板语法
 
-![模板](./assets/export-template.png)
-
-模板语法 `${表达式}`
+#### ${表达式}
 
 - ${表单项}: 表示要打印的表单值
 - count: 用于统计当前表单值中子表单的数据条数，格式：${count(field_1.field_2)}
 - sum: 用户汇总当前表单值中子表单的数据累计值，格式：${sum(field_1.field_2)}
+
+#### 插值表达式
+
+使用`{{字段值}}`这种插值表达式的方式来读取`extraData`中的配置，来达到动态生成导出 excel 数据的目的。
+
+:::info
+导出辅助方法目前只读取 Excel 模板第一个 sheet 页的内容，并根据内容生成对应的列表数据。
+:::
+
+![模板](./assets/export-template.png)
 
 打印的效果
 
