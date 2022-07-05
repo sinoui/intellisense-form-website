@@ -73,6 +73,13 @@ AppSetting.listPageConfig.addButton({
   render: React.lazy(() => import('./plugins/list-page-button-query')),
   formId: '*',
   pos: 'left',
+  availability: (id, type, currentUser, formDesignSetting) => {
+    return !(
+      id === '123456' &&
+      type === 'SEARCH_LIST_PAGE' &&
+      currentUser.userId === 'xxx'
+    );
+  },
 });
 ```
 
@@ -85,9 +92,20 @@ AppSetting.listPageConfig.addButton({
   - SEARCH_LIST_PAGE: 查询列表
   - NOFLOW_LIST_PAGE: 无流程列表
   - ALL_PAGE: 所有列表都支持
+  - 其他。定制列表配置中的页面类型
 - render: 按钮的渲染组件
 - formId: 表单设计 id，用于控制按钮需要在哪个表单的列表界面展示，如果为\*，则所有的表单都适用
 - pos: 可取值 left 、right，默认 right。用于控制按钮居左还是居右显示
+- order: 按钮的排序，数值越大显示越靠前。默认值为 0
+- availability: 按钮是否显示的回调函数，返回值为 true，展示按钮，反之则不展示。函数的参数说明如下：
+  - id。表单设计 id
+  - type。表单类型
+  - currentUser。当前登录人
+  - formDesignSetting。表单设计配置数据
+
+:::info
+上述代码含义解读：除了登陆用户 id 为 `xxx` ，表单 id 为 `123456` 的查询列表界面，其余所有用户的所有列表的定制按钮区域左侧添加一个自定义按钮。
+:::
 
 最后可以在演示系统中查看效果。点击新的按钮，会在控制台输出 `按钮被点击了`。
 
@@ -97,6 +115,7 @@ AppSetting.listPageConfig.addButton({
 - currentUser: 当前登录人信息
 - formDesignSetting: 表单设计信息
 - dataSource: 分页查询的操作对象
+- url: 列表页查询接口
 
 接下来，我们以 dataSource 为例，通过 dataSource 来执行列表刷新
 
@@ -181,6 +200,7 @@ AppSetting.listPageConfig.addInRowButton({
 单行数据级别的按钮支持如下参数
 
 - rowData: 当前行对应的数据
+- dataSource: 分页查询的操作对象
 
 完善行内按钮的点击事件，打印当前行数据
 
@@ -190,3 +210,40 @@ onClick() {
   console.log(rowData);
 }
 ```
+
+### 内置行内按钮可见性控制
+
+除了可以新增行内按钮之外，我们也可以定制已有的行内按钮的可见性。
+
+```typescript title="src/index.ts"
+appSetting.listPageConfig.setInRowButtonVisible(
+  '*',
+  'NOFLOW_LIST_PAGE',
+  'deleteButton',
+  (currentUser, formDesignSetting, rowData) => {
+    if (rowData?.isPublish === '已发布') {
+      return false;
+    }
+
+    return true;
+  }
+);
+```
+
+`setInRowButtonVisible` 参数的说明:
+
+- formId。表单 id 或表单 id 数组。`*`标识匹配任意表单 id
+- pageType。页面类型
+- buttonName。按钮名称。内置按钮名称说明：
+  - deleteButton。删除按钮
+  - copyButton。复用按钮
+  - editButton。编辑按钮
+  - viewButton。查看按钮
+- visible。按钮是否显示回调函数，返回 true，按钮显示，反之则不显示。参数说明：
+  - currentUser。当前登录人
+  - formDesignSetting。表单设计配置数据
+  - rowData。当前行数据
+
+:::info
+上述代码含义解读：任意无流程列表中，如果某行数据中的`isPublish`字段值为`已发布`，则该行操作列中的删除按钮不显示。
+:::
