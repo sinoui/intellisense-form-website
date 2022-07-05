@@ -209,6 +209,59 @@ AppSetting.listenFormChangeAsync(
 );
 ```
 
+## 监听弹窗子表单值变化
+
+> 支持版本：v1.15.0
+
+智能表单从 v1.15.0 版本开始，提供了监听弹窗子表单值变更的方法，主要处理方式与监听主表单值变更保持一致。
+
+### 示例 1：值关联
+
+如果一个产品采购明细是以弹窗子表单的形式存在，我们在填写数据时，需要监听产品的`单价`和`数量`，自动计算出产品总价。具体代码如下：
+
+```tsx
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.listenSubFormChange(
+  "612df55ac9327f1383eb4bbb",
+  "field_1",
+  (prevValue, nextValue, parentValue) => {
+    // 如果产品单价或者数量值发生变化，则重新计算
+    if (
+      nextValue.field_1_price !== prevValue.field_1_price ||
+      nextValue.field_1_count !== prevValue.field_1_count
+    ) {
+      nextValue.field_1_total =
+        nextValue.field_1_price * nextValue.field_1_count;
+    }
+  }
+);
+```
+
+### 示例 2：异步值关联
+
+如果我们有一个绩效考核明细表，我们在监听到`人员姓名(userName)`变化后，需要从后端获取其绩效考核各项指标及其考核结果，此时我们就能通过`listenSubFormChangeAsync`来处理子表单的异步值关联，具体代码如下：
+
+```tsx
+import AppSetting from "@sinoform/app-setting";
+
+AppSetting.listenSubFormChangeAsync(
+  "612df55ac9327f1383eb4bbb",
+  "field_1",
+  async (prevValue, nextValue, parentValue) => {
+    // 如果userName发生变化，则重新获取绩效考核结果
+    if (nextValue.userName !== prevValue.userName) {
+      const { yuwen, shuxue, total } = await getjxkhByUserName(
+        nextValue.userName
+      );
+      nextValue.yuwen = yuwen;
+      nextValue.shuxue = shuxue;
+      nextValue.total = total;
+    }
+  }
+);
+```
+
 ## 在智能表单产品中调试插件
 
 本小节以智能表单外网演示环境来说明如何在智能表单产品中调试插件。
