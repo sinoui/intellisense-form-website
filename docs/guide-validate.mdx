@@ -3,14 +3,21 @@ id: guide-validate
 title: 表单校验
 ---
 
-智能表单支持以插件的方式集成自定义的表单校验。校验分同步校验和异步校验两种方式及表单和弹窗子表单的校验场景，共计四种校验方法。
+> 支持版本：v1.15.0
+
+智能表单支持以插件的方式集成自定义的表单校验。关于表单校验一共牵涉 4 个校验方法：
+
+- `formValidate` 表单同步校验方法
+- `formValidateAsync` 表单异步校验方法
+- `subFormValidate` 弹窗子表单表单项的同步校验方法
+- `subFormValidateAsync` 弹窗子表单表单项的异步校验方法
 
 ## 如何使用
 
-1. 声明校验规则。
+### 自定义表单校验规则
 
 ```typescript title=src/plugins/validate/index.ts
-import AppSetting from '@sinoform/app-setting';
+import AppSetting from "@sinoform/app-setting";
 
 /**
  * 表单同步校验方法
@@ -23,18 +30,18 @@ import AppSetting from '@sinoform/app-setting';
  *    - value: 校验方法，只能是同步的方法。接收两个参数：当前表单项的值和整个表单的值。
  *             如果校验不通过，返回校验结果说明字符串，否则返回undefined
  */
-AppSetting.formValidate('61c99ea3c9327f1d0cb7ef26', {
+AppSetting.formValidate("61c99ea3c9327f1d0cb7ef26", {
   // num1与表单项num2的值进行大小判定
   num1: (value, values) => {
     if (value && values.num2 && Number(value) > Number(values.num2)) {
-      return 'num1不能比num2大';
+      return "num1不能比num2大";
     }
     return undefined;
   },
 
   // count进行非空校验
   count: (value) => {
-    if (!value) return 'count不能为空';
+    if (!value) return "count不能为空";
     return undefined;
   },
 });
@@ -50,7 +57,7 @@ AppSetting.formValidate('61c99ea3c9327f1d0cb7ef26', {
  *    - value: 异步校验方法，可以是同步的方法。接收两个参数：当前表单项的值和整个表单的值
  *
  */
-AppSetting.formValidateAsync('61c99ea3c9327f1d0cb7ef26', {
+AppSetting.formValidateAsync("61c99ea3c9327f1d0cb7ef26", {
   // 通过异步方法校验name值是否符合标准
   name: async (value) => {
     if (value) {
@@ -75,11 +82,11 @@ AppSetting.formValidateAsync('61c99ea3c9327f1d0cb7ef26', {
  *        - 当前子表单的数据，不包含正在编辑的子表单的数据
  *        - 完整的表单数据
  */
-AppSetting.subFormValidate('61c99ea3c9327f1d0cb7ef26', 'field_10', {
+AppSetting.subFormValidate("61c99ea3c9327f1d0cb7ef26", "field_10", {
   // id_card用于存储用户身份信息，通过当前值和整个子表单的数据，判定用户是否重复添加
   id_card: (value: any, itemValues: any, subFormValues: any = []) => {
     if (value && subFormValues.some((item) => item.id_card === value)) {
-      return '身份信息不能重复';
+      return "身份信息不能重复";
     }
     return undefined;
   },
@@ -98,7 +105,7 @@ AppSetting.subFormValidate('61c99ea3c9327f1d0cb7ef26', 'field_10', {
  *        - 当前子表单的数据，不包含正在编辑的子表单的数据
  *        - 完整的表单数据
  */
-AppSetting.subFormValidate('61c99ea3c9327f1d0cb7ef26', 'field_10', {
+AppSetting.subFormValidate("61c99ea3c9327f1d0cb7ef26", "field_10", {
   // 通过异步方法校验name值是否符合标准
   name: async (value) => {
     if (value) {
@@ -109,8 +116,10 @@ AppSetting.subFormValidate('61c99ea3c9327f1d0cb7ef26', 'field_10', {
 });
 ```
 
-2. 在插件项目入口文件中引用该配置文件。
+### 注册该校验规则文件
+
+在插件项目的入口文件中引用上述校验规则的文件即为注册。
 
 ```typescript title=src/index.ts
-import './plugins/validate';
+import "./plugins/validate";
 ```
