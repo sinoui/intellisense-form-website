@@ -10,87 +10,89 @@ title: i18n定制
 1. 声明 i18n 配置。
 
 ```typescript title=src/plugins/i18n/index.ts
-import AppSetting from '@sinoform/app-setting';
+import AppSetting from "@sinoform/app-setting";
 
 AppSetting.i18n = {
   // 流程图标题
-  'theme2.detailPage.flow.image.title': '流程图',
+  "theme2.detailPage.flow.image.title": "流程图",
   // 流转记录标题
-  'theme2.detailPage.flow.record.title': '流程图示',
+  "theme2.detailPage.flow.record.title": "流程图示",
   // 进度详情标题
-  'theme2.detailPage.flow.detail.title': '流程记录',
+  "theme2.detailPage.flow.detail.title": "流程记录",
   // 流程图显示顺序
-  'theme2.detailPage.flow.image.order': 2,
+  "theme2.detailPage.flow.image.order": 2,
   // 流转记录显示顺序
-  'theme2.detailPage.flow.record.order': 1,
+  "theme2.detailPage.flow.record.order": 1,
   // 进度详情显示顺序
-  'theme2.detailPage.flow.detail.order': 0,
+  "theme2.detailPage.flow.detail.order": 0,
   // 当前状态是否显示
-  'theme2.detailPage.flow.status.visible': false,
+  "theme2.detailPage.flow.status.visible": false,
   // 审批意见是否显示
-  'theme2.detailPage.flow.idea.visible': true,
+  "theme2.detailPage.flow.idea.visible": true,
   // 管理首页列表的展现形式
-  'manager.homelist': 'table',
+  "manager.homelist": "table",
   // 工作流操作面板"可选参与者"标题
-  'theme1.workflow.operator.range.title': '可选审批人',
+  "theme1.workflow.operator.range.title": "可选审批人",
   // 工作流操作面板"已选参与者"标题
-  'theme1.workflow.operator.selected.title': '已选审批人',
+  "theme1.workflow.operator.selected.title": "已选审批人",
   // 发送按钮名称
-  'flow.button.submit.name': '发送';
+  "flow.button.submit.name": "发送",
   // 保存按钮名称
-  'flow.button.save.name': '保存';
+  "flow.button.save.name": "保存",
   // 退回按钮名称
-  'flow.button.back.name': '退回';
+  "flow.button.back.name": "退回",
   // 退回起草人按钮名称
-  'flow.button.sendBackDraft.name': '退回起草人';
+  "flow.button.sendBackDraft.name": "退回起草人",
   // 办结按钮名称
-  'flow.button.end.name': '办结';
+  "flow.button.end.name": "办结",
   // 收回按钮名称
-  'flow.button.takeback.name': '收回';
+  "flow.button.takeback.name": "收回",
   // 撤办按钮名称
-  'flow.button.cancelBack.name': '撤办';
+  "flow.button.cancelBack.name": "撤办",
   // 恢复流程按钮名称
-  'flow.button.regainFlow.name': '恢复流程';
+  "flow.button.regainFlow.name": "恢复流程",
   // 主题一详情页流程日志
-  'theme1.detailPage.panel.flowlog.title':'审批记录';
+  "theme1.detailPage.panel.flowlog.title": "审批记录",
   // 主题一详情页返回按钮控制
-  'theme1.detailPage.form.close.button': true;
+  "theme1.detailPage.form.close.button": true,
   // 待办列表为空时提示信息
-  'todoList.table.noData.content': '暂无数据';
+  "todoList.table.noData.content": "暂无数据",
 };
 ```
 
 2. 在插件项目入口文件中引用该配置文件。
 
 ```typescript title=src/index.ts
-import './plugins/i18n';
+import "./plugins/i18n";
 ```
+
+## 使用场景
 
 下面分几个场景简单介绍 i18n 的使用方法。
 
-## 修改文字描述
+### 修改文字描述
 
 用于替换智能表单中对应的文字描述。
 
 ```typescript
 AppSetting.i18n = {
-  'theme2.detailPage.flow.image.title': '流程图',
-  'theme1.detailPage.panel.flowlog.title':'审批记录';
+  "theme2.detailPage.flow.image.title": "流程图",
+  "theme1.detailPage.panel.flowlog.title": "审批记录",
 };
 ```
 
-## 控制组件是否显示
+### 控制组件是否显示
 
 隐藏不需要展示的组件，接收布尔类型的值。
 
 ```typescript
 AppSetting.i18n = {
-  'theme2.detailPage.flow.status.visible': false,
-  'theme1.detailPage.form.close.button': true;
+  "theme2.detailPage.flow.status.visible": false,
+  "theme1.detailPage.form.close.button": true,
 };
 ```
 
-## 控制组件的显示顺序
+### 控制组件的显示顺序
 
 指定组件的排序，数字越大，组件显示越靠后。下面示例的最终展示顺序为：
 
@@ -100,13 +102,13 @@ AppSetting.i18n = {
 
 ```typescript
 AppSetting.i18n = {
-  'theme2.detailPage.flow.image.order': 2,
-  'theme2.detailPage.flow.record.order': 1,
-  'theme2.detailPage.flow.detail.order': 0,
+  "theme2.detailPage.flow.image.order": 2,
+  "theme2.detailPage.flow.record.order": 1,
+  "theme2.detailPage.flow.detail.order": 0,
 };
 ```
 
-## 管理系统首页列表的展现形式
+### 管理系统首页列表的展现形式
 
 管理系统首页列表支持两种展现形式：
 
@@ -115,6 +117,139 @@ AppSetting.i18n = {
 
 ```typescript
 AppSetting.i18n = {
-  'manager.homelist': 'table',
+  "manager.homelist": "table",
+};
+```
+
+### 日期时间显示格式
+
+> 支持版本：v1.15.0
+
+```ts
+AppSetting.i18n = {
+  "app.datetime.format": "YYYY-MM-DD HH:mm:ss",
+};
+```
+
+### 自定义流程状态显示名称
+
+> 支持版本：v1.15.0
+
+```ts
+AppSetting.i18n = {
+  // 流转中显示为审批中
+  "data-status-doing-title": "审批中",
+  // 已撤办显示为已终止
+  "data-status-cancel-title": "已终止",
+};
+```
+
+### 控制列表页按钮隐藏配置
+
+> 支持版本：v1.15.0
+
+智能表单从 1.15.0 版本开始，支持通过 i18n 配置隐藏列表页部分按钮，主要包括一下几种场景：
+
+1. `list.button.noflow.create.hidden.ids` 隐藏无流程表单列表页新建按钮
+2. `list.button.export.hidden.ids` 隐藏列表页导出 excel 按钮
+3. `list.button.create.hidden.ids` 隐藏草稿页新建按钮
+
+```ts
+AppSetting.i18n = {
+  // 表单设计id为"form1_id"、"form2_id"的无流程表单列表页不显示新建按钮
+  "list.button.noflow.create.hidden.ids": ["form1_id", "form2_id"],
+  // 表单设计id为form3的表单不显示导出excel按钮
+  "list.button.export.hidden.ids": ["form3"],
+  // 表单设计id为form4的表单草稿列表页不显示新建按钮
+  "list.button.create.hidden.ids": ["form4"],
+};
+```
+
+### 下拉选择是否支持清空按钮
+
+> 支持版本：v1.15.0
+
+```ts
+AppSetting.i18n = {
+  // 下拉选择默认支持清除按钮，如果想要禁止此功能，可将其设置为false
+  "field.select.allowClear": false,
+};
+```
+
+### 流程意见填写时间的显示格式
+
+> 支持版本：v1.15.0
+
+```ts
+AppSetting.i18n = {
+  // 默认为 `YYYY-MM-DD HH:mm:ss`，即 `2022-05-17 10:14:12`
+  "flow.idea.time.format": "YYYY-MM-DD",
+};
+```
+
+### 禁用子表单统计列
+
+> 支持版本：v1.15.0
+
+智能表单查询列表和无流程表单列表会默认显示子表单的计数列且不能通过页面配置取消，如果我们不想展示子表单计数列，可将 i18N 中的`list.search.columns.subform.disabled`设置为`true`来禁用此功能。
+
+```ts
+AppSetting.i18n = {
+  // 禁用列表页的子表单计数统计功能
+  "list.search.columns.subform.disabled": true,
+};
+```
+
+### 查询列表资源名称
+
+> 支持版本：v1.15.0
+
+流程表单默认生成四个列表：草稿列表、待办列表、已办列表、查询列表。如果我们想要修改查询列表的名称，可通过`list.search.resource.name`进行定义。
+
+```ts
+AppSetting.i18n = {
+  "list.search.resource.name": "xxxx",
+};
+```
+
+### 列表查询按钮的名称
+
+> 支持版本：v1.15.0
+
+```ts
+AppSetting.i18n = {
+  // 部分列表查询按钮名称默认为搜索，可通过此配置自定义该按钮名称
+  "list.search.button.title": "查询",
+};
+```
+
+### 自定义新建按钮位置
+
+> 支持版本：v1.15.0
+
+从 1.15.0 版本开始，我们可以通过 i18n 配置中的`list.button.create.position`属性来自定义新建按钮的位置，此配置有三个值可选：
+
+- `normal` 保持当前位置不变
+- `inSearch` 在查询区域，与查询按钮并排展示。**此配置只有在查询区域为定制查询条件时生效**
+- `inCustomLayout` 在查询区域下方，与自定义按钮并排展示
+
+```ts
+AppSetting.i18n = {
+  "list.button.create.position": "inCustomLayout",
+};
+```
+
+### 自定义内置按钮（自定义列、导出 excel）的位置
+
+> 支持版本：v1.15.0
+
+从 1.15.0 版本开始，我们可以通过 i18n 配置中的`list.button.default.position`属性来自定义内置按钮的位置，此配置有两个值可选：
+
+- `normal` 保持当前位置不变
+- `inSearch` 在查询区域，与查询按钮并排展示。**此配置只有在查询区域为定制查询条件时生效**
+
+```ts
+AppSetting.i18n = {
+  "list.button.default.position": "inSearch",
 };
 ```
