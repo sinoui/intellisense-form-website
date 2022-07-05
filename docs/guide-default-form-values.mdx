@@ -3,59 +3,105 @@ id: guide-default-form-values
 title: 表单默认值
 ---
 
-智能表单支持以插件的方式指定给表单或弹窗子表单中表单项的默认值。
+> 支持版本：v1.15.0
 
-## 方法说明
+智能表单从 v1.15.0 版本开始支持以插件的方式给表单或弹窗子表单设置默认值。
 
-### defaultFormValueAsync
+自定义表单默认值，一般分为两步：
 
-指定表单默认值。方法参数说明：
+1. [创建自定义默认值的文件](#创建自定义默认值的文件)
+2. [注册自定义默认值的文件](#注册自定义默认值的文件)
 
-- formId。表单设计 id。必选
-- 异步回调函数。格式：`(currentUser: UserInfo, formDesign: FormDesignSetting): Promise<Record<string, any> | undefined>`。必选
-  - 回调函数的参数说明：当前登录人、表单配置数据
-  - 返回值为默认的表单值对象，格式为{[表单项 fieldName]: 表单项的值}
+## 创建自定义默认值的文件
 
-### defaultSubFormValueAsync
+我们可以在`src/plugins/custom-default-values`文件夹下创建一个`customDefaultValues`文件，然后在此文件中编写生成默认值的逻辑。
 
-指定弹窗子表单的默认值。方法参数说明：
+### 方法说明
 
-- formId。表单设计 id。必选
-- subFormId。formId 对应的表单中弹窗子表单表单项的 id。必选
-- 异步回调函数。格式：`(currentUser: UserInfo, formDesign: FormDesignSetting): Promise<Record<string, any> | undefined>`。必选
-  - 回调函数的参数说明：当前登录人、表单配置数据
-  - 返回值为默认的表单值对象，格式为{[表单项 fieldName]: 表单项的值}
+关于默认值的设置，一共有两个方法：
 
-## 如何使用
+- defaultFormValueAsync 给表单设置默认值
+- defaultSubFormValueAsync 给表单中的弹窗子表单设置默认值
 
-1. 声明默认值获取的 hook 方法。
+#### defaultFormValueAsync
 
-```typescript title=src/plugins/defaultFormValues.ts
+自定义表单默认值。具体使用方式如下：
+
+```ts title="src/plugins/custom-default-values/customDefaultValues.ts"
 import appSetting from "@sinoform/app-setting";
 
-const formId = "6264f15b81b95c5a18aa65be";
+const formId = "625e4f0081b95c1aff6f41ff";
 
-// 设置主表单的默认值
+// 简单值
 appSetting.defaultFormValueAsync(formId, async (currentUser) => {
-  return {
-    field_1: currentUser.userName,
+  const defaultCreatorDeptName = {
+    field_10: currentUser.deptName,
   };
 });
 
-// 设置弹窗子表单的默认值
-appSetting.defaultSubFormValueAsync(
-  formId,
-  "field_2",
-  async (currentUser, formDesign) => {
-    return {
-      field_2_field_2: "444",
-    };
-  }
-);
+// 从远程获取值
+appSetting.defaultFormValueAsync(formId, async (currentUser) => {
+  const userInfo = await http.get("/custom-api/user-info", {
+    params: { userId: currentUser.userId },
+  });
+
+  return {
+    field_11: userInfo.telephone,
+  };
+});
 ```
 
-2. 在插件项目入口文件中引用该配置文件。
+从上述示例中可以看出，`defaultFormValueAsync`接收两个参数，表单 id 和生成默认值的回调函数。
+
+- formId。表单设计 id。必选
+- 异步回调函数。
+  - 回调函数参数说明：
+    - currentUser 当前登录人信息
+    - formDesign 表单配置数据
+  - 返回值为表单值对象，格式为{[表单项 fieldName]: 表单项的值}
+
+#### defaultSubFormValueAsync
+
+自定义弹窗子表单的默认值。具体方式如下：
+
+```ts title="src/plugins/custom-default-values/customDefaultValues.ts"
+import appSetting from "@sinoform/app-setting";
+
+const formId = "625e4f0081b95c1aff6f41ff";
+
+// 简单值
+appSetting.defaultSubFormValueAsync(formId, "field_2", async (currentUser) => {
+  const defaultCreatorDeptName = {
+    field2_field_10: currentUser.deptName,
+  };
+});
+
+// 从远程获取值
+appSetting.defaultSubFormValueAsync(formId, "field_2", async (currentUser) => {
+  const userInfo = await http.get("/custom-api/user-info", {
+    params: { userId: currentUser.userId },
+  });
+
+  return {
+    field_2_field_11: userInfo.telephone,
+  };
+});
+```
+
+方法参数说明：
+
+- formId。表单设计 id。必选
+- subFormId。formId 对应的表单中弹窗子表单表单项的 id。必选
+- 异步回调函数。
+  - 回调函数参数说明：
+    - currentUser 当前登录人信息
+    - formDesign 表单配置数据
+  - 返回值为表单值对象，格式为{[表单项 fieldName]: 表单项的值}
+
+## 注册自定义默认值的文件
+
+在插件项目入口文件中引用该配置文件。
 
 ```typescript title=src/index.ts
-import "./plugins/defaultFormValues";
+import "./plugins/custom-default-values/customDefaultValues";
 ```
