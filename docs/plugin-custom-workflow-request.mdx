@@ -1,0 +1,38 @@
+---
+id: plugin-custom-workflow-request
+title: 定制流程提交请求
+---
+
+## 如何使用
+
+`beforeSendWorkflow`方法在流程提交提交前调用，用来修改流程提交请求数据。
+下面我们简单实现一个定制待办和已办链接的功能
+
+```typescript
+import appSetting from '@sinoform/app-setting';
+
+appSetting.hooks.detailPage.tap('自定义待办链接', (detailPageContext) => {
+  const {
+    formState,
+    formData: { formDesign },
+  } = detailPageContext;
+
+  detailPageContext.hooks.beforeSendWorkflow?.tap(
+    '自定义待办链接',
+    (request) => {
+      request.attr1 = JSON.stringify({
+        ID: 'NE',
+        WURL: 'xxxx', // 'xxxx'代指待办链接
+        RURL: 'xxxx', // 'xxxx'代指已办链接
+        recordId: formState.values.id,
+        applicationId: formDesign.applicationId,
+        formId: formDesign.id,
+      });
+    }
+  );
+});
+```
+
+beforeSendWorkflow 方法参数说明
+
+- request。流程提交的请求对象，我们直接在这个对象上进行修改
