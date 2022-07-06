@@ -47,6 +47,7 @@ module.exports = {
             "guide-hello",
             "guide-button",
             "guide-formfield",
+            "guide-button-in-detail-page",
             "guide-default-form-values",
             "guide-watch-form-values",
             "guide-validate",
