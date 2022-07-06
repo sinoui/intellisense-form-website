@@ -1,0 +1,26 @@
+---
+id: plugin-field-config-panel
+title: 字段属性配置面板
+---
+
+使用`appSetting.panelConfig.addConfigPanel`方法单独为表单项添加自定义的配置面板
+
+## 使用方法
+
+```typescript
+appSetting.panelConfig.addConfigPanel({
+  type: 'input',
+  render: React.lazy(() => import('../SubInputConfigPanel')),
+  filter: 'container',
+  precedences: 10,
+});
+```
+
+参数说明：
+
+- type。面板对应的表单项类型
+- render。面板组件
+- filter。该面板的适用范围。可以接受两种类型的值
+  - 字符串。表单项分为普通表单项`root`和容器内的表单项`container`，使用字段属性中的 owner 来标识，默认为`root`。filter 为字符串时，对比 owner 与 filter 的值是否匹配。
+  - 方法`(field) => boolean`。根据表单项的配置数据获取面板是否满足渲染条件，返回 true 表示满足条件，否则为不满足条件
+- precedences。面板的优先级，数值越大，优先级越高。如果存在多个符合条件的属性面板，使用优先级最高的面板

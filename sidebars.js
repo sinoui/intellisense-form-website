@@ -58,6 +58,7 @@ module.exports = {
             "guide-i18n",
             "guide-list-page-config",
             "plugin-custom-flow-candidates",
+            "plugin-field-config-panel",
             "guide-summary",
           ],
           高级教程: [
