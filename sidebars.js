@@ -55,10 +55,11 @@ module.exports = {
             "guide-custom-list-search-layout",
             "guide-global-ui",
             "guide-form-style",
-            "guide-i18n",
+            "guide-field-select-options",
             "guide-list-page-config",
             "plugin-custom-flow-candidates",
             "plugin-field-config-panel",
+            "guide-i18n",
             "guide-summary",
           ],
           高级教程: [
