@@ -52,6 +52,7 @@ module.exports = {
             "guide-validate",
             "guide-control-button-click",
             "guide-control-button-formitem",
+            "guide-custom-list-search-layout",
             "guide-global-ui",
             "guide-form-style",
             "guide-i18n",
