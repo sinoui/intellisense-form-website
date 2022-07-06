@@ -111,6 +111,7 @@ module.exports = {
         "export-excel",
         "dictionary-manager",
         "guide-list-page-columns-config",
+        "guide-list-page-transform-data",
         "extra-field",
       ],
     },
