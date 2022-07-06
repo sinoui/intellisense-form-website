@@ -1,0 +1,46 @@
+---
+id: guide-list-page-transform-data
+title: 定制列表数据转换
+---
+
+如果列表页查询接口返回的数据不满足我们的实际展示需求，除了`renderColumns`的方式来修改展示列的渲染值之外，还可以通过`transformDataList`的方式来改变列表中每行数据的值来达到相同的效果。
+
+## 使用方式
+
+```typescript
+import appSetting from '@sinform/app-setting';
+
+/**
+ * 列表数据转换
+ */
+const transformDataList = async (
+  currentUser: UserInfo,
+  _form: FormDesignSetting,
+  dataList: Record<string, any>[]
+) => {
+  return dataList.map((item) => ({
+    ...item,
+    currentUserDept: currentUser.deptId,
+  }));
+};
+
+appSetting.listPageConfig.transformDataList(
+  '*',
+  'ALL_LIST_PAGE',
+  transformDataList
+);
+```
+
+参数说明：
+
+- formId。表单设计 id
+- listType。列表页类型
+- transformDataList。列表数据转换方法，返回新的列表数据
+  - currentUser。当前登陆用户
+  - formDesignSetting。表单设计数据
+  - dataList。原列表数据
+
+## `transformDataList`与`renderColumns`的对比
+
+- 两个方法都能够做到修改列表项展示值的效果
+- transformDataList 改变了列表查询接口的返回数据（如果有的功能涉及到了列表数据的操作，那么他们获取到的是修改后的数据）； renderColumns 只专注于修改页面上列表项的展示效果，不会对数据产生影响。
