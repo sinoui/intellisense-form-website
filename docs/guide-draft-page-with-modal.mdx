@@ -1,0 +1,105 @@
+---
+id: guide-draft-page-with-modal
+title: 以弹窗的形式打开起草页
+---
+
+> 支持版本：v1.15.0
+
+智能表单支持从一个表单中，通过弹窗的方式打开另一个表单的起草页面起草数据。
+
+## 使用场景
+
+业务场景：有一个审批流程，在流程流转到某个节点时，点击信息反馈按钮，需要弹出信息反馈单的起草页面，填写数据后生成一条信息反馈数据。
+
+1. 信息反馈按钮组件开发
+
+```tsx title="src/plugins/show-modal-draft-page/XxfkButton.tsx"
+import React from "react";
+import Button from "@sinoui/core/Button";
+import { showDraftForm } from "@sinoform/helper-form-dialog";
+import { useDetailPage } from "@sinoform/app-core";
+
+// 信息反馈表单id
+const xxfkFormId = "form-id";
+
+export default function XxfkButton() {
+  const detailPage = useDetailPage();
+
+  const handleClick = () => {
+    const formValues = detailPage?.formState?.values ?? {};
+    const id = detailPage.formData.formDesign.id;
+    const defaultFormValues = {
+      field_9: formValues.deptName, // 反馈单位
+      field_10: formValues.userName, // 反馈人
+      field_11: formValues.field_14, // 标题
+      field_12: formValues.field_6, // 洲别
+      country_planning_id: id, //绑定对应审批表单
+    };
+
+    showDraftForm(xxfkFormId, undefined, defaultFormValues, {
+      title: "信息反馈",
+      saveButtonTitle: "提交反馈",
+      saveSuccessMsg: "提交信息反馈成功",
+      saveFailureMsg: "提交信息反馈失败",
+      permission: [
+        {
+          name: "field_9",
+          readOnly: true,
+        },
+        {
+          name: "field_7",
+          readOnly: true,
+          hidden: true,
+        },
+        {
+          name: "field_10",
+          readOnly: true,
+        },
+        {
+          name: "field_11",
+          readOnly: true,
+        },
+        {
+          name: "field_12",
+          readOnly: true,
+        },
+        {
+          name: "field_24",
+          readOnly: true,
+        },
+        { name: "field_15", hidden: true },
+        { name: "field_16", hidden: true },
+        { name: "field_17", hidden: true },
+        { name: "field_23", hidden: true },
+      ],
+    });
+  };
+
+  return (
+    <Button style={{ margin: "8px" }} raised onClick={handleClick}>
+      信息反馈
+    </Button>
+  );
+}
+```
+
+2. 按钮注册到详情页
+
+按钮开发完成之后，需要将其注册至详情页，注册方法可参考[详情页注册按钮](./guide-button-in-detail-page)。
+
+## showDraftForm 方法解析
+
+以弹窗方式打开起草页面的主要方法就是`showDraftForm`，此方法接收 4 个参数：
+
+1. `formId` —— 表单设计 id，必填参数
+2. `dataId` —— 表单数据 id，可选参数
+3. `defaultFormValues` —— 表单默认值，可选参数
+4. `options` —— 配置数据，可选参数，主要包含以下属性
+   - `title` —— 弹窗标题，默认为`新建`
+   - `saveButtonTitle` —— 保存按钮的标题，默认为`保存`
+   - `cancelButtonTitle` —— 取消按钮的标题，默认为`取消`
+   - `saveSuccessMsg` —— 保存成功的提示语
+   - `saveFailureMsg` —— 保存失败的提示语
+   - `readOnly` —— 是否以只读的方式打开页面
+   - `permission` —— 自定义打开表单的权限
+   - `dialogStyle` —— 弹窗的样式
