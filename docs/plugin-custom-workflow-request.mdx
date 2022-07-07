@@ -3,10 +3,13 @@ id: plugin-custom-workflow-request
 title: 定制流程提交请求
 ---
 
+> 支持版本：v1.15.0
+
 ## 如何使用
 
 `beforeSendWorkflow`方法在流程提交提交前调用，用来修改流程提交请求数据。
-下面我们简单实现一个定制待办和已办链接的功能
+
+下面我们简单实现一个定制待办和已办链接的功能。
 
 ```typescript
 import appSetting from '@sinoform/app-setting';
