@@ -91,12 +91,12 @@ const { formState } = this.props;
 
 ## detailPageConfig.addButton 方法解析
 
-`detailPageConfig.addButton`参数中主要包含以下四个属性：
+`detailPageConfig.addButton`方法接收一个`object`类型参数，该参数中的主要包含以下四个属性：
 
 - `id` —— 按钮标识，全局唯一
 - `name` —— 按钮名称
 - `render` —— 按钮的渲染组件
-- `availability` —— 按钮可见性规则的函数，返回 true 或 false。此方法为注册按钮可见性的唯一来源。
+- `availability` —— 控制按钮可见性的函数，返回 true 或 false。此方法为注册按钮可见性的唯一来源。
   此方法接收三个参数
   - permissionHelper 表单内置的权限辅助方法
   - formData 表单详情页数据

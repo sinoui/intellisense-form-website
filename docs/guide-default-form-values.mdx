@@ -34,7 +34,7 @@ const formId = "625e4f0081b95c1aff6f41ff";
 
 // 简单值
 appSetting.defaultFormValueAsync(formId, async (currentUser) => {
-  const defaultCreatorDeptName = {
+  return {
     field_10: currentUser.deptName,
   };
 });
@@ -71,7 +71,7 @@ const formId = "625e4f0081b95c1aff6f41ff";
 
 // 简单值
 appSetting.defaultSubFormValueAsync(formId, "field_2", async (currentUser) => {
-  const defaultCreatorDeptName = {
+  return {
     field2_field_10: currentUser.deptName,
   };
 });
