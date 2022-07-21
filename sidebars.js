@@ -54,6 +54,7 @@ module.exports = {
             "guide-control-button-click",
             "guide-rely-forms",
             "guide-control-button-formitem",
+            "guide-form-button",
             "guide-form-field-layout",
             "guide-field-select-options",
             "plugin-field-config-panel",
