@@ -52,6 +52,7 @@ module.exports = {
             "guide-watch-form-values",
             "guide-validate",
             "guide-control-button-click",
+            "guide-rely-forms",
             "guide-control-button-formitem",
             "guide-form-field-layout",
             "guide-field-select-options",
