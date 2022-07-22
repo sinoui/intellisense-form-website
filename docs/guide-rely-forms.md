@@ -16,6 +16,7 @@ title: 表单之间的交互
 有住房登记单和住房补贴申请两个业务，在申请住房补贴时需要将当前登录人最新一条已办结的住房登记单中的部分信息带入住房补贴申请单。
 
 ```ts title="getLatestEndFormData.ts"
+import field from "@sinoform/helper-condition-api";
 /**
  * 获取当前登录人起草的最新办结的一条数据
  *
@@ -28,18 +29,10 @@ export default async function getLatestEndFormData(
   currentUser: UserInfo
 ) {
   // 创建人等于当前登录人且状态为已办结
-  const queryCriteriaItems = [
-    {
-      id: "userId",
-      operator: "equal",
-      value: currentUser.userId,
-    },
-    {
-      id: "status",
-      operator: "equal",
-      value: "已办结",
-    },
-  ];
+  const queryCriteriaItems = field.and(
+    field("userId").equal(currentUser.userId),
+    field("status").equal("已办结")
+  );
   //倒序排序
   const sort = "endTime,desc";
   const result = await http.get<any>("/apis/intellisense-form/formData/list", {
@@ -89,28 +82,18 @@ appSetting.defaultFormValueAsync(ZFBT_FORMID, async (currentUser) => {
 首先定义一个方法获取最新一条办结的当前年份本部门的数据库采购申请单的数据。
 
 ```ts title="getLatestEndFormData.ts"
+import field from "@sinoform/helper-condition-api";
+
 export default async function getLatestEndFormData(
   formId: string,
   currentUser: UserInfo
 ) {
   // 创建部门等于当前登录人部门，创建年度为当前年并且数据已办结
-  const queryCriteriaItems = [
-    {
-      id: "deptId",
-      operator: "equal",
-      value: currentUser.deptId,
-    },
-    {
-      id: "status",
-      operator: "equal",
-      value: "已办结",
-    },
-    {
-      id: "formNd",
-      operator: "equal",
-      value: new Date().getYear(),
-    },
-  ];
+  const queryCriteriaItems = field.and(
+    field("deptId").equal(currentUser.deptId),
+    field("status").equal("已办结"),
+    field("formNd").equal(new Date().getYear())
+  );
   //倒序排序
   const sort = "endTime,desc";
   const result = await http.get<any>("/apis/intellisense-form/formData/list", {
