@@ -150,6 +150,16 @@ sinoform:
   uias-server-uri: 192.168.80.142:18001
 ```
 
+### 开启`DEBUG`日志
+
+可在配置文件中添加如下配置：
+
+```yml
+logging:
+  level:
+    com.sinosoft: debug
+```
+
 ## 数据库配置
 
 智能表单需要添加使用关系型数据库存储填报的表单数据。需要在 `application.yml` 中添加数据库配置。
