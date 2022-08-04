@@ -38,6 +38,7 @@ module.exports = {
         "config-file-store",
         "sinofrom-sinomatrix-import-export",
         "sinoform-import",
+        "config-file-online-preview",
       ],
       插件开发: [
         "plugin-index",
