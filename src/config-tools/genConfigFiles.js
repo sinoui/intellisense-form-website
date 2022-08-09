@@ -90,6 +90,25 @@ const genConfigFiles = async (formState) => {
     workflow-server-uri: ${config.sinomatrix.workflowServerUri ?? ""}
     # 指定统一授权服务链接
     uias-server-uri: ${config.sinomatrix.uiasServerUri ?? ""}
+  
+  sinomatrix:
+    # 指定sinomatrix数据源配置
+    datasource:
+      url: ${config.sinomatrix.dataSourceConfig.url ?? ""}
+      username: ${config.sinomatrix.dataSourceConfig.username ?? ""}
+      password: ${config.sinomatrix.dataSourceConfig.password ?? ""}
+      driver-class-name: ${DRIVER_CLASS_NAMES[config.db.type]}
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        # 初始化连接数
+        initial-size: ${config.sinomatrix.dataSourceConfig.initialSize ?? 1}
+        # 最小连接池数量
+        # spring.datasource.druid
+        min-idle: ${config.sinomatrix.dataSourceConfig.minIdle ?? 1}
+        # 最大连接池数量
+        max-active: ${config.sinomatrix.dataSourceConfig.maxActive ?? 20}
+        # 获取连接时最大等待时间，单位毫秒
+        max-wait: ${config.sinomatrix.dataSourceConfig.maxWait ?? 60000}
   `,
     {
       filepath: "application-dev.yml",

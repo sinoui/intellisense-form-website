@@ -82,6 +82,63 @@ const ConfigTools = () => {
           </Column>
         </Row>
 
+        <h4>sinomatrix数据库数据源配置</h4>
+        <Row gutter={8}>
+          <Column md={24} sm={24} xs={24}>
+            <FormItem name="sinomatrix.dataSourceConfig.url" label="数据源地址">
+              <TextInput />
+            </FormItem>
+          </Column>
+          <Column md={12} xs={24}>
+            <FormItem
+              name="sinomatrix.dataSourceConfig.username"
+              label="数据库用户名"
+            >
+              <TextInput />
+            </FormItem>
+          </Column>
+          <Column md={12} xs={24}>
+            <FormItem
+              name="sinomatrix.dataSourceConfig.password"
+              label="数据库密码"
+            >
+              <PasswordInput />
+            </FormItem>
+          </Column>
+          <Column md={6} sm={12} xs={24}>
+            <FormItem
+              name="sinomatrix.dataSourceConfig.initialSize"
+              label="初始连接数"
+            >
+              <TextInput type="number" />
+            </FormItem>
+          </Column>
+          <Column md={6} sm={12} xs={24}>
+            <FormItem
+              name="sinomatrix.dataSourceConfig.minIdle"
+              label="最小连接池数量"
+            >
+              <TextInput type="number" />
+            </FormItem>
+          </Column>
+          <Column md={6} sm={12} xs={24}>
+            <FormItem
+              name="sinomatrix.dataSourceConfig.maxActive"
+              label="最大连接池数量"
+            >
+              <TextInput type="number" />
+            </FormItem>
+          </Column>
+          <Column md={6} sm={12} xs={24}>
+            <FormItem
+              name="sinomatrix.dataSourceConfig.maxWait"
+              label="获取连接时最大等待时间"
+            >
+              <TextInput type="number" helperText="单位毫秒" />
+            </FormItem>
+          </Column>
+        </Row>
+
         <h4>mongodb 数据库配置</h4>
         <Row gutter={8}>
           <Column md={6} sm={12} xs={24}>

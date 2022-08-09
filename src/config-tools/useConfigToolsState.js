@@ -28,6 +28,15 @@ export const defaultConfig = {
     workflowDesignServerUri: "127.0.0.1:8088",
     workflowServerUri: "127.0.0.1:18003",
     uiasServerUri: "127.0.0.1:18001",
+    dataSourceConfig: {
+      url: "jdbc:mysql://127.0.0.1:3306/sinoepuias?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true",
+      username: "sinoepuias",
+      password: "sinoepuias",
+      initialSize: 1,
+      minIdle: 1,
+      maxActive: 20,
+      maxWait: 60000,
+    },
   },
 };
 
