@@ -119,6 +119,7 @@ module.exports = {
         "guide-list-page-transform-data",
         "extra-field",
       ],
+      性能测试: [ "performance-test" ],
     },
     {
       type: "category",
