@@ -86,25 +86,31 @@ configs:
 
 ### 3.1. 新增资源
 
-#### 3.1.1. 第三方接口配置
+#### 3.1.1. 第三方接口说明
 
-新增应用、在应用中新增分组时，均需要调用新增资源的接口。第三方资源服务接口配置项：
+智能表单在新增应用以及在应用中新增分组时，均需要调用新增资源的接口添加对应的资源。
+
+#### 3.1.2. 智能表单配置
 
 ```yaml
 url:
-  get-save-resource-url: http://192.168.90.110:19001/custom-save-resource
+  # 第三方新增资源接口 - 示例配置
+  get-save-resource-url: http://192.168.90.110:19001/custom-resource-api/add-resource
 ```
 
-#### 3.1.2. 接口约定
+#### 3.1.3. 第三方接口约定
 
-新增资源的接口如下：
-
+- 请求类型：POST
+- 请求参数：para - json数据，详情见[请求参数说明](#314-请求参数说明)
+- 响应：json数据 - 详情见[响应说明](#315-响应说明)
+- 请求示例：
 ```http
-POST http://<统一授权服务地址>/uias/resource/saveResource
+  POST http://192.168.90.110:19001/custom-resource-api/add-resource?para=json数据
 ```
 
-新增的资源数据以 `application/json` 格式的请求体提交。请求体数据格式如下：
+#### 3.1.4. 请求参数说明
 
+请求参数示例：
 ```json
 {
   "author": "1",
@@ -116,7 +122,7 @@ POST http://<统一授权服务地址>/uias/resource/saveResource
 }
 ```
 
-对象中的属性说明如下表所示：
+请求参数说明：
 
 | 属性名     | 说明                      |
 | ---------- | ------------------------- |
@@ -127,53 +133,49 @@ POST http://<统一授权服务地址>/uias/resource/saveResource
 | superId    | 父级资源的 id。           |
 | resourceId | 新增资源位置的锚点资源 id |
 
-其中 `order` 有三个值，分别是：`after`、`before` 和 `child`，`child` 是默认值。`order` 为 `after` 时，表示新增资源的位置是在锚点资源（由 `resourceId` 指定）之后。`order` 为 `before` 时，表示新增资源的位置是在锚点资源之前。`order` 为 `child` 时，表示新增资源的位置是在父级资源（由 `superId` 指定）之下。
+其中 `order` 有三个值，分别是：`after`、`before` 和 `child`，详情如下：
+- `order` 为 `after` 时，表示新增资源的位置是在锚点资源（由 `resourceId` 指定）之后。
+- `order` 为 `before` 时，表示新增资源的位置是在锚点资源（由 `resourceId` 指定）之前。
+- `order` 为 `child` 时，表示新增资源的位置是在父级资源（由 `superId` 指定）之下。
 
-响应数据格式如下：
+#### 3.1.5. 响应说明
 
-```json title="新增资源的成功响应" {3}
+```json
 {
-  "status": "1",
-  "resourceId": "4028d00e7d6f8e31017e67ea681a064b",
-  "msg": "接口响应成功"
+  "msg": "接口响应成功",  // 响应信息
+  "resourceId": "4028daff826c19dd0182a0d891c30377", // 资源的id，若资源添加成功，需要返回此资源id
+  "status": "1" // 1-成功 0-失败
 }
 ```
 
-其中 `resourceId` 属性为新增资源的 id。
+### 3.2. 查询所有资源接口
 
-```json title="新增资源的失败响应"
-{
-  "status": "0",
-  "msg": "新增资源失败"
-}
-```
-
-### 3.2. 获取业务系统的所有资源接口
+#### 3.2.1. 第三方接口说明
 
 智能表单需要通过此接口获取到资源树，在表单发布时，用户可以通过以下界面将表单对应的资源定位到合适的导航位置：
 
 ![](assets/config-resource-publish/custom-form-resource-position.png)
 
-#### 3.2.1. 第三方接口配置
+#### 3.2.2. 智能表单配置
 
 第三方资源服务接口配置项：
 
 ```yaml
 url:
-  get-send-resource-url: http://192.168.90.110:19001/custom-get-subsystem-resources
+  get-send-resource-url: http://192.168.90.110:19001/custom-resource-api/all-resources
 ```
 
-#### 3.2.2. 接口约定
+#### 3.2.3. 第三方接口约定
 
-接口如下：
-
+- 请求类型：GET
+- 请求参数：无
+- 响应：json数据 - 详情见[响应说明](#323-响应说明)
+- 请求示例：
 ```http
-GET http://<统一授权服务地址>/resource/getAllById?subId=67250
+  GET http://192.168.90.110:19001/custom-resource-api/all-resources
 ```
 
-其中请求参数 `subId` 为业务系统 id。
-
-响应数据如下：
+#### 3.2.3. 响应说明
 
 <JSONViewer
   title="获取业务系统的所有资源的成功响应"
@@ -213,7 +215,7 @@ GET http://<统一授权服务地址>/resource/getAllById?subId=67250
 | resourceName | 资源名称  |
 
 <JSONViewer
-  title="获取业务系统的所有资源的成功响应"
+  title="获取业务系统的所有资源的失败响应"
   src={{
     status: "0",
     msg: "获取资源失败",
@@ -222,51 +224,606 @@ GET http://<统一授权服务地址>/resource/getAllById?subId=67250
 
 ### 3.3. 更新资源接口
 
+
+
+#### 3.3.1. 第三方接口说明
+
 此接口用来更新资源名称的。应用名称变更时，需要调用此接口，以更新对应的资源名称。
 
-#### 3.3.1. 第三方接口配置
-
-第三方资源服务接口配置项：
+#### 3.3.2. 智能表单配置
 
 ```yaml
 url:
-  update-resource-url: /custom-update-resource
+  update-resource-url: http://192.168.90.110:19001/custom-resource-api/rename-resource
 ```
 
-#### 3.3.2. 接口约定
+#### 3.3.3. 第三方接口约定
 
-接口如下：
+- 请求类型：POST
+- 请求参数：para - json数据，详情见[请求参数说明](#334-请求参数说明)
+- 响应：json数据 - 详情见[响应说明](#335-响应说明)
+- 请求示例：
 
 ```http
-POST http://<统一授权服务地址>/uias/resource/updateResource
+  POST http://192.168.90.110:19001/custom-resource-api/rename-resource?para=json数据
 ```
 
-更新的资源数据以 `application/json` 格式的请求体提交。请求体数据格式如下：
+#### 3.3.4. 请求参数说明
+
+请求参数示例：
 
 ```json
 {
-  "resourceId": "4028d00e7d6f8e31017e67ea681a064b",
-  "resourceName": "新的资源名称",
+  "resourceId": "4028daff826c19dd0182a976ff4d038c",
+  "name": "未命名应用-new",
   "subId": "67250"
 }
 ```
 
-响应数据如下：
+请求参数说明：
 
-```json title="更新资源的成功响应"
+| 属性名     | 说明     |
+| ---------- | -------- |
+| resourceId | 资源id   |
+| name       | 资源名称 |
+| subId      | 系统id   |
+
+#### 3.3.5. 响应说明
+
+```json title="成功响应"
 {
-  "resourceId": "4028d00e7d6f8e31017e67ea681a064b",
   "status": "1",
   "msg": "接口响应成功"
 }
 ```
 
-```json title="更新资源的失败响应"
+```json title="失败响应"
 {
   "status": "0",
   "msg": "接口响应失败"
 }
 ```
+
+### 3.4. 删除资源接口
+
+#### 3.4.1. 第三方接口说明
+
+该接口实现删除资源以及资源相关的权限数据的功能。
+
+#### 3.4.2. 智能表单配置
+
+```yaml
+url:
+  remove-resource-url: http://192.168.90.110:19001/custom-resource-api/delete-resource
+```
+
+#### 3.4.3. 第三方接口约定
+
+- 请求类型：DELETE
+- 请求参数：{resourceId} - 资源id
+- 响应：json数据 - 详情见[响应说明](#344-响应说明)
+- 请求示例：
+
+```http
+  DELETE http://192.168.90.110:19001/custom-resource-api/delete-resource/4028d00e7d6f8e31017e67ea681a064b
+```
+
+#### 3.4.4. 响应说明
+
+```json title="成功响应"
+{
+  "status": "1",
+  "msg": "接口响应成功"
+}
+```
+
+```json title="失败响应"
+{
+  "status": "0",
+  "msg": "接口响应失败"
+}
+```
+
+### 3.5. 获取子资源接口
+
+#### 3.5.1. 第三方接口说明
+
+根据资源id 获取该资源id下的所有子资源id，子资源id按菜单显示顺序排序。
+
+#### 3.5.2. 智能表单配置
+
+```yaml
+url:
+  get-resource-id-by-pid: http://192.168.90.110:19001/custom-resource-api/sub-resource-ids
+```
+
+#### 3.5.3. 第三方接口约定
+
+- 请求类型：GET
+- 请求参数：pid - 父资源id
+- 响应：json数据 - 详情见[响应说明](#354-响应说明)
+- 请求示例：
+
+```http
+  GET http://192.168.90.110:19001/custom-resource-api/sub-resource-ids?pid=4028daff826c19dd0182a976ff4d038c
+```
+
+#### 3.5.4. 响应说明
+
+```json title="响应 - 子资源id列表"
+[
+    "id1",
+    "id2"
+]
+```
+
+### 3.6. 移动资源接口
+
+#### 3.6.1. 第三方接口说明
+
+移动资源位置。
+
+#### 3.6.2. 智能表单配置
+
+```yaml
+url:
+  move-resource-url: http://192.168.90.110:19001/custom-resource-api/move-resource
+```
+
+#### 3.6.3. 第三方接口约定
+
+- 请求类型：POST
+- 请求参数：para - json数据，详情见[请求参数说明](#364-请求参数说明)
+- 响应：json数据 - 详情见[响应说明](#365-响应说明)
+- 请求示例：
+
+```http
+  POST http://192.168.90.110:19001/custom-resource-api/move-resource?para=json数据
+```
+
+#### 3.6.4. 请求参数说明
+
+请求参数示例：
+
+```json
+{
+	"author": "1",
+	"id": "4028daff826c19dd01827c79920600b9",
+	"order": "after",
+	"resourceId": "4028daff803cd55e01804b5860a8017a",
+	"subId": "67250",
+	"superId": "4028daff803cd55e01804695391a00bb"
+}
+```
+
+请求参数说明：
+
+| 属性名     | 说明       |
+| ---------- | ---------- |
+| author     | 操作用户id |
+| id         | 资源id     |
+| order      | 相对位置   |
+| resourceId | 相对资源id |
+| subId      | 系统id     |
+| superId    | 父资源id   |
+
+#### 3.6.5. 响应说明
+
+```json title="成功响应"
+{
+  "status": "1",
+  "msg": "接口响应成功"
+}
+```
+
+```json title="失败响应"
+{
+  "status": "0",
+  "msg": "接口响应失败"
+}
+```
+
+### 3.7. 资源排序接口
+
+#### 3.7.1. 第三方接口说明
+
+根据资源位置排序，功能与移动资源接口相同。
+
+#### 3.7.2. 智能表单配置
+
+url配置为移动资源接口地址即可：
+
+```yaml
+url:
+  sort-resource-url: http://192.168.90.110:19001/custom-resource-api/move-resource
+```
+
+### 3.8. 获取资源信息接口
+
+#### 3.8.1. 第三方接口说明
+
+根据资源id，获取指定的资源信息。
+
+#### 3.8.2. 智能表单配置
+
+```yaml
+url:
+  get-resource-info-url: http://192.168.90.110:19001/custom-resource-api/get-resource
+```
+
+#### 3.8.3. 第三方接口约定
+
+- 请求类型：GET
+- 请求参数：rid - 资源id
+- 响应：json数据 - 详情见[响应说明](#384-响应说明)
+- 请求示例：
+
+```http
+  GET  http://192.168.90.110:19001/custom-resource-api/get-resource?rid=4028daff826c19dd01827c79920600b9
+```
+
+#### 3.8.4. 响应说明
+
+响应示例：
+
+```json
+{
+	"msg": "接口响应成功",
+	"sysResourceInfo": {
+		"resourceOrder": 32,
+		"resourceId": "4028daff82aaf66b0182e76cadb9003f",
+		"resourceContent": "",
+		"resourcePid": "4028daff803cd55e01804695391a00bb",
+		"resourceName": "未命名表单",
+		"resourcetypeId": "67252",
+		"isNavigation": "1",
+		"rtypeId": "1",
+		"treeId": "01550012",
+		"resourceCode": "c31b8abb19e145cdb3598c50842e32ea",
+		"isTab": "0",
+		"status": "1"
+	},
+	"status": "1"
+}
+```
+
+响应说明：
+
+| 属性名          | 说明                   |
+| --------------- | ---------------------- |
+| msg             | 响应信息               |
+| status          | 状态   成功-1   失败-0 |
+| sysResourceInfo | 资源信息               |
+
+### 3.9. 资源发布接口
+
+#### 3.9.1. 第三方接口说明
+
+智能表单在发布资源时，需要通过该接口添加/更新/删除菜单资源、系统角色、资源与系统角色关系、系统角色与人/部门/业务角色/部门+业务角色的授权关系。
+
+#### 3.9.2. 智能表单配置
+
+```yaml
+url:
+  # 第三方表单资源发布接口 - 示例配置
+  send-resource-url: http://192.168.90.110:19001/custom-resource-api/release-form
+```
+
+#### 3.9.3. 第三方接口约定
+
+- 请求类型：POST
+- 请求参数：json数据 - 详情见[流程表单参数说明](#394-请求参数说明---流程表单)和[非流程表单参数说明](#395-请求参数说明---非流程表单无流程表单角色授权表单仪表盘)
+- 响应：json数据 - 详情见[响应说明](#396-响应说明)
+- 请求示例：
+
+```http
+  POST http://192.168.90.110:19001/custom-resource-api/release-form?para=json数据
+```
+
+#### 3.9.4. 请求参数说明 - 流程表单
+
+<JSONViewer
+  title="流程表单请求参数示例"
+  src={{
+  "applyDeptId": "18043",
+  "applyDeptName": "系统管理部",
+  "applyUserId": "1",
+  "applyUserName": "admin",
+  "flowId": "6961856da67c46f4b7708c9b4b1a499c",
+  "flowType": "9",
+  "id": "62f34d0cd301e4675e3ab4c1",
+  "position": {
+    "code": "9351be450ccf4af09d9a492e0efdd4b9",
+    "name": "test-测试资源报文",
+    "order": "before",
+    "resourceId": "4028daff8258b51b01826bff15b40197", // 因为order的值为before，所以当前表单资源的位置在此resourceId所代表的资源之前
+    "resources": [
+      {
+        "code": "71e64b3a7c3842e1a8999b6a20a54070",
+        "name": "草稿列表",
+        "type": "draft",
+        "url": "/intellisense-form/draftList/62f34d0a517c935ff43024ad"
+      },
+      {
+        "code": "c8819d5bde1b4f9eadc3d9fb7fa39bb2",
+        "name": "待办列表",
+        "type": "todo",
+        "url": "/intellisense-form/todoList/62f34d0a517c935ff43024ad"
+      },
+      {
+        "code": "09cd556d642547f985673f60ad2cb842",
+        "name": "已办列表",
+        "type": "done",
+        "url": "/intellisense-form/doneList/62f34d0a517c935ff43024ad"
+      },
+      {
+        "code": "84274f532b934f788b6dcc3db602f72f",
+        "name": "查询列表",
+        "type": "query",
+        "url": "/intellisense-form/searchList/62f34d0a517c935ff43024ad"
+      }
+    ],
+    "url": ""
+  },
+  "rlsyConfig": [
+    {
+      "authorized": {
+        "deptId": [
+          "18043"
+        ],
+        "deptRole": [
+          {
+            "deptIds": [
+              "18043"
+            ],
+            "roleIds": "4028daff7e4750d1017e47ae16d80003"
+          }
+        ],
+        "roleId": [
+          "4028daff7e4750d1017e47ae16d80003"
+        ],
+        "user": [
+          {
+            "deptId": "18043",
+            "userId": "4028daff7e6c0562017e7a8e9a280034"
+          },
+          {
+            "deptId": "18043",
+            "userId": "4028daff7f0ad29a017f2057a3030015"
+          }
+        ]
+      },
+      "resourceCode": [
+        "71e64b3a7c3842e1a8999b6a20a54070"
+      ],
+      "rlsyCode": "49fe1937e7264d2ea51b50b5b4c0e6bf",
+      "rlsyName": "test-测试资源报文起草角色",
+      "type": "create"
+    },
+    {
+      "authorized": {
+        "deptId": [
+          "18043"
+        ],
+        "deptRole": [
+        ],
+        "roleId": [
+        ],
+        "user": [
+          {
+            "deptId": "18043",
+            "userId": "1"
+          }
+        ]
+      },
+      "resourceCode": [
+        "c8819d5bde1b4f9eadc3d9fb7fa39bb2",
+        "09cd556d642547f985673f60ad2cb842"
+      ],
+      "rlsyCode": "556c3bfd8c994a67a07b2d576e3ef194",
+      "rlsyName": "test-测试资源报文办理角色",
+      "type": "processor"
+    },
+    {
+      "authorized": {
+        "deptId": [
+          "18043"
+        ],
+        "deptRole": [
+        ],
+        "roleId": [
+        ],
+        "user": [
+          {
+            "deptId": "18043",
+            "userId": "1"
+          },
+          {
+            "deptId": "18043",
+            "userId": "4028daff7e6c0562017e7a8e9a280034"
+          }
+        ]
+      },
+      "resourceCode": [
+        "84274f532b934f788b6dcc3db602f72f"
+      ],
+      "rlsyCode": "9cbcafbd73544d06af0e5a921f84b9ba",
+      "rlsyName": "test-测试资源报文查看角色",
+      "type": "view"
+    }
+  ],
+  "subId": "67250",
+  "time": "2022-08-10 14:15:39",
+  "title": "test-测试资源报文",
+  "url": "",
+  "workId": "62f34d0a517c935ff43024ad",
+  "workName": "test-测试资源报文"
+  }}
+/>
+
+流程表单请求参数说明：
+
+| 属性名                           | 说明                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| applyDeptId                      | 发布人部门id                                                 |
+| applyDeptName                    | 发布人部门名称                                               |
+| applyUserId                      | 发布人用户id                                                 |
+| applyUserName                    | 发布人用户名                                                 |
+| flowId                           | uuid - 每次请求的唯一uuid每次请求都会重新生成                |
+| flowType                         | 固定字符串参数9                                              |
+| id                               | uuid - 报文id                                                |
+| position                         | 表单资源信息                                                 |
+| position.code                    | uuid - 表单资源码                                            |
+| position.name                    | 表单名称                                                     |
+| position.order                   | 相对位置（after/before/child）                               |
+| position.resourceId              | 依赖资源的资源id                                             |
+| position.resources               | 表单资源的子资源列表                                         |
+| position.resources.[code]        | uuid - 列表资源码                                            |
+| position.resources.[name]        | 列表资源名称  草稿列表/待办列表/已办列表/查询列表            |
+| position.resources.[type]        | 列表资源类型  起草-draft/待办-todo/已办-done/查询-query      |
+| position.resources.[url]         | 列表资源url     <br/>起草url - /intellisense-form/draftList/表单id<br/>待办url - /intellisense-form/todoList/表单id<br/>已办url - /intellisense-form/doneList/表单id<br/>查询url - /intellisense-form/searchList/表单id |
+| position.url                     | 无流程表单资源url（流程表单此处为空）                        |
+| rlsyConfig                       | 系统角色与权限信息以及关联关系                               |
+| rlsyConfig.[authorized]          | 权限信息                                                     |
+| rlsyConfig.[authorized.deptId]   | 当前系统角色授权的**部门id**                                 |
+| rlsyConfig.[authorized.deptRole] | 当前系统角色授权的**部门+业务角色**                          |
+| rlsyConfig.[authorized.roleId]   | 当前系统角色授权的**业务角色id**                             |
+| rlsyConfig.[authorized.user]     | 当前系统角色授权的**用户信息**                               |
+| rlsyConfig.[resourceCode]        | 列表资源码（对应position.resources.[code]的值）              |
+| rlsyConfig.[rlsyCode]            | uuid - 系统角色码                                            |
+| rlsyConfig.[rlsyName]            | 系统角色的名称                                               |
+| rlsyConfig.[type]                | 系统角色类型  起草角色-create/办理角色-processor/查询角色-view |
+| subId                            | 系统id                                                       |
+| time                             | 时间（yyyy-MM-dd HH:mm:ss）                                  |
+| title                            | 表单名称                                                     |
+| url                              | 表单url - 废弃                                               |
+| workId                           | 表单id                                                       |
+| workName                         | 表单名称（同title）                                          |
+
+#### 3.9.5. 请求参数说明 - 非流程表单（无流程表单/角色授权表单/仪表盘）
+
+<JSONViewer
+  title="非流程表单请求参数示例"
+  src={{
+  "applyDeptId": "18043",
+  "applyDeptName": "系统管理部",
+  "applyUserId": "1",
+  "applyUserName": "admin",
+  "ext": "noFlow",
+  "flowId": "2c93055092e54940a341a160e395032c",
+  "flowType": "9",
+  "position": {
+    "code": "cbf8333dbe7342a2ada771ec5d9467a5",
+    "name": "未命名表单",
+    "order": "after",
+    "resourceId": "4028daff826c19dd0182a09a87c10348",
+    "resources": [
+    ],
+    "url": "/intellisense-form/form-app/62fa0cb72106ac2b84977552/no-flow-list"
+  },
+  "resourceId": "4028daff826c19dd0182a0c1a31c0364",
+  "rlsyConfig": [
+    {
+      "authorized": {
+        "deptId": [
+          "18043",
+          "4028daff7e6c0562017e718d64180001"
+        ],
+        "deptRole": [
+          {
+            "deptIds": [
+              "18043"
+            ],
+            "roleIds": "4028daff7e4750d1017e47ae16d80003"
+          }
+        ],
+        "roleId": [
+          "4028daff7e4750d1017e47ae16d80003"
+        ],
+        "user": [
+          {
+            "deptId": "18043",
+            "userId": "1"
+          },
+          {
+            "deptId": "18043",
+            "userId": "4028daff7e6c0562017e7a8e9a280034"
+          }
+        ]
+      },
+      "resourceCode": [
+        "cbf8333dbe7342a2ada771ec5d9467a5"
+      ],
+      "rlsyCode": "16e3bc44e0ee4adab33edd417223c03c",
+      "rlsyName": "未命名表单角色",
+      "type": "view"
+    }
+  ],
+  "subId": "67250",
+  "time": "2022-08-15 17:07:16",
+  "title": "未命名表单",
+  "url": "",
+  "workId": "62fa0cb72106ac2b84977552",
+  "workName": "未命名表单"
+}}
+/>
+
+非流程表单请求参数说明：
+
+| 属性名                           | 说明                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| applyDeptId                      | 发布人部门id                                                 |
+| applyDeptName                    | 发布人部门名称                                               |
+| applyUserId                      | 发布人用户id                                                 |
+| applyUserName                    | 发布人用户名                                                 |
+| ext                              | 类型 无流程表单-noFlow/仪表盘-dashboard/角色授权-roleManage  |
+| flowId                           | uuid - 每次请求的唯一uuid每次请求都会重新生成                |
+| flowType                         | 固定字符串参数9                                              |
+| position                         | 表单资源信息                                                 |
+| position.code                    | uuid - 表单资源码                                            |
+| position.name                    | 表单名称                                                     |
+| position.order                   | 相对位置（after/before/child）                               |
+| position.resourceId              | 依赖资源的资源id                                             |
+| position.resources               | 流程表单资源的子资源列表 (无流程表单此处为空)                |
+| position.url                     | 无流程表单资源url（流程表单此处为空）                        |
+| rlsyConfig                       | 系统角色与权限信息以及关联关系                               |
+| rlsyConfig.[authorized]          | 权限信息                                                     |
+| rlsyConfig.[authorized.deptId]   | 当前系统角色授权的**部门id**                                 |
+| rlsyConfig.[authorized.deptRole] | 当前系统角色授权的**部门+业务角色**                          |
+| rlsyConfig.[authorized.roleId]   | 当前系统角色授权的**业务角色id**                             |
+| rlsyConfig.[authorized.user]     | 当前系统角色授权的**用户信息**                               |
+| rlsyConfig.[resourceCode]        | 列表资源码（对应position.resources.[code]的值）              |
+| rlsyConfig.[rlsyCode]            | uuid - 系统角色码                                            |
+| rlsyConfig.[rlsyName]            | 系统角色的名称                                               |
+| rlsyConfig.[type]                | 系统角色类型  起草角色-create/办理角色-processor/查询角色-view |
+| subId                            | 系统id                                                       |
+| time                             | 时间（yyyy-MM-dd HH:mm:ss）                                  |
+| title                            | 表单名称                                                     |
+| url                              | 表单url - 废弃                                               |
+| workId                           | 表单id                                                       |
+| workName                         | 表单名称（同title）                                          |
+
+#### 3.9.6. 响应说明
+
+响应示例：
+
+```json
+{
+  "msg": "接口响应成功",
+  "resourceId": "4028daff826c19dd0182a0d891c30377",
+  "status": "1"
+}
+```
+
+响应说明：
+
+| 属性名     | 说明                                       |
+| ---------- | ------------------------------------------ |
+| msg        | 响应信息                                   |
+| resourceId | 表单资源的id，若资源添加成功，需要返回此id |
+| status     | 状态  1-成功 非1-失败                      |
+
+
 
 ## 4. 监听资源发布
 
