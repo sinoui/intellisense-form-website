@@ -217,3 +217,89 @@ kubectl apply -f sinoform-k8s.yaml
 ```
 
 稍等片刻，即可访问智能表单应用：http://[ingress 地址:端口号]/intellisense-form 。
+
+## 四、部署文档转换服务
+
+如果智能表单需要启用附件预览功能，则需要安装文档转换服务。服务镜像地址：
+
+- registry.cn-hangzhou.aliyuncs.com/sinoform/office-to-pdf:latest
+
+:::warning
+文档转换服务暂不支持**arm64**架构的系统部署
+:::
+
+### 4.1 准备镜像
+
+安装上述准备智能表单镜像包的步骤准备转换服务的镜像包
+
+### 4.2 部署
+
+将下面的配置保存到`office-to-pdf-k8s.yaml`文件中，并上传到服务器上：
+
+```yaml title=office-to-pdf-k8s.yaml
+# 文档转换服务
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: office-to-pdf
+spec:
+  selector:
+    matchLabels:
+      app: office-to-pdf
+  template:
+    metadata:
+      labels:
+        app: office-to-pdf
+    spec:
+      containers:
+        - name: office-to-pdf
+          image: registry.cn-hangzhou.aliyuncs.com/sinoform/office-to-pdf:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILE_ACTIVE
+              value: prod
+---
+# 文档转换服务（ClusterIP）
+apiVersion: v1
+kind: Service
+metadata:
+  name: office-to-pdf
+spec:
+  selector:
+    app: office-to-pdf
+  ports:
+    - port: 8080
+---
+# ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: office-to-pdf-ingress
+  labels:
+    name: office-to-pdf-ingress
+  annotations:
+    # 去掉上传文件大小限制
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          # 智能表单后端
+          - path: "/office-to-pdf"
+            pathType: Prefix
+            backend:
+              service:
+                name: office-to-pdf
+                port:
+                  number: 8080
+```
+
+执行以下命令启动服务：
+```bash
+kubectl apply -f office-to-pdf-k8s.yaml
+```
+
+稍等片刻，服务pod启动后，可通过POST请求访问接口：http://[ingress 地址:端口号]/office-to-pdf ，测试服务是否可用。
