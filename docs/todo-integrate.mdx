@@ -62,6 +62,8 @@ title: 待办详情页集成
 
 ## 流程办理成功刷新待办列表
 
+### 非跨域模式集成
+
 当我们在详情页处理完数据之后（比如发送、撤回、退回等），通常需要刷新待办列表。我们是以 window.postMessage()方法向业务系统发送消息，业务系统监听到该消息后认为操作成功，继而进行后续处理（比如关闭弹窗、刷新列表等）。示例代码如下：
 
 ```js
@@ -77,7 +79,7 @@ window.addEventListener(
 );
 ```
 
-### message 类型
+#### message 类型
 
 业务系统可根据监听到的消息类型(type)，进行后续操作。智能表单涉及到的消息类型如下：
 
@@ -90,3 +92,75 @@ window.addEventListener(
 | takeBackSuccess       | 收回成功     |
 | cancelBackSuccess     | 撤办成功     |
 | regainWorkflowSuccess | 流程恢复成功 |
+
+### 跨域下办理完成刷新
+
+1. 业务系统需要增加一个名称为 intellisense-form-todo-send-success-callback-page.html 文件。文件的代码如下：
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      var _id = window.location.search.match(/_id=([^&]+)/)[1];
+      localStorage.removeItem("intellisense-form_" + _id);
+    </script>
+  </body>
+</html>
+```
+
+2. 业务系统在使用 window.open('url') 方式打开智能表单待办页面时，需要在 url 中增加 successCallback=业务系统中 intellisense-form-todo-send-success-callback-page.html 访问路径?\_id=xxx 参数。并加 startMonitorRefresh 处理函数，示例代码如下：
+
+```js
+// 打开智能表单待办
+function openTodo() {
+  var _id = new Date().getTime() + "";
+  // 打开智能表单待办页面
+  var todoUrl =
+    "http://192.168.81.8:8080/intellisense-form/5ef93c10c9327f0a02534c81/todo" +
+    "?id=5f0274b9ec2eb2c3fcf868dc&workItemId=99be8abae74f4509adbd38544642dad7&" +
+    "autoClose=true";
+  var successCallback =
+    "http://192.168.81.8:3003/1Micro-blog/intellisense-form-todo-send-success-callback-page.html?_id=" +
+    _id;
+  var todoWindow = window.open(
+    todoUrl + "&successCallback=" + successCallback,
+    "_blank",
+    "width=1800,height=10000,top=100px,left=0px"
+  );
+  startMonitorRefresh(todoWindow, _id);
+}
+
+function startMonitorRefresh(todoWindow, _id) {
+  // 打开待办同时 存储localStorage
+  localStorage.setItem("intellisense-form_" + _id, "1");
+
+  // 定时器监测localStorage 指定的localStorage item是否存在
+  var timerId = setInterval(function () {
+    var formTodoFlag = localStorage.getItem("intellisense-form_" + _id);
+    // 指定的localStorage item 不存在 执行刷新相关操作
+    if (!formTodoFlag) {
+      clearInterval(timerId);
+      // 业务系统处理刷新
+      // 将以下语句替换成业务系统中刷新待办的代码
+      console.log("刷新");
+    }
+  }, 300);
+}
+
+// 关闭页面清除localstorage
+window.onunload = function () {
+  var keyLen = localStorage.length; // 获取长度
+  for (var i = 0; i < keyLen; i++) {
+    // 获取key 索引从0开始
+    var key = localStorage.key(i);
+    if (key.startsWith("intellisense-form_")) {
+      localStorage.removeItem(key);
+    }
+  }
+};
+```
+
+:::info 温馨提示
+intellisense-form-todo-send-success-callback-page.html 文件名可以更改，只需和 successCallback 中的 html 文件名保持一致即可
+:::
