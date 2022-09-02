@@ -39,6 +39,7 @@ module.exports = {
         "sinofrom-sinomatrix-import-export",
         "sinoform-import",
         "config-file-online-preview",
+        "config-cas-login",
       ],
       插件开发: [
         "plugin-index",
