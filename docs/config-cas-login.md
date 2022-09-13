@@ -16,7 +16,7 @@ sinoform:
   enable-auth-interceptor: false
 ```
 
-## 开启 cas 客户端
+## 开启 cas 客户端（单机部署）
 
 在 application.yml 文件中添加以下配置：
 
@@ -29,7 +29,51 @@ cas:
   # 智能表单服务地址（或 nginx 地址）
   client-host-url: http://192.168.90.127
 # cas 需要忽略验证的 url
-cas-ignore-pattern: /apis/intellisense-form/theme.*|/apis/intellisense-form/common/custom.*|/apis/intellisense-form/plugIn.*
+sinoform:
+  public-paths:
+    - /apis/intellisense-form/common/**
+    - /apis/intellisense-form/login
+    - /apis/intellisense-form/files/**
+    - /apis/intellisense-form/theme**
+    - /apis/intellisense-form/plugIn**
+```
+
+## 开启 cas 客户端（集群部署）
+
+在 application.yml 文件中添加以下配置：
+
+```yaml
+spring:
+  redis:
+    # 基本连接信息配置
+    database: 0
+    host: 192.168.90.125
+    port: 6379
+    password: 123456
+    # 连接池信息配置
+    lettuce:
+      pool:
+        #连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-active: 50
+        #连接池中的最大空闲连接 默认 8
+        max-idle: 8
+        #连接池中的最小空闲连接 默认 0
+        min-idle: 0
+cas:
+  # cas 服务地址前缀
+  server-url-prefix: http://192.168.90.127:8888/cas
+  # cas 服务登录地址
+  server-login-url: http://192.168.90.127:8888/cas/login
+  # 智能表单服务地址（或 nginx 地址）
+  client-host-url: http://192.168.90.127
+# cas 需要忽略验证的 url
+sinoform:
+  public-paths:
+    - /apis/intellisense-form/common/**
+    - /apis/intellisense-form/login
+    - /apis/intellisense-form/files/**
+    - /apis/intellisense-form/theme**
+    - /apis/intellisense-form/plugIn**
 ```
 
 ## 实现效果
