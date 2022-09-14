@@ -5,7 +5,7 @@ title: 部署 mongodb
 
 :::warning 警告
 
-由于大部分 helm 和 operator 方案（包括 MongoDB 官方）都没有 arm64 镜像，所以这里只提供在开发和测试环境中简单地在 kubernetes 中部署单节点 MongoDB。
+本章节介绍的是在 kubernetes 部署单节点 mongodb 的方案。如果需要部署 mongodb 集群，请移步[《部署 mongodb 集群（手动）》](./4-mongo-cluster-k8s.md)
 
 :::
 
@@ -120,7 +120,7 @@ kubectl apply -f mongo.yaml
 
 ## 三、分配存储空间
 
-需要为 mongodb 分配存储空间，即为 `sinoform-mongo-pvc` 分配存储空间。如果已经有自动分配存储空间的 storageclass，则可以跳过。如果没有，则可以手动为 `sinoform-mongo-pvc` 创建 [pv](https://kubernetes.io/zh-cn/docs/concepts/storage/persistent-volumes/)。本章节给出两种案例，抛砖引玉。
+需要为 mongodb 分配存储空间，即为 `sinoform-mongo-pvc` 分配存储空间。如果已经有自动分配存储空间的 storageclass，则可以跳过。如果没有，则可以手动为 `sinoform-mongo-pvc` 创建 [pv](https://kubernetes.io/zh-cn/docs/concepts/storage/persistent-volumes/)。本章节给出两种方案，大家根据自身的情况参考其中一个即可。
 
 ### 3.1. 手动维护本地存储卷
 
