@@ -19,6 +19,14 @@ const defaultDbUrl = {
   dm: "jdbc:dm://127.0.0.1:5236",
 };
 
+const defaultSinoMatrixDbUrl = {
+  mysql:
+    "jdbc:mysql://127.0.0.1:3306/sinoepuias?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true",
+  oracle: "jdbc:oracle:thin:@127.0.0.1:1521/sinoepuias",
+  kingbase: "jdbc:kingbase://127.0.0.1:54323/sinoepuias",
+  dm: "jdbc:dm://127.0.0.1:5236",
+};
+
 /**
  * 配置生成工具
  */
@@ -26,9 +34,14 @@ const ConfigTools = () => {
   const formState = useConfigToolsState();
 
   useState(() => {
-    formState.addRelyRule(["db.type"], (draft) => {
-      draft.db.url = defaultDbUrl[draft.db.type];
-    });
+    formState.addRelyRule(
+      ["db.type", "sinomatrix.dataSourceConfig.type"],
+      (draft) => {
+        draft.db.url = defaultDbUrl[draft.db.type];
+        draft.sinomatrix.dataSourceConfig.url =
+          defaultSinoMatrixDbUrl[draft.sinomatrix.dataSourceConfig.type];
+      }
+    );
   }, [formState]);
 
   return (
@@ -84,7 +97,21 @@ const ConfigTools = () => {
 
         <h4>sinomatrix数据库数据源配置</h4>
         <Row gutter={8}>
-          <Column md={24} sm={24} xs={24}>
+          <Column md={6} xs={24}>
+            <FormItem
+              name="sinomatrix.dataSourceConfig.type"
+              label="数据库类型"
+            >
+              <Select allowClear={false}>
+                <option value="mysql">MySQL</option>
+                <option value="oracle">Oracle</option>
+                <option value="kingbase">人大金仓</option>
+                <option value="dm">达梦</option>
+              </Select>
+            </FormItem>
+          </Column>
+
+          <Column md={18} sm={18} xs={24}>
             <FormItem name="sinomatrix.dataSourceConfig.url" label="数据源地址">
               <TextInput />
             </FormItem>

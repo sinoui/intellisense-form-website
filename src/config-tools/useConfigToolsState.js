@@ -29,6 +29,7 @@ export const defaultConfig = {
     workflowServerUri: "127.0.0.1:18003",
     uiasServerUri: "127.0.0.1:18001",
     dataSourceConfig: {
+      type: "mysql",
       url: "jdbc:mysql://127.0.0.1:3306/sinoepuias?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true",
       username: "sinoepuias",
       password: "sinoepuias",
