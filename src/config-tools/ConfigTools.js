@@ -10,6 +10,7 @@ import PasswordInput from "../components/password-input";
 import useConfigToolsState, { defaultConfig } from "./useConfigToolsState";
 import { FormValueMonitor } from "@sinoui/rx-form-state";
 import ssoServerUrlValidateFn from "./ssoServerUrlValidateFn";
+import genK8sConfigFile from "./genK8sConfigFile";
 
 const defaultDbUrl = {
   mysql:
@@ -30,7 +31,7 @@ const defaultSinoMatrixDbUrl = {
 /**
  * 配置生成工具
  */
-const ConfigTools = () => {
+const ConfigTools = ({ type }) => {
   const formState = useConfigToolsState();
 
   useState(() => {
@@ -43,6 +44,14 @@ const ConfigTools = () => {
       }
     );
   }, [formState]);
+
+  const handleClick = () => {
+    if (type === "k8s") {
+      genK8sConfigFile(formState);
+    } else {
+      genConfigFiles(formState);
+    }
+  };
 
   return (
     <div className="config-tools">
@@ -226,7 +235,7 @@ const ConfigTools = () => {
         </Row>
       </Form>
 
-      <Button raised onClick={() => genConfigFiles(formState)}>
+      <Button raised onClick={handleClick}>
         生成配置文件
       </Button>
     </div>

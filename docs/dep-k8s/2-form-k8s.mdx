@@ -5,6 +5,7 @@ title: 部署智能表单
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import ConfigTools from "@/config-tools";
 
 ## 一、准备镜像
 
@@ -60,13 +61,23 @@ nerdctl push registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-backend:latest
 
 智能表单依赖 MongoDB 和关系型数据库才能运行。所以需要准备智能表单的配置。
 
-如果已经有了配置文件，那么可以通过下面的命令行生成智能表单 ConfigMap：
+如果**已经有了配置文件**，那么可以通过下面的命令行生成智能表单 ConfigMap：
 
 ```bash
 kubectl create configmap sinoform-backend-config --from-file=application.yaml
 ```
 
 上面的命令行指定配置文件名称**必须**为 `application.yaml`。
+
+如果**没有配置文件**，可以通过下面的方式生成配置文件。
+
+<ConfigTools type="k8s" />
+
+生成配置文件之后，可以通过下面的命令行创建 ConfigMap:
+
+```bash
+kubectl apply -f sinoform-backend-config.yaml
+```
 
 ## 三、运行智能表单
 
@@ -298,8 +309,9 @@ spec:
 ```
 
 执行以下命令启动服务：
+
 ```bash
 kubectl apply -f office-to-pdf-k8s.yaml
 ```
 
-稍等片刻，服务pod启动后，可通过POST请求访问接口：http://[ingress 地址:端口号]/office-to-pdf ，测试服务是否可用。
+稍等片刻，服务 pod 启动后，可通过 POST 请求访问接口：http://[ingress 地址:端口号]/office-to-pdf ，测试服务是否可用。
