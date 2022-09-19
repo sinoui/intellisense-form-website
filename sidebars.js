@@ -40,6 +40,7 @@ module.exports = {
         "sinoform-import",
         "config-file-online-preview",
         "config-cas-login",
+        "config-oauth2-login",
       ],
       插件开发: [
         "plugin-index",
