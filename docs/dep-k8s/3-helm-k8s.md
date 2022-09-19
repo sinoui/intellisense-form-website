@@ -3,7 +3,7 @@ id: helm-k8s
 title: 部署智能表单(Helm)
 ---
 
-## values.yaml 配置
+## 配置说明
 
 ### 基本配置
 
@@ -19,7 +19,7 @@ web:
   {}
   # 镜像仓库地址（默认阿里云仓库）
 #  image: registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-web
-# 镜像版本（默认v1.15.0-alpha.11）
+# 镜像版本（默认latest）
 #  version:
 # 内存及CPU分配(没有默认值，为空的话不分配资源)
 #  memory: "128Mi"
@@ -30,7 +30,7 @@ backend:
   {}
   # 镜像仓库地址（默认阿里云仓库）
 #  image: registry.cn-hangzhou.aliyuncs.com/sinoform/sinoform-backend
-# 镜像版本（默认v1.15.0-alpha.11）
+# 镜像版本（默认latest）
 #  version:
 # 内存及CPU分配(没有默认值，为空的话不分配资源)
 #  memory: "4096Mi"
@@ -117,39 +117,6 @@ config:
     uias-server-uri: 192.168.90.128
 ```
 
-## 部署智能表单
-
-### 安装 Chart
-
-可通过以下命令安装 chart
-
-```bash
-helm install sinoform sinoform-0.0.1.tgz
-```
-
-:::info
-sinoform 为本次安装、发布的`release`的名称。如果不写这个名称，则必须添加参数`--generate-name`(或者简写`-g`)，helm 会自动生成一个`release`名称。
-:::
-
-出现如下内容，
-
-```bash
-[root@master helm]# helm install sinoform sinoform-0.0.1.tgz
-NAME: sinoform
-LAST DEPLOYED: Fri Mar 18 11:31:45 2022
-NAMESPACE: default
-STATUS: deployed
-REVISION: 1
-TEST SUITE: None
-...
-```
-
-:::info
-命令执行后，helm 客户端会立即退出，但是此时不代表已经安装完成。
-
-此时可以查看`kubectl get pod`结果，确定是否所有的`pod`都已经启动。
-:::
-
 #### 自定义配置文件
 
 项目组在拿到`sinoform`的 chart 安装包后，一般需要修改里面配置。
@@ -199,6 +166,45 @@ helm lint sinoform-0.0.1.tgz -f myvalues.yaml
 使用`lint`命令验证通过后，并不代表安装不会出错，验证结果只能作为参考。
 :::
 
+
+
+## 部署智能表单
+
+### 安装 Chart
+
+helm下载地址：https://sino-intellisense-form.oss-cn-beijing.aliyuncs.com/sinoform-helm/sinoform-0.0.1.tgz
+
+配置好自定义配置文件后（例如自定义文件为`myvalues.yaml`），可通过以下命令安装 chart
+
+```bash
+helm install sinoform sinoform-0.0.1.tgz -f myvalues.yaml
+```
+
+:::info
+sinoform 为本次安装、发布的`release`的名称。如果不写这个名称，则必须添加参数`--generate-name`(或者简写`-g`)，helm 会自动生成一个`release`名称。
+:::
+
+出现如下内容，
+
+```bash
+[root@master helm]# helm install sinoform sinoform-0.0.1.tgz -f myvalues.yaml
+NAME: sinoform
+LAST DEPLOYED: Fri Mar 18 11:31:45 2022
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+...
+```
+
+:::info
+命令执行后，helm 客户端会立即退出，但是此时不代表已经安装完成。
+
+此时可以查看`kubectl get pod`结果，确定是否所有的`pod`都已经启动。
+:::
+
+
+
 ### 访问
 
 查看 ingress 端口号
@@ -214,7 +220,7 @@ ingress-nginx-controller-admission   ClusterIP   10.102.7.116    <none>        4
 
 稍等所有的`pod`都已启动后，即可访问智能表单应用：http://[ingress 地址:端口号]/intellisense-form 。
 
-### 卸载 Chart
+## 卸载 Chart
 
 可通过以下命令卸载 Chart
 
