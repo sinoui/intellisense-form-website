@@ -52,6 +52,7 @@ const genK8sConfigFile = async (formState) => {
   kind: ConfigMap
   metadata:
     name: sinoform-backend-config
+    namespace: ${config.k8s.namespace ? config.k8s.namespace : "default"}
   data:
     application.yaml: |
       spring:
@@ -73,9 +74,8 @@ const genK8sConfigFile = async (formState) => {
       
       sinoform:
         # 指定工作流设计器服务链接
-        workflow-design-server-uri: ${
-          config.sinomatrix.workflowDesignServerUri ?? ""
-        }
+        workflow-design-server-uri: ${config.sinomatrix.workflowDesignServerUri ?? ""
+    }
         # 指定工作流引擎链接
         workflow-server-uri: ${config.sinomatrix.workflowServerUri ?? ""}
         # 指定统一授权服务链接

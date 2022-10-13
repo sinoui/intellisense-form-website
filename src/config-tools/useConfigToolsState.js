@@ -12,6 +12,9 @@ import useCacheableFormState from "../hooks/useCacheableFormState";
  * ```
  */
 export const defaultConfig = {
+  k8s: {
+    namespace: "default"
+  },
   port: 8085,
   db: {
     type: "mysql",

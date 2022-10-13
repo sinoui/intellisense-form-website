@@ -55,8 +55,21 @@ const ConfigTools = ({ type }) => {
 
   return (
     <div className="config-tools">
-      <h4>应用配置</h4>
       <Form variant="outlined" labelLayout="floating" formState={formState}>
+        {type === "k8s" ? (
+          <>
+            <h4>Kubernetes配置</h4>
+            <Row gutter={8}>
+              <Column md={24} xs={24}>
+                <FormItem name="k8s.namespace" label="命名空间">
+                  <TextInput />
+                </FormItem>
+              </Column>
+            </Row>
+          </>
+        ) : null}
+
+        <h4>应用配置</h4>
         <FormValueMonitor>
           {(value) =>
             value.port !== "8085" ? (

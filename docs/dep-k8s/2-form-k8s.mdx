@@ -79,7 +79,26 @@ kubectl create configmap sinoform-backend-config --from-file=application.yaml
 kubectl apply -f sinoform-backend-config.yaml
 ```
 
+:::warning
+如果修改了Kubernetes的命名空间，且命名空间不存在，需要自行添加命名空间：
+
+```yaml title=sinoform-backend-namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  # 命名空间名称
+  name: default
+```
+
+以下服务的部署文件，也需要同步修改`namespace`
+:::
+
+
 ## 三、运行智能表单
+
+:::warning
+ - yaml文件，除`namespace`及资源配置以外，不要改动核心配置
+:::
 
 将下面的配置保存到 `sinoform-k8s.yaml` 文件中，并上传到服务器上：
 
@@ -89,6 +108,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sinoformweb
+  namespace: default
 spec:
   selector:
     matchLabels:
@@ -114,6 +134,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: sinoformweb
+  namespace: default
 spec:
   selector:
     app: sinoformweb
@@ -126,6 +147,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sinoform-backend
+  namespace: default
 spec:
   selector:
     matchLabels:
@@ -166,6 +188,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: sinoform-backend
+  namespace: default
 spec:
   selector:
     app: sinoform-backend
@@ -177,6 +200,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sinoform-ingress
+  namespace: default
   labels:
     name: sinoform-ingress
   annotations:
@@ -253,6 +277,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: office-to-pdf
+  namespace: default
 spec:
   selector:
     matchLabels:
@@ -277,6 +302,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: office-to-pdf
+  namespace: default
 spec:
   selector:
     app: office-to-pdf
@@ -288,6 +314,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: office-to-pdf-ingress
+  namespace: default
   labels:
     name: office-to-pdf-ingress
   annotations:
@@ -315,3 +342,13 @@ kubectl apply -f office-to-pdf-k8s.yaml
 ```
 
 稍等片刻，服务 pod 启动后，可通过 POST 请求访问接口：http://[ingress 地址:端口号]/office-to-pdf ，测试服务是否可用。
+
+## 五、异常情况处理
+
+### 5.1 访问`503`响应错误
+
+有可能 ingress 配置有问题。可以检查一下 ingress 的路径映射是否正确
+
+:::info
+  温馨提示：kubernetes 可以有多个 ingress 配置，相互之间可以共存
+:::
