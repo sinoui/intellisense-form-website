@@ -121,7 +121,7 @@ module.exports = {
         "guide-list-page-transform-data",
         "extra-field",
       ],
-      性能测试: [ "performance-test" ],
+      性能测试: ["performance-test", "ksql-performance-test"],
     },
     {
       type: "category",
