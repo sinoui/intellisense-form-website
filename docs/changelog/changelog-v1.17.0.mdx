@@ -17,18 +17,44 @@ import BundleList from "@/components/bundle-list";
 
 ## 3. sinomatrix 依赖变更
 
-sinomatrix 针对当前版本的智能表单修复了一些缺陷，需要同步升级 sinomatrix 到 [1.6.49](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+sinomatrix 针对当前版本的智能表单修复了一些缺陷，需要同步升级 sinomatrix 到 [1.6.49](http://sinomatrix.gitee.io/sino-matrix-website/docs/changelog/home#v1649--202266) 。
+
+## 破坏性变更
+
+鉴于表单意见不能很好的贴合实际业务场景，因此从本版本开始，新建表单时，将不再支持表单意见字段。但不会影响已经应用的表单意见的正常使用。
 
 ## 4. 主要变更
 
-- improve: 仪表盘支持千万级数据的统计分析 [仪表盘统计引擎配置](../config-dashboard-engine)
-- improve: 仪表盘功能支持oracle数据库
-- improve: 表单字段标识名称变更机制调整
+- feat: 表单设计器优化
 - feat: 新增申请撤回功能
-- feat: 新增已办页按钮权限配置
 - feat: 支持自定义流程状态
-- fix: 修复一人多岗情况下，查询列表数据不准确问题
-- feat: 添加表单禁用功能，禁用的表单只能查看历史数据，不能进行任何操作
+- feat: 支持批量录入数据字典
 - feat: 增加标签页的权限控制
-- feat: 集成CAS单点登录 [CAS 单点登录集成配置](../config-cas-login)
-- feat: 集成OAuth2单点登录 [OAuth2单点登录集成配置](../config-oauth2-login)
+- feat: 新增已办页按钮权限配置
+- feat: 签名信息自动录入到表单字段
+- feat: 表单项添加占位提示语（placeholder）
+- feat: 仪表盘新增漏斗图和堆叠面积图
+- feat: 默认查询条件编辑器支持全屏放大编辑
+- feat: 下拉选择框添加用于控制是否显示清除按钮的配置项
+- feat: 新增行布局、列布局、多标签表单项，使页面布局更具灵活性
+- feat: 添加表单禁用功能，禁用的表单只能查看历史数据，不能进行任何操作
+- feat: 应用角色区分应用角色管理员（超级管理员）和部门分级管理员，添加部门分级管理员授权操作
+- feat: 集成 CAS 单点登录 [CAS 单点登录集成配置](../config-cas-login)
+- feat: 集成 OAuth2 单点登录 [OAuth2 单点登录集成配置](../config-oauth2-login)
+- feat: 表单时效性控制。表单属性`是否禁用表单`选择`是`,则相关人员对表单的操作权限为可见只读。
+- feat: 流程节点新增“部门范围表单字段”配置项，可以将部门表单字段的值作为流程候选人的部门范围
+- feat: 下拉框、复选按钮组、单选按钮组可以绑定到选项类型是数据字典的单选下拉框、单选按钮组，使用其选择的数据字典项下的子项。
+- feat: 在多个选择框之间做数据字典级联关联，如果选项为空，则允许用户手工录入文本（allowInputTextWhenEmptyOptions）
+- improve: 仪表盘功能支持 oracle 数据库
+- improve: 表单字段标识名称变更机制调整
+- improve: 改进两列布局时日期区间会显示省略号的现象
+- improve: 优化表单、应用删除时删除按钮可点击区域太小的问题
+- improve: 如果表单的第一个元素是分组标签，则不显示固定的基本信息标签
+- improve: 改进带搜索的选择框在搜索选中后关闭动画过程中会展现所有选项列表的现象
+- improve: 默认查询条件支持查询自己全部数据`$.querySelfAll`和部门全部数据`$.queryDeptAll`
+- improve: 表单项名称变更后，自定义查询、自定义列表项、自定义排序等相关配置中的标题如果没有手动修改会同步修改
+- improve: 仪表盘支持千万级数据的统计分析 [仪表盘统计引擎配置](../config-dashboard-engine)
+- fix: 修复不显示标题却留出标题空间的缺陷
+- fix: 修复一人多岗情况下，查询列表数据不准确问题
+- fix: 修复办结生成序号时，如果不关闭页面，可能会持续生成序号的缺陷
+- fix: 修复列表定制页面，如果子表单标题过长，无法调整所选表单项在列表展示时的名称的 bug
