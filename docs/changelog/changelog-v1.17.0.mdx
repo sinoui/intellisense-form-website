@@ -1,0 +1,34 @@
+---
+id: changelog-v1.17.0
+title: v1.17.0
+---
+
+import BundleList from "@/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2022.11.18
+
+<BundleList version="1.17.0" frontend="1.17.0" backend="1.17.0" font="1.13.0" />
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.17.0。
+
+## 3. sinomatrix 依赖变更
+
+sinomatrix 针对当前版本的智能表单修复了一些缺陷，需要同步升级 sinomatrix 到 [1.6.49](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md) 。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览器。）
+
+## 4. 主要变更
+
+- improve: 仪表盘支持千万级数据的统计分析 [仪表盘统计引擎配置](../config-dashboard-engine)
+- improve: 仪表盘功能支持oracle数据库
+- improve: 表单字段标识名称变更机制调整
+- feat: 新增申请撤回功能
+- feat: 新增已办页按钮权限配置
+- feat: 支持自定义流程状态
+- fix: 修复一人多岗情况下，查询列表数据不准确问题
+- feat: 添加表单禁用功能，禁用的表单只能查看历史数据，不能进行任何操作
+- feat: 增加标签页的权限控制
+- feat: 集成CAS单点登录 [CAS 单点登录集成配置](../config-cas-login)
+- feat: 集成OAuth2单点登录 [OAuth2单点登录集成配置](../config-oauth2-login)
