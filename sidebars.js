@@ -9,6 +9,7 @@ module.exports = {
         //"integrate",
         //"sinomatrix-docker-intellisenseform",
         'deployment-mongodb',
+        'deployment-ksql',
         'deployment-nodejs',
         'deployment-chrome',
         // "deployment-tomcat",
@@ -41,6 +42,7 @@ module.exports = {
         'config-file-online-preview',
         'config-cas-login',
         'config-oauth2-login',
+        'config-dashboard-engine',
       ],
       插件开发: [
         'plugin-index',
