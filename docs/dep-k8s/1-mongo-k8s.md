@@ -44,13 +44,12 @@ spec:
             - containerPort: 27107
           volumeMounts:
             - name: sinoform-mongo-data
-              mountPath: /var/lib/mongodb
+              mountPath: /data/db
             - name: sinoform-mongo-config
               mountPath: /etc/mongod.conf
               subPath: mongod.conf
       volumes:
         - name: sinoform-mongo-data
-          emptyDir: {}
           persistentVolumeClaim:
             claimName: sinoform-mongo-pvc
         - name: sinoform-mongo-config
@@ -107,7 +106,6 @@ data:
 
     #数据存储位置，journal 日志用来数据恢复
     storage:
-      dbPath: /var/lib/mongodb
       journal:
         enabled: true
 ```
