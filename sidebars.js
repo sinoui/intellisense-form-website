@@ -68,6 +68,7 @@ module.exports = {
             "guide-form-style",
             "guide-list-page-config",
             "guide-list-button-before-click",
+            "guide-open-detail-page-from-list-button",
             "plugin-custom-workflow-request",
             "plugin-custom-flow-candidates",
             "guide-draft-page-with-modal",
