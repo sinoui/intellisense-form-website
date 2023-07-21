@@ -70,6 +70,7 @@ module.exports = {
             "guide-list-button-before-click",
             "guide-open-detail-page-from-list-button",
             "plugin-custom-workflow-request",
+            "plugin-customize-list-subrow-render",
             "plugin-custom-flow-candidates",
             "guide-draft-page-with-modal",
             "guide-i18n",

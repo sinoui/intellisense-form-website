@@ -1,0 +1,29 @@
+---
+id: plugin-customize-list-subrow-render
+title: 定制列表展开行扩展
+---
+
+定制列表配置中如果有字段设置了允许折叠，则数据列表中的每行数据就可以展开该行对应的次级数据。系统默认展开的数据采用与主列表相同字段项的展示结构。如果次级数据与主列表的展示数据并不保持一致，我们可以通过插件的方式，定制次级展开的数据。
+
+## 如何使用
+
+可以通过 appsetting 中的`addSubRowConfig`来定制展开行。此方法接收一个对象，此对象中含有两个属性：
+
+- id: 定制列表的配置 id
+- render: 次级数据展开的渲染组件
+
+```typescript
+import appsetting from "@sinoform/app-setting";
+
+function SubRow(props: any) {
+  // 根据该行数据props.row，获取对应的展开行数据，此示例直接展示某个字段
+  return <div>{props.row.field_xx}</div>;
+}
+
+appsetting.addSubRowConfig({
+  id: "649e368f5c7d5916140cf77e",
+  render: (row: any) => {
+    return <SubRow row={row} />;
+  },
+});
+```
