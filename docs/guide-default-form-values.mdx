@@ -60,6 +60,35 @@ appSetting.defaultFormValueAsync(formId, async (currentUser) => {
     - formDesign 表单配置数据
   - 返回值为表单值对象，格式为{[表单项 fieldName]: 表单项的值}
 
+##### 数据列表的默认值处理
+
+1.19.0 后，智能表单新提供了`数据表格`类型的表单项，支持单元格进行合并操作。数据表格类型的字段项保存了数据表格的值和单元格合并信息两个对象。智能表单内置提供了`getDatatableValuesFormArray`方法，支持用户将单纯数组类型的值转换成数据表格的值。
+
+下面示例代码为给数据表格类型的字段`field_11`设置初始值的方法
+
+```ts
+import { findFormItemById } from "@sinoform/helpers-form-items";
+import { getDatatableValuesFormArray } from "@sinoform/app-core";
+
+appSetting.defaultFormValueAsync(formId, async (currentUser, formDesign) => {
+  // 1. 获取数据列表的默认数据
+  const datas = await http.get("/custom-api/data-table-value", {
+    params: { userId: currentUser.userId },
+  });
+
+  // 2. 获取field_11的表单项配置
+  const items = formDesign.formConfig?.items;
+  const field = findFormItemById(items, "field_11");
+
+  // 3. 获取数据表格的值，对field_12对应的表格列进行合并
+  const dataTableValues = getDatatableValuesFormArray(field, datas, "field_12");
+
+  return {
+    field_11: dataTableValues,
+  };
+});
+```
+
 #### defaultSubFormValueAsync
 
 自定义弹窗子表单的默认值。具体方式如下：
