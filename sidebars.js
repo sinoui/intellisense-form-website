@@ -74,8 +74,8 @@ module.exports = {
             "plugin-custom-flow-candidates",
             "guide-draft-page-with-modal",
             "guide-i18n",
-            "guide-summary",
             "plugin-detail-tab",
+            "guide-summary",
           ],
           高级教程: [
             "use-app-setting",
