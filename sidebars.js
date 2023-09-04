@@ -75,6 +75,7 @@ module.exports = {
             "guide-draft-page-with-modal",
             "guide-i18n",
             "guide-summary",
+            "plugin-detail-tab",
           ],
           高级教程: [
             "use-app-setting",
