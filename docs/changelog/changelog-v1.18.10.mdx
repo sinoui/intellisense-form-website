@@ -1,0 +1,55 @@
+---
+id: changelog-v1.18.10
+title: v1.18.10
+---
+
+import BundleList from "@/components/bundle-list";
+
+## 1. 发布情况
+
+发布日期：2023.10.7
+
+<BundleList
+  version="1.18.10"
+  frontend="1.18.10"
+  backend="1.18.10"
+  font="1.13.0"
+/>
+
+## 2. 平滑升级
+
+可以从任何版本平滑升级到 v1.18.10。
+
+## 3. sinomatrix 依赖变更
+
+sinomatrix 针对当前版本的智能表单修复了一些缺陷，需要同步升级 sinomatrix 到
+[1.6.49](http://47.93.34.153:10080/sino-matrix/sino-matrix/blob/master/CHANGELOG.md)
+。（注意：访问此地址时可能会出现 ERR_UNSAFE_PORT 的情况，请参
+看[这篇帖子](https://blog.csdn.net/kjcxmx/article/details/118122483)配置一下浏览
+器。）
+
+## 4. 主要变更
+
+- feat: 新增`关联其他表单数据v2`选项类型，以支持通过 JavaScript 设置过滤条件和值
+  映射规则 （见[关联其他表单数据 v2 使用说明](../config-guide-async-v2)）
+  - 支持设置查询条件，参数包括：
+    - `$`
+    - `sql`
+    - 上下文：当前表单值、当前用户
+  - 支持设置值映射规则（通过 JavaScript 来映射）
+    - `(source: SourceFormValues, current: CurrentFormValues)`
+  - 支持排序规则：选择排序字段和排序方向：升序、降序
+- feat: `关联其他表单数据`支持选择所有应用下已发布表单的表单项
+- feat: 公开模块
+  [@sinoform/helper-condition-api](https://www.npmjs.com/package/@sinoform/helper-condition-api)，
+  用于构建查询条件
+- feat: 公开模块
+  [@sinoform/form-data-api](https://www.npmjs.com/package/@sinoform/form-data-api)，
+  用于查询表单数据
+- feat: 支
+  持[likeLeft](https://www.npmjs.com/package/@sinoform/helper-condition-api#likeleft)、[notEmpty](https://www.npmjs.com/package/@sinoform/helper-condition-api#notemptyisnotempty)、[isEmpty](https://www.npmjs.com/package/@sinoform/helper-condition-api#isempty)字
+  段查询条件操作符
+- feat: 无流程表单数据查询接口支持指定 `selectColumns` 和 `groupColumns` 参数
+- fix: 修复无法正确处理如下查询条件： `field_1 is not null and field_1 <> ''`
+- fix: 修复子表单没有表单项时查询表单数据失败的缺陷
+- feat: 登录成功后，返回 `SSOID` cookie

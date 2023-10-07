@@ -124,6 +124,7 @@ module.exports = {
         "extra-field",
         "app-role-manager",
         "config-auto-rely",
+        "config-guide-async-v2",
       ],
       性能测试: ["performance-test", "ksql-performance-test"],
     },
