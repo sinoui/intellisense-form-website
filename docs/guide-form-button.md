@@ -93,4 +93,28 @@ export default function DemoDialog({ onRequestClose, formState }: Props) {
 import "./plugins/extends-form-button";
 ```
 
+### 子表单中的表单按钮功能扩展
+
+为了方便表单按钮在子表单中使用，`fieldButtonClick`中回调函数的参数做了扩展，在原有的 `fieldId` 基础上，新增了`parentFieldName`和`rowIdx`两个参数，两个参数可用于获取按钮所在行的数据。
+
+```ts
+hooks.fieldButtonClick.tap(
+  "表单按钮点击事件",
+  (
+    fieldId: string,
+    parentFieldName: string | undefined,
+    rowIdx: number | undefined
+  ) => {
+    console.log(
+      "表单按钮的id",
+      fieldId,
+      "父表单的fieldName",
+      parentFieldName,
+      "当前点击的表单按钮在子表单中的第几行",
+      rowIdx
+    );
+  }
+);
+```
+
 接下来我们就可以在业务系统中测试按钮的点击效果了。上文示例中的需求比较简单，其实我们可以通过详情页上下文中的数据做非常多的事情，比如拿到表单数据之后我们可以根据数据请求后端接口实现一些我们自己的业务操作，具体的功能实现项目组可以根据自己的业务需求实现。

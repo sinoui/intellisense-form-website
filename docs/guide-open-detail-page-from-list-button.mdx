@@ -1,0 +1,90 @@
+---
+id: guide-open-detail-page-from-list-button
+title: 列表级别按钮点击打开详情页
+---
+
+需求背景：
+
+列表级别注册的按钮，点击打开相关表单详情页，主要有以下场景：
+
+- 直接打开表单起草页面
+- 选中一条数据，打开查看其详情
+- 选中一条数据，打开其它表单的起草页，将选中数据的部分值作为表单默认值带入
+
+## 路由规则
+
+### 流程表单
+
+1. 创建页面：`${window.location.pathname}#/dialog/form-app/${formDesignerId}/create-page`
+2. 打开草稿详情页：`${window.location.pathname}#/dialog/form-app/${formDesignerId}/draft-page?recordId=${数据id}`
+3. 查看数据详情页：`${window.location.pathname}#/dialog/form-app/${formDesignerId}/detail-page?recordId=${数据id}`
+4. 打开待办详情页：`${window.location.pathname}#/dialog/form-app/${formDesignerId}/detail-page?recordId=${数据id}&workItemId=${流程待办id}`
+
+### 无流程表单
+
+1. 创建数据: `${window.location.pathname}#/dialog/form-app/${formDesignerId}/no-flow-list/detail-page`
+2. 编辑查看：`${window.location.pathname}#/dialog/form-app/${formDesignerId}/no-flow-list/detail-page?recordId=${数据id}`
+
+## 在按钮中的使用
+
+### 点击按钮直接打开表单创建页面
+
+> 此种情况直接按照路由规则拼接 url 赋值给`window.location.href`即可。
+
+```tsx {7}
+import React from "react";
+import "./HelloButton.css";
+
+export default function HelloButton() {
+  const onClick = () => {
+    // 打开无流程表单新建页面
+    window.location.href = `${window.location.pathname}#/dialog/form-app/${formDesignId}/no-flow-list/detail-page`;
+  };
+  return (
+    <button className="hello-button" onClick={onClick}>
+      Hello, World!
+    </button>
+  );
+}
+```
+
+### 选中一条数据，打开其它表单的起草页，将选中数据的部分值作为表单默认值带入
+
+> 此场景直接在改变`window.location.href`的同时，通过`window.history.pushState()`设置参数即可。
+
+```tsx title="Button.tsx" {9,10}
+import React from "react";
+import "./HelloButton.css";
+
+export default function HelloButton({ dataSource }) {
+  const { items, selectedIds } = dataSource;
+  const onClick = () => {
+    const selectedRows = items.filter((item) => selectedIds.includes(item.id));
+    // 打开无流程表单新建页面
+    window.location.href = `${window.location.pathname}#/dialog/form-app/${formDesignId}/no-flow-list/detail-page`;
+    window.history.pushState({ selectedRows }, "");
+  };
+  return (
+    <button className="hello-button" onClick={onClick}>
+      Hello, World!
+    </button>
+  );
+}
+```
+
+设置表单默认值时，通过`window.history.state`取设置的参数即可。
+
+```typescript {4,8}
+import appSetting from "@sinoform/app-setting";
+
+appSetting.defaultFormValueAsync(formDesignId, async (currentUser) => {
+  const { selectedRows } = window.history.state;
+  // 根据 selectedRows处理数据,然后赋值给对应的表单项
+  return {
+    field_10: currentUser.deptName,
+    field_11: selectedRows[0].field_1,
+  };
+});
+```
+
+列表级别按钮的注册可参考[列表页按钮定制](./guide-list-page-config#页面级别的按钮)
