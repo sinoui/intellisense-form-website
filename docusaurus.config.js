@@ -9,14 +9,13 @@ function getVersionFromChangelogId(id) {
 }
 
 module.exports = {
-  title: "智能表单",
+  title: "intellisense-form",
   tagline: "The tagline of my site",
-  url: "http://sinoui.gitee.io",
+  url: "https://sinoui.github.io",
   baseUrl: "/intellisense-form-website/",
   favicon: "img/favicon.ico",
   organizationName: "sinoui", // Usually your GitHub org/user name.
   projectName: "intellisense-form-website", // Usually your repo name.
-  githubHost: "gitee.com",
   themeConfig: {
     prism: {
       additionalLanguages: ["java", "http", "nginx"],
